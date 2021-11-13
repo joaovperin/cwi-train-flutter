@@ -1,8 +1,8 @@
 import 'package:aula_02/commons/colors.dart';
 import 'package:aula_02/commons/validators.dart';
-import 'package:aula_02/pages/widgets/app_signup_button.dart';
-import 'package:aula_02/pages/widgets/app_signup_header.dart';
-import 'package:aula_02/pages/widgets/app_text_input.dart';
+import 'package:aula_02/widgets/app_signup_button.dart';
+import 'package:aula_02/widgets/app_signup_header.dart';
+import 'package:aula_02/widgets/app_text_input.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
