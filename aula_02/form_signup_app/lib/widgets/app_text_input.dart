@@ -17,22 +17,25 @@ class AppTextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      validator: validator,
-      decoration: InputDecoration(
-        suffixIcon: suffixIcon,
-        labelText: fieldName,
-        labelStyle: const TextStyle(color: AppColors.white),
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.white),
+    return SizedBox(
+      height: 80,
+      child: TextFormField(
+        validator: validator,
+        decoration: InputDecoration(
+          suffixIcon: suffixIcon,
+          labelText: fieldName,
+          labelStyle: const TextStyle(color: AppColors.white),
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: AppColors.white),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: AppColors.white),
+          ),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.white),
-        ),
+        obscureText: obscureText,
+        cursorColor: AppColors.white,
+        style: const TextStyle(color: AppColors.white),
       ),
-      obscureText: obscureText,
-      cursorColor: AppColors.white,
-      style: const TextStyle(color: AppColors.white),
     );
   }
 }
