@@ -30,8 +30,13 @@ class _CalculatorPageState extends State<CalculatorPage> {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.only(right: 8.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.amber, width: 1),
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColors.white,
+                    width: 1.0,
+                  ),
+                ),
               ),
               height: MediaQuery.of(context).size.height * 0.2,
               child: Row(
@@ -49,60 +54,56 @@ class _CalculatorPageState extends State<CalculatorPage> {
               ),
             ),
             Expanded(
-              child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.amber, width: 1),
-                  ),
-                  child: Column(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _CalcButton.grey("AC"),
-                          _CalcButton.grey("+/-"),
-                          _CalcButton.grey("%"),
-                          _CalcButton.amber("÷"),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _CalcButton.darkGrey("7"),
-                          _CalcButton.darkGrey("8"),
-                          _CalcButton.darkGrey("9"),
-                          _CalcButton.amber("×"),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _CalcButton.darkGrey("4"),
-                          _CalcButton.darkGrey("5"),
-                          _CalcButton.darkGrey("6"),
-                          _CalcButton.amber("-"),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _CalcButton.darkGrey("1"),
-                          _CalcButton.darkGrey("2"),
-                          _CalcButton.darkGrey("3"),
-                          _CalcButton.amber("+"),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _CalcButton.darkGrey("0"),
-                          _CalcButton.darkGrey("0"),
-                          _CalcButton.darkGrey(","),
-                          _CalcButton.amber("="),
-                        ],
-                      ),
+                      _RoundButton.grey("AC", onTap: () {}),
+                      _RoundButton.grey("+/-", onTap: () {}),
+                      _RoundButton.grey("%", onTap: () {}),
+                      _RoundButton.amber("÷", onTap: () {}),
                     ],
-                  )),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _RoundButton.darkGrey("7", onTap: () {}),
+                      _RoundButton.darkGrey("8", onTap: () {}),
+                      _RoundButton.darkGrey("9", onTap: () {}),
+                      _RoundButton.amber("×", onTap: () {}),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _RoundButton.darkGrey("4", onTap: () {}),
+                      _RoundButton.darkGrey("5", onTap: () {}),
+                      _RoundButton.darkGrey("6", onTap: () {}),
+                      _RoundButton.amber("-", onTap: () {}),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _RoundButton.darkGrey("1", onTap: () {}),
+                      _RoundButton.darkGrey("2", onTap: () {}),
+                      _RoundButton.darkGrey("3", onTap: () {}),
+                      _RoundButton.amber("+", onTap: () {}),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _RoundButton.darkGrey("0",
+                          onTap: () {}, widthMultiplier: 0.4),
+                      _RoundButton.darkGrey(",", onTap: () {}),
+                      _RoundButton.amber("=", onTap: () {}),
+                    ],
+                  ),
+                ],
+              ),
             )
           ],
         ),
@@ -111,33 +112,40 @@ class _CalculatorPageState extends State<CalculatorPage> {
   }
 }
 
-class _CalcButton extends StatelessWidget {
-  const _CalcButton._({
+class _RoundButton extends StatelessWidget {
+  const _RoundButton._({
     Key? key,
     required this.text,
     required this.backgroundColor,
     required this.textColor,
     required this.onTap,
+    this.widthMultiplier = 0.2,
+    this.heigthMultiplier = 0.2,
   }) : super(key: key);
 
-  factory _CalcButton.grey(String text, {required OnTapFunc onTap}) =>
-      _CalcButton._(
+  factory _RoundButton.grey(String text, {required OnTapFunc onTap}) =>
+      _RoundButton._(
         backgroundColor: AppColors.lightGrey,
         textColor: AppColors.black,
         text: text,
         onTap: onTap,
       );
 
-  factory _CalcButton.darkGrey(String text, {required OnTapFunc onTap}) =>
-      _CalcButton._(
+  factory _RoundButton.darkGrey(
+    String text, {
+    required OnTapFunc onTap,
+    num widthMultiplier = 0.2,
+  }) =>
+      _RoundButton._(
         backgroundColor: AppColors.darkGrey,
         textColor: AppColors.white,
         text: text,
         onTap: onTap,
+        widthMultiplier: widthMultiplier,
       );
 
-  factory _CalcButton.amber(String text, {required OnTapFunc onTap}) =>
-      _CalcButton._(
+  factory _RoundButton.amber(String text, {required OnTapFunc onTap}) =>
+      _RoundButton._(
         backgroundColor: AppColors.amber,
         textColor: AppColors.white,
         text: text,
@@ -147,19 +155,21 @@ class _CalcButton extends StatelessWidget {
   final String text;
   final Color backgroundColor;
   final Color textColor;
-  final void Function() onTap;
+  final OnTapFunc onTap;
+  final num heigthMultiplier;
+  final num widthMultiplier;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final _width = MediaQuery.of(context).size.width;
+    return InkWell(
       onTap: onTap,
       child: Container(
-        height: MediaQuery.of(context).size.width * 0.2,
-        width: MediaQuery.of(context).size.width * 0.2,
+        height: _width * heigthMultiplier,
+        width: _width * widthMultiplier,
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.amber, width: 1),
           color: backgroundColor,
-          shape: BoxShape.circle,
+          borderRadius: BorderRadius.circular(_width * 0.1),
         ),
         child: Center(
           child: Text(
