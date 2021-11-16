@@ -19,7 +19,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Demo Home Page'),
+        title: const Text('Calculator App'),
         backgroundColor: AppColors.black,
       ),
       body: Container(
