@@ -15,7 +15,6 @@ class FoodModel {
   final FoodCategory category;
   final num numberOfLikes;
   final num numberOfComments;
-  final String image;
 
   final Color textColor;
 
@@ -24,7 +23,6 @@ class FoodModel {
     required this.category,
     required this.numberOfLikes,
     required this.numberOfComments,
-    required this.image,
     required this.textColor,
   });
 }

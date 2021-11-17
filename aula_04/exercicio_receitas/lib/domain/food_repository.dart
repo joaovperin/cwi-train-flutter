@@ -10,7 +10,6 @@ class FoodRepository {
       category: FoodCategory.appetizer,
       numberOfComments: 21,
       numberOfLikes: 201,
-      image: 'position_1_img.png',
       textColor: AppColors.position1TextColor,
     ),
     FoodModel(
@@ -18,7 +17,6 @@ class FoodRepository {
       category: FoodCategory.firstDish,
       numberOfComments: 19,
       numberOfLikes: 601,
-      image: 'position_2_img.png',
       textColor: AppColors.position2TextColor,
     ),
     FoodModel(
@@ -26,7 +24,6 @@ class FoodRepository {
       category: FoodCategory.dessert,
       numberOfComments: 121,
       numberOfLikes: 5400,
-      image: 'position_3_img.png',
       textColor: AppColors.position3TextColor,
     ),
   ];
