@@ -32,7 +32,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
     final model = widget.args.model;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Receitas'),
+        title: const Text('Receitas'),
       ),
       body: Container(
         height: double.infinity,
@@ -48,24 +48,35 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                 width: double.infinity,
               ),
             ),
-            Text(
-              model.name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+            SizedBox(
+              height: 80,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    model.name,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Text(
+                    'Author: John Smith',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Text(
-              'Author: John Smith',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 50),
-            _IngredientItemView('oie'),
+            const Divider(),
+            const _IngredientItemView('Tomate'),
+            const Divider(),
+            const _IngredientItemView('Cebola'),
+            const Divider(),
+            const _IngredientItemView('Bacon'),
           ],
         ),
       ),
@@ -98,7 +109,7 @@ class _IngredientItemViewState extends State<_IngredientItemView> {
         children: [
           Text(
             widget.ingredientName,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               color: Colors.white,
             ),
