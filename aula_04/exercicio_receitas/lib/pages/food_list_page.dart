@@ -20,7 +20,6 @@ class _FoodListPageState extends State<FoodListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: const Text(
           'Delicious',
           style: TextStyle(
@@ -28,11 +27,14 @@ class _FoodListPageState extends State<FoodListPage> {
             fontSize: 24,
           ),
         ),
+        elevation: 0,
+        centerTitle: true,
         backgroundColor: AppColors.regularBackground,
       ),
       body: Container(
         color: AppColors.regularBackground,
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: ListView.builder(
             itemCount: foodModelList.length,
             itemBuilder: (context, index) {
@@ -62,7 +64,7 @@ class _FoodItemView extends StatelessWidget {
       onTap: () => _goToDetailsPage(context),
       child: Container(
         height: 160,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         width: double.infinity,
         color: Colors.grey,
         child: Stack(
@@ -78,20 +80,20 @@ class _FoodItemView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        width: 120,
-                        height: 25,
-                        child: Center(
-                          child: Text(
-                            food.category.name,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 6,
+                        ),
+                        child: Text(
+                          food.category.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
                           ),
                         ),
                         decoration: BoxDecoration(
@@ -99,11 +101,33 @@ class _FoodItemView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
+                      const Spacer(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          _TextIconView(
+                            Icons.favorite,
+                            '${food.numberOfLikes}',
+                          ),
+                          _TextIconView(
+                            Icons.wb_cloudy,
+                            '${food.numberOfComments}',
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                  Text(
-                    food.name,
-                    style: TextStyle(color: Colors.white, fontSize: 23),
+                  const Spacer(),
+                  SizedBox(
+                    width: 110,
+                    child: Text(
+                      food.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -120,25 +144,34 @@ class _FoodItemView extends StatelessWidget {
   }
 }
 
+class _TextIconView extends StatelessWidget {
+  const _TextIconView(
+    this.icon,
+    this.text, {
+    Key? key,
+  }) : super(key: key);
 
+  final String text;
+  final IconData icon;
 
-                      // Column(
-                      //   children: [
-                      //     IconButton(
-                      //       icon: const Icon(
-                      //         Icons.favorite,
-                      //         color: Colors.white,
-                      //         size: 24,
-                      //       ),
-                      //       onPressed: () {},
-                      //     ),
-                      //     IconButton(
-                      //       icon: const Icon(
-                      //         Icons.comment,
-                      //         color: Colors.white,
-                      //         size: 24,
-                      //       ),
-                      //       onPressed: () {},
-                      //     ),
-                      //   ],
-                      // )
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Icon(
+          icon,
+          size: 16,
+          color: Colors.white,
+        )
+      ],
+    );
+  }
+}
