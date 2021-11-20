@@ -29,6 +29,12 @@ class MyApp extends StatelessWidget {
             primary: AppColors.green,
           ),
         ),
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(
+            fontSize: 20,
+            color: AppColors.white,
+          ),
+        ),
       ),
       home: const MyHomePage(),
     );
@@ -43,7 +49,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final StreamController<DogModel> _stream = StreamController.broadcast();
+  final StreamController<DogModel?> _stream = StreamController.broadcast();
 
   @override
   void initState() {
@@ -52,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _refreshDogs() {
+    _stream.add(null);
     DogRepository.instance.getRandomDog().then((dog) {
       _stream.add(dog);
     });
@@ -75,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.5,
                   width: MediaQuery.of(context).size.width,
-                  child: StreamBuilder<DogModel>(
+                  child: StreamBuilder<DogModel?>(
                       stream: _stream.stream,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
@@ -99,16 +106,20 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       }),
                 ),
-                const SizedBox(
-                  height: 30,
-                  child: Text(
-                    'Dog',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: AppColors.white,
-                    ),
-                  ),
-                ),
+                StreamBuilder<DogModel?>(
+                    stream: _stream.stream,
+                    builder: (context, snapshot) {
+                      final dogName = snapshot.data?.breed ?? 'Loading dog...';
+                      return SizedBox(
+                        height: 40,
+                        child: Center(
+                          child: Text(
+                            dogName,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
             SizedBox(
