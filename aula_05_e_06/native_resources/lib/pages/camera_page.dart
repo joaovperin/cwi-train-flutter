@@ -1,5 +1,7 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:native_resources/commons/colors.dart';
+import 'package:native_resources/pages/display_picture_page.dart';
 
 class CameraPage extends StatefulWidget {
   static const routeName = '/camera';
@@ -10,13 +12,13 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-  // List<CameraDescription> _cameras;
-  // CameraController _cameraCtrl;
+  late List<CameraDescription> _cameras;
+  CameraController? _cameraCtrl;
 
   @override
   void initState() {
     super.initState();
-    // _getCameras();
+    _initCameras();
   }
 
   @override
@@ -24,15 +26,15 @@ class _CameraPageState extends State<CameraPage> {
     super.dispose();
   }
 
-  void _getCameras() async {
-    // _cameras = await availableCameras();
-    // _controller = CameraController(_cameras.first, ResolutionPreset.max);
-    // _controller.initialize().then((_) {
-    //   if (!mounted) {
-    //     return;
-    //   }
-    //   setState((){});
-    // });
+  void _initCameras() async {
+    _cameras = await availableCameras();
+    _cameraCtrl = CameraController(_cameras.first, ResolutionPreset.max);
+    _cameraCtrl!.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    });
   }
 
   @override
@@ -42,6 +44,34 @@ class _CameraPageState extends State<CameraPage> {
         title: const Text('Camera'),
       ),
       backgroundColor: AppColors.green,
+      body: Container(
+        child: _cameraCtrl?.value.isInitialized ?? false
+            ? CameraPreview(_cameraCtrl!)
+            : const Center(
+                child: CircularProgressIndicator(),
+              ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _takePicture,
+        tooltip: 'Take Picture',
+        child: const Icon(Icons.camera_alt),
+      ),
+    );
+  }
+
+  Future<void> _takePicture() async {
+    if (_cameraCtrl!.value.isTakingPicture) {
+      return;
+    }
+    final pic = await _cameraCtrl!.takePicture();
+    print('Picture Taken: ' + pic.toString());
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DisplayPicturePage(
+          path: pic.path,
+        ),
+      ),
     );
   }
 }
