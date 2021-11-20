@@ -29,6 +29,9 @@ class MyApp extends StatelessWidget {
             primary: AppColors.green,
           ),
         ),
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: AppColors.green,
+        ),
         textTheme: const TextTheme(
           bodyText1: TextStyle(
             fontSize: 20,
