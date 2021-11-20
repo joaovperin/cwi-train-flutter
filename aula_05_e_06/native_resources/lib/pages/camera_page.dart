@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:native_resources/commons/colors.dart';
 import 'package:native_resources/pages/display_picture_page.dart';
 
 class CameraPage extends StatefulWidget {
@@ -43,7 +42,6 @@ class _CameraPageState extends State<CameraPage> {
       appBar: AppBar(
         title: const Text('Camera'),
       ),
-      backgroundColor: AppColors.green,
       body: Container(
         child: _cameraCtrl?.value.isInitialized ?? false
             ? CameraPreview(_cameraCtrl!)

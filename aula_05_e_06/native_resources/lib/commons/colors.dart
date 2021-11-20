@@ -8,7 +8,11 @@ class AppColors {
   static const black = Color(0xFF21252B);
   static const green = Color(0xFF03A87C);
   static const white = Color(0xFFFFFFFF);
+
   static const transparent = Colors.transparent;
 
-  static MaterialColor get primarySwatch => Colors.blue;
+  static get textColor => white;
+  static get backgroundColor => black;
+
+  static MaterialColor get primarySwatch => Colors.amber;
 }

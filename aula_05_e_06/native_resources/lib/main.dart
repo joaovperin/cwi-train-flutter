@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:native_resources/commons/colors.dart';
 import 'package:native_resources/commons/routes.dart';
 
 void main() {
@@ -14,7 +15,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Native Resources',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: AppColors.primarySwatch,
+        scaffoldBackgroundColor: AppColors.backgroundColor,
+        textTheme: TextTheme(
+          bodyText1: TextStyle(
+            fontSize: 16,
+            color: AppColors.textColor,
+          ),
+          bodyText2: TextStyle(
+            fontSize: 14,
+            color: AppColors.textColor,
+          ),
+        ),
       ),
       initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.routes,
