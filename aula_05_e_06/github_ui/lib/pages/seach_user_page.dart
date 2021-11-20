@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:github_ui/domain/user_model.dart';
-import 'package:github_ui/domain/user_repository.dart';
+import 'package:github_ui/domain/user/user.dart';
+import 'package:github_ui/domain/user/user_repository.dart';
+import 'package:github_ui/pages/user_details_page.dart';
 
 class SearchUserPage extends StatefulWidget {
+  static const String routeName = '/search-users';
   const SearchUserPage({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +17,14 @@ class _SearchUserPageState extends State<SearchUserPage> {
   final _searchCtrl = TextEditingController();
   Timer? _searchDebounce;
 
-  List<UserModel> _users = [];
+  List<GithubUser> _users = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchCtrl.text = 'joaovperin';
+    _searchUser();
+  }
 
   @override
   void dispose() {
@@ -73,17 +82,26 @@ class _SearchUserPageState extends State<SearchUserPage> {
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   final user = _users[index];
-                  return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(user.login),
-                      ],
+                  return GestureDetector(
+                    onTap: () {
+                      UserRepository.instance.findUserInfo(user.login).then(
+                          (value) => Navigator.pushNamed(
+                              context, UserDetailsPage.routeName,
+                              arguments:
+                                  UserDetailsPageArgs(user, info: value)));
+                    },
+                    child: ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(user.login),
+                        ],
+                      ),
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(user.avatarUrl),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios_outlined),
                     ),
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(user.avatarUrl),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios_outlined),
                   );
                 },
               ),

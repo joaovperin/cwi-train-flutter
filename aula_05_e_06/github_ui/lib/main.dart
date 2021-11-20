@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_ui/commons/colors.dart';
-import 'package:github_ui/pages/seach_user_page.dart';
+import 'package:github_ui/commons/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: AppColors.primarySwatch,
       ),
-      home: const SearchUserPage(),
+      initialRoute: AppRoutes.initialRoute,
+      routes: AppRoutes.routes,
     );
   }
 }

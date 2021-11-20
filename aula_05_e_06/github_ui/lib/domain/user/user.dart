@@ -1,25 +1,25 @@
 import 'dart:convert';
 
-class UserModel {
+class GithubUser {
   final int id;
   final String login;
   final String url;
   final String avatarUrl;
 
-  const UserModel(
+  const GithubUser(
     this.id,
     this.login,
     this.url,
     this.avatarUrl,
   );
 
-  UserModel copyWith({
+  GithubUser copyWith({
     int? id,
     String? login,
     String? url,
     String? avatarUrl,
   }) {
-    return UserModel(
+    return GithubUser(
       id ?? this.id,
       login ?? this.login,
       url ?? this.url,
@@ -36,8 +36,8 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory GithubUser.fromMap(Map<String, dynamic> map) {
+    return GithubUser(
       map['id'],
       map['login'],
       map['url'],
@@ -47,8 +47,8 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source));
+  factory GithubUser.fromJson(String source) =>
+      GithubUser.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -59,7 +59,7 @@ class UserModel {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is UserModel &&
+    return other is GithubUser &&
         other.id == id &&
         other.login == login &&
         other.url == url &&
