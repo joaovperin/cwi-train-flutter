@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace_app/commons/colors.dart';
+import 'package:marketplace_app/widgets/app_big_button.dart';
+import 'package:marketplace_app/widgets/app_italic_title.dart';
 
 class RegisterPage extends StatefulWidget {
   static const routeName = '/register';
@@ -47,17 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 30),
-                child: Text(
-                  'Register',
-                  style: TextStyle(
-                    fontSize: 34,
-                    fontStyle: FontStyle.italic,
-                    fontFamily: 'Lato',
-                  ),
-                ),
-              ),
+              const AppItalicTitle('Register'),
               Form(
                 key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -75,7 +67,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     _RefCodeField(_refCodeCtrl),
                     const SizedBox(height: 90),
-                    _RegisterButton(
+                    AppBigButton(
+                      'Register',
                       onTap: () {
                         _formKey.currentState?.validate() ?? false;
                       },
@@ -98,39 +91,6 @@ class _RegisterPageState extends State<RegisterPage> {
       return 'Passwords does not match';
     }
     return null;
-  }
-}
-
-class _RegisterButton extends StatelessWidget {
-  const _RegisterButton({
-    Key? key,
-    this.onTap,
-  }) : super(key: key);
-
-  final GestureTapCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2),
-          color: AppColors.red,
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: const Text(
-          'Register',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20,
-            fontStyle: FontStyle.italic,
-            color: AppColors.white,
-          ),
-        ),
-      ),
-    );
   }
 }
 
