@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:marketplace_app/commons/colors.dart';
 
 class AppBigButton extends StatelessWidget {
@@ -23,10 +22,10 @@ class AppBigButton extends StatelessWidget {
           color: AppColors.red,
         ),
         width: MediaQuery.of(context).size.width,
-        child: const Text(
-          'Register',
+        child: Text(
+          text,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontStyle: FontStyle.italic,
             color: AppColors.white,
