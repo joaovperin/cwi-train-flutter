@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marketplace_app/commons/colors.dart';
 import 'package:marketplace_app/widgets/app_big_button.dart';
 import 'package:marketplace_app/widgets/app_italic_title.dart';
+import 'package:marketplace_app/widgets/app_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
@@ -82,7 +83,7 @@ class _PasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _AppTextField(
+    return AppTextField(
       'Password',
       controller: controller,
       obscureText: true,
@@ -111,7 +112,7 @@ class _EmailAddressField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _AppTextField(
+    return AppTextField(
       'Email Address',
       controller: controller,
       validator: _validator,
@@ -128,59 +129,5 @@ class _EmailAddressField extends StatelessWidget {
       return 'Please enter a valid email address';
     }
     return null;
-  }
-}
-
-class _AppTextField extends StatelessWidget {
-  const _AppTextField(
-    this.label, {
-    Key? key,
-    required this.controller,
-    this.obscureText = false,
-    this.validator,
-  }) : super(key: key);
-
-  final String label;
-  final TextEditingController controller;
-  final bool obscureText;
-  final FormFieldValidator<String>? validator;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      validator: validator,
-      style: const TextStyle(
-        fontSize: 20,
-        color: AppColors.darkGrey,
-        fontFamily: 'Lato',
-      ),
-      decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
-        labelText: label,
-        labelStyle: const TextStyle(
-          color: AppColors.lightGrey,
-          fontSize: 18,
-          fontFamily: 'Lato',
-        ),
-        floatingLabelStyle: const TextStyle(
-          color: AppColors.lightGrey,
-          fontSize: 20,
-          fontFamily: 'Lato',
-        ),
-        border: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.lightGrey,
-          ),
-        ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.red,
-            width: 4,
-          ),
-        ),
-      ),
-    );
   }
 }
