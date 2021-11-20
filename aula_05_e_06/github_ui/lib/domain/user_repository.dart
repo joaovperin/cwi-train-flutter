@@ -5,24 +5,25 @@ abstract class UserRepository {
   const UserRepository._();
   static const UserRepository instance = _UserRepositoryDioHttp();
 
-  Future<UserModel?> findUserByName(String name);
+  Future<List<UserModel>> findUsersByName(String name);
+  // Future<List<UserModel>> findUsersByXName(int id);
 }
 
 class _UserRepositoryDioHttp implements UserRepository {
   const _UserRepositoryDioHttp();
 
   @override
-  Future<UserModel?> findUserByName(String name) async {
-    final search = name.replaceAll(' ', '%20');
-    final response = await _http.get(
-      'https://api.github.com/search/users?q=$search',
-    );
-    final json = response.data;
-    final jsonList = json['items'];
-    if (jsonList.length > 0) {
-      return UserModel.fromMap(jsonList[0]);
+  Future<List<UserModel>> findUsersByName(String name) async {
+    if (name.isEmpty) {
+      return [];
     }
-    return null;
+    final search = name.replaceAll(' ', '%20');
+    return _http
+        .get('https://api.github.com/search/users?q=$search')
+        .then((response) {
+      final users = response.data['items'];
+      return users.map<UserModel>((user) => UserModel.fromMap(user)).toList();
+    });
   }
 
   Dio get _http {

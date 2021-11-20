@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:github_ui/domain/user_model.dart';
 import 'package:github_ui/domain/user_repository.dart';
 
 class SearchUserPage extends StatefulWidget {
@@ -13,7 +14,8 @@ class SearchUserPage extends StatefulWidget {
 class _SearchUserPageState extends State<SearchUserPage> {
   final _searchCtrl = TextEditingController();
   Timer? _searchDebounce;
-  String _text = '';
+
+  List<UserModel> _users = [];
 
   @override
   void dispose() {
@@ -25,13 +27,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
     if (_searchDebounce?.isActive ?? false) _searchDebounce?.cancel();
     _searchDebounce = Timer(const Duration(milliseconds: 400), () {
       final search = _searchCtrl.text;
-      UserRepository.instance.findUserByName(search).then((value) {
+      UserRepository.instance.findUsersByName(search).then((value) {
         setState(() {
-          if (value != null) {
-            _text = '#${value.id} - ${value.login}';
-          } else {
-            _text = 'USER NOT FOUND';
-          }
+          _users = value;
         });
       });
     });
@@ -67,11 +65,28 @@ class _SearchUserPageState extends State<SearchUserPage> {
               ),
             ),
             const SizedBox(height: 20),
-            Text('Results:', style: Theme.of(context).textTheme.headline4),
+            Text('Results:', style: Theme.of(context).textTheme.headline5),
             const SizedBox(height: 20),
-            Text(
-              '$_text',
-              style: Theme.of(context).textTheme.bodyText1,
+            Expanded(
+              child: ListView.separated(
+                itemCount: _users.length,
+                separatorBuilder: (context, index) => const Divider(),
+                itemBuilder: (context, index) {
+                  final user = _users[index];
+                  return ListTile(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(user.login),
+                      ],
+                    ),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(user.avatarUrl),
+                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios_outlined),
+                  );
+                },
+              ),
             ),
           ],
         ),
