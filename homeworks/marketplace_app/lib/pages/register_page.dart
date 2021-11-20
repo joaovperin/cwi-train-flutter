@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace_app/commons/colors.dart';
+import 'package:marketplace_app/pages/verification_page.dart';
 import 'package:marketplace_app/widgets/app_big_button.dart';
 import 'package:marketplace_app/widgets/app_italic_title.dart';
 import 'package:marketplace_app/widgets/app_text_field.dart';
@@ -68,7 +69,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     AppBigButton(
                       'Register',
                       onTap: () {
-                        _formKey.currentState?.validate() ?? false;
+                        if (_formKey.currentState?.validate() ?? false) {
+                          Navigator.of(context).pushNamed(
+                            VerificationPage.routeName,
+                          );
+                        }
                       },
                     ),
                   ],

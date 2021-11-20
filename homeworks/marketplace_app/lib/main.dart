@@ -54,6 +54,9 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato',
           ),
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(),
+        ),
       ),
       // home: Pages.signUp,
       initialRoute: Routes.initialRoute,

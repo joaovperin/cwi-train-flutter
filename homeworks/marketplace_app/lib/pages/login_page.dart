@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marketplace_app/commons/colors.dart';
+import 'package:marketplace_app/pages/home_page.dart';
+import 'package:marketplace_app/pages/register_page.dart';
 import 'package:marketplace_app/widgets/app_big_button.dart';
 import 'package:marketplace_app/widgets/app_italic_title.dart';
 import 'package:marketplace_app/widgets/app_text_field.dart';
@@ -46,18 +48,26 @@ class _LoginPageState extends State<LoginPage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
                         child: const Text(
                           "Don't have an account?",
                           style: TextStyle(color: AppColors.red, fontSize: 16),
                         ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            RegisterPage.routeName,
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: 80),
                     AppBigButton(
                       'Continue',
                       onTap: () {
-                        _formKey.currentState?.validate() ?? false;
+                        if (_formKey.currentState?.validate() ?? false) {
+                          Navigator.of(context).pushNamed(
+                            HomePage.routeName,
+                          );
+                        }
                       },
                     ),
                   ],
@@ -91,9 +101,6 @@ class _PasswordField extends StatelessWidget {
   String? _validator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Password is required';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters';
     }
     return null;
   }
