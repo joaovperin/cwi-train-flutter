@@ -27,12 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: AppColors.white,
-        // automaticallyImplyLeading: false,
-      ),
+      appBar: AppBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: SingleChildScrollView(
@@ -48,15 +43,17 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     _EmailAddressField(_emailCtrl),
                     _PasswordField(_passwordCtrl),
-                    const SizedBox(height: 90),
-                    const Align(
+                    Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        "Don't have an account?",
-                        style: TextStyle(color: AppColors.red, fontSize: 16),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Don't have an account?",
+                          style: TextStyle(color: AppColors.red, fontSize: 16),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 80),
                     AppBigButton(
                       'Continue',
                       onTap: () {

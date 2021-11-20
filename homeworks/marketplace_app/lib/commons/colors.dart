@@ -13,5 +13,7 @@ class AppColors {
   static const white = Color(0xFFFFFFFF);
   static const red = Color(0xFFE83F3F);
 
+  static const transparent = Colors.transparent;
+
   static MaterialColor get primarySwatch => Colors.blue;
 }

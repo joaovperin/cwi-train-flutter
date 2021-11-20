@@ -14,11 +14,7 @@ class AppItalicTitle extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 30),
       child: Text(
         text,
-        style: const TextStyle(
-          fontSize: 34,
-          fontStyle: FontStyle.italic,
-          fontFamily: 'Lato',
-        ),
+        style: Theme.of(context).textTheme.headline1?.copyWith(),
       ),
     );
   }

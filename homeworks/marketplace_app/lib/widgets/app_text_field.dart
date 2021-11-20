@@ -27,29 +27,7 @@ class AppTextField extends StatelessWidget {
         fontFamily: 'Lato',
       ),
       decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
         labelText: label,
-        labelStyle: const TextStyle(
-          color: AppColors.lightGrey,
-          fontSize: 18,
-          fontFamily: 'Lato',
-        ),
-        floatingLabelStyle: const TextStyle(
-          color: AppColors.lightGrey,
-          fontSize: 20,
-          fontFamily: 'Lato',
-        ),
-        border: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.lightGrey,
-          ),
-        ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: AppColors.red,
-            width: 4,
-          ),
-        ),
       ),
     );
   }
