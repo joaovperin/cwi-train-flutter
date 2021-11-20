@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:marketplace_app/commons/colors.dart';
+import 'package:marketplace_app/widgets/app_big_button.dart';
 import 'package:marketplace_app/widgets/app_italic_title.dart';
 
 class VerificationPage extends StatelessWidget {
@@ -16,9 +18,29 @@ class VerificationPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              AppItalicTitle('Verification'),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AppItalicTitle('Verification'),
+              Text(
+                'a four digit verification code has been sent to your mobile number',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              const SizedBox(height: 160),
+              AppBigButton('Verify', onTap: () {}),
+              const SizedBox(height: 20),
+              Center(
+                child: TextButton(
+                  child: const Text(
+                    "Resend",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.red,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+              )
             ],
           ),
         ),

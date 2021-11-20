@@ -120,6 +120,7 @@ class _EmailAddressField extends StatelessWidget {
       'Email Address',
       controller: controller,
       validator: _validator,
+      autofocus: true,
     );
   }
 

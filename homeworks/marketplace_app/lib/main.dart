@@ -29,6 +29,11 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Lato',
             color: AppColors.black,
           ),
+          headline6: TextStyle(
+            fontSize: 18,
+            fontFamily: 'Lato',
+            color: AppColors.black,
+          ),
         ),
         inputDecorationTheme: const InputDecorationTheme(
           floatingLabelBehavior: FloatingLabelBehavior.auto,

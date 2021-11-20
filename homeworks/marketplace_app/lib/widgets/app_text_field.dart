@@ -7,12 +7,14 @@ class AppTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     this.obscureText = false,
+    this.autofocus = false,
     this.validator,
   }) : super(key: key);
 
   final String label;
   final TextEditingController controller;
   final bool obscureText;
+  final bool autofocus;
   final FormFieldValidator<String>? validator;
 
   @override
@@ -21,6 +23,7 @@ class AppTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       validator: validator,
+      autofocus: autofocus,
       style: const TextStyle(
         fontSize: 20,
         color: AppColors.darkGrey,
