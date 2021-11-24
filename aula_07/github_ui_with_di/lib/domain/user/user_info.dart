@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class GithubUserInfo {
   final int id;
   final String login;
@@ -50,41 +48,6 @@ class GithubUserInfo {
       createdAt: createdAt ?? this.createdAt,
     );
   }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'login': login,
-      'name': name,
-      'company': company,
-      'location': location,
-      'email': email,
-      'bio': bio,
-      'followers': followers,
-      'following': following,
-      'created_at': createdAt.toIso8601String(),
-    };
-  }
-
-  factory GithubUserInfo.fromMap(Map<String, dynamic> map) {
-    return GithubUserInfo(
-      id: map['id'],
-      login: map['login'],
-      name: map['name'],
-      company: map['company'],
-      location: map['location'],
-      email: map['email'],
-      bio: map['bio'],
-      followers: map['followers'],
-      following: map['following'],
-      createdAt: DateTime.parse(map['created_at']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory GithubUserInfo.fromJson(String source) =>
-      GithubUserInfo.fromMap(json.decode(source));
 
   @override
   String toString() {

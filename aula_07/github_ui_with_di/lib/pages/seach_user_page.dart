@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:github_ui/domain/user/user.dart';
 import 'package:github_ui/domain/user/user_repository.dart';
 import 'package:github_ui/pages/user_details_page.dart';
@@ -19,6 +20,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   List<GithubUser> _users = [];
 
+  final UserRepository userRepository = GetIt.I.get<UserRepository>();
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +39,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
     if (_searchDebounce?.isActive ?? false) _searchDebounce?.cancel();
     _searchDebounce = Timer(const Duration(milliseconds: 400), () {
       final search = _searchCtrl.text;
-      UserRepository.instance.findUsersByName(search).then((value) {
+      userRepository.findUsersByName(search).then((value) {
         setState(() {
           _users = value;
         });
@@ -84,8 +87,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
                   final user = _users[index];
                   return GestureDetector(
                     onTap: () {
-                      UserRepository.instance.findUserInfo(user.login).then(
-                          (value) => Navigator.pushNamed(
+                      userRepository.findUserInfo(user.login).then((value) =>
+                          Navigator.pushNamed(
                               context, UserDetailsPage.routeName,
                               arguments:
                                   UserDetailsPageArgs(user, info: value)));

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class GithubUser {
   final int id;
   final String login;
@@ -26,29 +24,6 @@ class GithubUser {
       avatarUrl ?? this.avatarUrl,
     );
   }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'login': login,
-      'url': url,
-      'avatar_url': avatarUrl,
-    };
-  }
-
-  factory GithubUser.fromMap(Map<String, dynamic> map) {
-    return GithubUser(
-      map['id'],
-      map['login'],
-      map['url'],
-      map['avatar_url'] ?? '',
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory GithubUser.fromJson(String source) =>
-      GithubUser.fromMap(json.decode(source));
 
   @override
   String toString() {
