@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mvc/archs/mvc/user_model.dart';
+
 import '../../home_page.dart';
-import 'login_controller.dart';
+import 'login_presenter.dart';
 import 'login_repository.dart';
 
 class LoginPageMVP extends StatefulWidget {
@@ -9,16 +9,16 @@ class LoginPageMVP extends StatefulWidget {
   _LoginPageMVPState createState() => _LoginPageMVPState();
 }
 
-class _LoginPageMVPState extends State<LoginPageMVP> {
+class _LoginPageMVPState extends State<LoginPageMVP>
+    implements LoginPageContract {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  LoginController controller;
-  bool isLoading = false;
+  LoginPresenter presenter;
 
   @override
   void initState() {
     super.initState();
-    controller = LoginController(LoginRepository());
+    presenter = LoginPresenter(this, repository: LoginRepository());
   }
 
   @override
@@ -26,18 +26,20 @@ class _LoginPageMVPState extends State<LoginPageMVP> {
     super.dispose();
   }
 
-  _loginSuccess() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => HomePage()),
-    );
-  }
-
-  _loginError() {
+  @override
+  void loginError() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text('Login error'),
       backgroundColor: Colors.red,
     ));
+  }
+
+  @override
+  void loginSuccess() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => HomePage()),
+    );
   }
 
   @override
@@ -48,7 +50,7 @@ class _LoginPageMVPState extends State<LoginPageMVP> {
       ),
       key: _scaffoldKey,
       body: Form(
-        key: controller.formKey,
+        key: presenter.formKey,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -59,7 +61,7 @@ class _LoginPageMVPState extends State<LoginPageMVP> {
                   border: OutlineInputBorder(),
                   labelText: 'email',
                 ),
-                onSaved: controller.userEmail,
+                onSaved: presenter.userEmail,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Campo não pode ser vazio';
@@ -76,7 +78,7 @@ class _LoginPageMVPState extends State<LoginPageMVP> {
                   border: OutlineInputBorder(),
                   labelText: 'password',
                 ),
-                onSaved: controller.userPassword,
+                onSaved: presenter.userPassword,
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Campo não pode ser vazio';
@@ -90,28 +92,17 @@ class _LoginPageMVPState extends State<LoginPageMVP> {
                 textColor: Colors.white,
                 color: Colors.blue,
                 child: Text('ENTER'),
-                onPressed: isLoading
-                    ? null
-                    : () async {
-                        setState(() {
-                          isLoading = true;
-                        });
-
-                        if (await controller.login()) {
-                          _loginSuccess();
-                        } else {
-                          _loginError();
-                        }
-
-                        setState(() {
-                          isLoading = false;
-                        }  );
-                      },
+                onPressed: presenter.isLoading ? null : presenter.login,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void loginManager() {
+    setState(() {});
   }
 }
