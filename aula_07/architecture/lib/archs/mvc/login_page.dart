@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mvc/archs/mvc/user_model.dart';
+import 'package:mvc/archs/mvc/login_controller.dart';
+import 'package:mvc/archs/mvc/login_repository.dart';
+
 import '../../home_page.dart';
 
 /**
@@ -13,11 +15,14 @@ class LoginPageMVC extends StatefulWidget {
 
 class _LoginPageMVCState extends State<LoginPageMVC> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _formKey = GlobalKey<FormState>();
+
+  LoginController _loginController;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
+    _loginController = LoginController(LoginRepository());
   }
 
   @override
@@ -47,7 +52,7 @@ class _LoginPageMVCState extends State<LoginPageMVC> {
       ),
       key: _scaffoldKey,
       body: Form(
-        key: _formKey,
+        key: _loginController.formKey,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -66,6 +71,7 @@ class _LoginPageMVCState extends State<LoginPageMVC> {
                   }
                   return null;
                 },
+                onSaved: (value) => _loginController.userEmail = value,
               ),
               SizedBox(height: 10),
               TextFormField(
@@ -80,6 +86,7 @@ class _LoginPageMVCState extends State<LoginPageMVC> {
                   }
                   return null;
                 },
+                onSaved: (value) => _loginController.userPassword = value,
               ),
               SizedBox(height: 30),
               RaisedButton(
@@ -87,13 +94,21 @@ class _LoginPageMVCState extends State<LoginPageMVC> {
                 textColor: Colors.white,
                 color: Colors.blue,
                 child: Text('ENTER'),
-                onPressed: () {
-                  if (true) {
-                    _loginSuccess();
-                  } else {
-                    _loginError();
-                  }
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        setState(() => _isLoading = true);
+                        try {
+                          final status = await _loginController.login();
+                          if (status) {
+                            _loginSuccess();
+                          } else {
+                            _loginError();
+                          }
+                        } finally {
+                          setState(() => _isLoading = false);
+                        }
+                      },
               ),
             ],
           ),
