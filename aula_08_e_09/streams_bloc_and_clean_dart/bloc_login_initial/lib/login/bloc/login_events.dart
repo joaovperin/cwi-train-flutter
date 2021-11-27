@@ -8,3 +8,9 @@ class DoLoginEvent extends LoginEvent {
 
   const DoLoginEvent(this.email, this.password);
 }
+
+class ConfirmVerificationCodeEvent extends LoginEvent {
+  final String verificationCode;
+
+  const ConfirmVerificationCodeEvent(this.verificationCode);
+}

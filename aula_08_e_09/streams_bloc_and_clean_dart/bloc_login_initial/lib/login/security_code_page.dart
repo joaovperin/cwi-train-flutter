@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:register/home/home_page.dart';
+import 'package:register/login/bloc/login_bloc.dart';
+import 'package:register/login/bloc/login_events.dart';
+import 'package:register/login/bloc/login_states.dart';
 
 class SecurityCodePage extends StatefulWidget {
   static const route = 'security-code';
@@ -22,49 +26,61 @@ class _SecurityCodePageState extends State<SecurityCodePage> {
     FocusNode(),
   ];
 
+  late LoginBloc loginBloc;
+
+  @override
+  initState() {
+    super.initState();
+    loginBloc = BlocProvider.of<LoginBloc>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    'Verification',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'a four digit verification code has been sent to your mobile number',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              const SizedBox(height: 40),
-              buildCodeField(),
-              const SizedBox(height: 79),
-              SizedBox(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                child: ElevatedButton(
-                  child: const Text(
-                    'Verify',
-                  ),
-                  onPressed: onVerifyPressed,
+    return BlocListener(
+      bloc: loginBloc,
+      listener: _blocListener,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Verification',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                child: const Text('Resend'),
-                onPressed: () {},
-              ),
-            ],
+                const SizedBox(height: 12),
+                Text(
+                  'a four digit verification code has been sent to your mobile number',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                const SizedBox(height: 40),
+                buildCodeField(),
+                const SizedBox(height: 79),
+                SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    child: const Text(
+                      'Verify',
+                    ),
+                    onPressed: onVerifyPressed,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextButton(
+                  child: const Text('Resend'),
+                  onPressed: () {},
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -113,7 +129,20 @@ class _SecurityCodePageState extends State<SecurityCodePage> {
       formKey.currentState?.save();
 
       // Call bloc event
+      loginBloc.add(ConfirmVerificationCodeEvent(code.join('').trim()));
+    }
+  }
+
+  void _blocListener(BuildContext context, state) {
+    if (state is LoginSuccessState) {
       Navigator.of(context).pushNamed(HomePage.route);
+    } else if (state is LoginFailedState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(state.message),
+        ),
+      );
     }
   }
 }

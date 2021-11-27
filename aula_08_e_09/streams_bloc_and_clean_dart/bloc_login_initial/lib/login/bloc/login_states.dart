@@ -6,8 +6,8 @@ class LoginInitialState extends LoginState {
   const LoginInitialState();
 }
 
-class LoginProcessingState extends LoginState {
-  const LoginProcessingState();
+class LoadingState extends LoginState {
+  const LoadingState();
 }
 
 class LoginSuccessState extends LoginState {

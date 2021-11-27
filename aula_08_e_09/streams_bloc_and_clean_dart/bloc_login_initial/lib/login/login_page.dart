@@ -27,25 +27,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   initState() {
     super.initState();
-    loginBloc = BlocProvider.of(context);
+
+    email ??= 'oie@mail.com';
+    password ??= '123456';
+    loginBloc = BlocProvider.of<LoginBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener(
       bloc: loginBloc,
-      listener: (BuildContext context, state) {
-        if (state is LoginSuccessState) {
-          Navigator.of(context).pushReplacementNamed(SecurityCodePage.route);
-        } else if (state is LoginFailedState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(state.message),
-            ),
-          );
-        }
-      },
+      listener: _blocListener,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(),
@@ -65,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
+                  initialValue: email,
                   decoration: const InputDecoration(
                     labelText: 'Email Address',
                   ),
@@ -80,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
+                  initialValue: password,
                   focusNode: passwordNode,
                   decoration: const InputDecoration(
                     labelText: 'Password',
@@ -112,9 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: BlocBuilder(
                       bloc: loginBloc,
                       builder: (context, state) {
-                        if (state is LoginProcessingState) {
+                        if (state is LoadingState) {
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child:
+                                CircularProgressIndicator(color: Colors.white),
                           );
                         }
                         return const Text('Continue');
@@ -134,6 +129,19 @@ class _LoginPageState extends State<LoginPage> {
     if (formKey.currentState?.validate() ?? false) {
       formKey.currentState?.save();
       loginBloc.add(DoLoginEvent(email!, password!));
+    }
+  }
+
+  void _blocListener(BuildContext context, state) {
+    if (state is LoginSuccessState) {
+      Navigator.of(context).pushReplacementNamed(SecurityCodePage.route);
+    } else if (state is LoginFailedState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(state.message),
+        ),
+      );
     }
   }
 }
