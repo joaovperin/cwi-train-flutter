@@ -129,7 +129,9 @@ class _SecurityCodePageState extends State<SecurityCodePage> {
       formKey.currentState?.save();
 
       // Call bloc event
-      loginBloc.add(ConfirmVerificationCodeEvent(code.join('').trim()));
+      loginBloc.add(
+        ConfirmVerificationCodeEvent(code.join('').trim()),
+      );
     }
   }
 
