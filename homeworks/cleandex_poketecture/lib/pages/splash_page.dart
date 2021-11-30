@@ -1,4 +1,6 @@
-import 'package:cleandex_poketecture/pages/list_page.dart';
+import 'package:cleandex_poketecture/commons/app_colors.dart';
+import 'package:cleandex_poketecture/pages/list_page_no_app_bar.dart';
+import 'package:cleandex_poketecture/pages/list_page_with_flutter_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -14,7 +16,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(ListPage.routeName);
+      Navigator.of(context).pushReplacementNamed(ListPageWithFlutterAppBar.routeName);
     });
   }
 
@@ -24,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
       body: Center(
         child: Text(
           'Splash Page',
-          style: TextStyle(fontSize: 30, color: Colors.black),
+          style: TextStyle(fontSize: 30, color: AppColors.textColor),
         ),
       ),
     );

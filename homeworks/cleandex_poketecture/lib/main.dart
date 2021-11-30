@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cleandex Pokétecture',
       theme: ThemeData(
-        primarySwatch: AppColors.primarySwatch,
         backgroundColor: AppColors.background,
         scaffoldBackgroundColor: AppColors.background,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.routes,
