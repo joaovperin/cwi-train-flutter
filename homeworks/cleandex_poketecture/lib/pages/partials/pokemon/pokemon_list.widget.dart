@@ -51,7 +51,7 @@ class _PokemonListState extends State<PokemonList> {
               separatorBuilder: (context, index) => const Divider(),
               itemBuilder: (context, index) {
                 if (index < list.length) {
-                  return _PokemonItemWidget(model: list[index]);
+                  return _PokemonTileWidget(model: list[index]);
                 }
                 return const Center(child: CircularProgressIndicator());
               },
@@ -91,8 +91,8 @@ class _PokemonListState extends State<PokemonList> {
   }
 }
 
-class _PokemonItemWidget extends StatelessWidget {
-  const _PokemonItemWidget({
+class _PokemonTileWidget extends StatelessWidget {
+  const _PokemonTileWidget({
     Key? key,
     required this.model,
   }) : super(key: key);
@@ -101,25 +101,30 @@ class _PokemonItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: ListTile(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(model.name),
-          ],
-        ),
-        subtitle: Text(model.fmtId),
-        leading: SizedBox(
-          width: 64,
-          height: 64,
-          child: Image.network(model.pictureUrl),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.keyboard_arrow_right),
-          ],
+    return Material(
+      color: AppColors.listTileBg,
+      child: InkWell(
+        splashColor: AppColors.splash,
+        onDoubleTap: () {},
+        child: ListTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(model.name),
+            ],
+          ),
+          subtitle: Text(model.fmtId),
+          leading: SizedBox(
+            width: 64,
+            height: 64,
+            child: Image.network(model.pictureUrl),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.keyboard_arrow_right),
+            ],
+          ),
         ),
       ),
     );

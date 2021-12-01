@@ -8,6 +8,9 @@ class AppColors {
   static const Color container = Colors.white;
   static const Color statusBar = Colors.transparent;
 
+  static const Color listTileBg = Colors.transparent;
+  static const Color splash = Color(0xFF9BE4FB);
+
   static const Color enabledIcon = Color(0xFF000000);
   static const Color disabledIcon = Color(0xFFA3AF9D);
 

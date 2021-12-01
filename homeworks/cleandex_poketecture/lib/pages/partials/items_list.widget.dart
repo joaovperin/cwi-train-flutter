@@ -44,30 +44,50 @@ class _ItemsListState extends State<ItemsList> {
         itemCount: _list.length,
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
-          final model = _list[index];
-          return InkWell(
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(model.name),
-                ],
-              ),
-              subtitle: Text(model.fmtId),
-              leading: SizedBox(
-                width: 64,
-                height: 64,
-                child: Image.network(model.pictureUrl),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.keyboard_arrow_right),
-                ],
-              ),
-            ),
-          );
+          if (index < _list.length) {
+            return _ItemsTitleWidget(model: _list[index]);
+          }
+          return const Center(child: CircularProgressIndicator());
         },
+      ),
+    );
+  }
+}
+
+class _ItemsTitleWidget extends StatelessWidget {
+  const _ItemsTitleWidget({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
+
+  final Item model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.listTileBg,
+      child: InkWell(
+        onDoubleTap: () {},
+        child: ListTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(model.name),
+            ],
+          ),
+          subtitle: Text(model.fmtId),
+          leading: SizedBox(
+            width: 64,
+            height: 64,
+            child: Image.network(model.pictureUrl),
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.keyboard_arrow_right),
+            ],
+          ),
+        ),
       ),
     );
   }
