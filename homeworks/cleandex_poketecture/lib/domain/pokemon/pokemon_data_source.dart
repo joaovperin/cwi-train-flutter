@@ -13,6 +13,11 @@ class PokemonDataSource {
       : currentPage = 0,
         rowsCount = 0;
 
+  Future<List<Pokemon>> searchByName(String search) async {
+    _resetCounter();
+    return _pokemonRepository.findAll(search: search);
+  }
+
   Future<List<Pokemon>> fetchNextPage() async {
     final page = await _pokemonRepository.findPage(
       page: currentPage++,
@@ -25,6 +30,11 @@ class PokemonDataSource {
 
     rowsCount = page.count;
     return page.results;
+  }
+
+  void _resetCounter() {
+    currentPage = 0;
+    rowsCount = 0;
   }
 }
 

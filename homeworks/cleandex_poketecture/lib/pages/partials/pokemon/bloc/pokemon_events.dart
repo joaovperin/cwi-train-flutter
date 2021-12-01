@@ -4,6 +4,11 @@ abstract class PokemonEvent {
   const PokemonEvent();
 }
 
+class PokemonSearchEvent extends PokemonEvent {
+  const PokemonSearchEvent(this.search);
+  final String search;
+}
+
 class PokemonLoadRequestEvent extends PokemonEvent {
   final String? search;
   final List<Pokemon> currentList;

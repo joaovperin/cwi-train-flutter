@@ -6,7 +6,7 @@ class PokemonRepositoryMock implements PokemonRepository {
   const PokemonRepositoryMock();
 
   @override
-  Future<List<Pokemon>> findAll() async {
+  Future<List<Pokemon>> findAll({String? search}) async {
     return const [
       Pokemon(id: 1, name: 'Bulbasaur', pictureUrl: ''),
       Pokemon(id: 2, name: 'Ivysaur', pictureUrl: ''),

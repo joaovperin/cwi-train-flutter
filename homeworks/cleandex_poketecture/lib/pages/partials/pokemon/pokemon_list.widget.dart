@@ -46,7 +46,9 @@ class _PokemonListState extends State<PokemonList> {
             onNotification: (notification) {
               if (notification is ScrollEndNotification &&
                   _scrollCtrl.position.extentAfter == 0) {
-                _pokeBloc.add(PokemonLoadRequestEvent.next(list));
+                if (!state.noMoreResults) {
+                  _pokeBloc.add(PokemonLoadRequestEvent.next(list));
+                }
               }
               return false;
             },
@@ -62,6 +64,10 @@ class _PokemonListState extends State<PokemonList> {
               },
             ),
           );
+        }
+
+        if (state is PokemonReloadingState) {
+          return const Center(child: CircularProgressIndicator());
         }
 
         var message = 'Something went wrong';
