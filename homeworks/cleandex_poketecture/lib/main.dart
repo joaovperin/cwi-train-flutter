@@ -1,9 +1,17 @@
+import 'package:cleandex_poketecture/application/repository/pokemon_repository.mock.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/app_routes.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
+  _registerDependencies();
   runApp(const MyApp());
+}
+
+void _registerDependencies() {
+  GetIt.I.registerSingleton<PokemonRepository>(const PokemonRepositoryMock());
 }
 
 class MyApp extends StatelessWidget {
