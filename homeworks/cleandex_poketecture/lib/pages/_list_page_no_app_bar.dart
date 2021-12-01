@@ -2,9 +2,9 @@ import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ListPageNoAppBar extends StatelessWidget {
+class _ListPageNoAppBar extends StatelessWidget {
   static const routeName = '/pokemons';
-  const ListPageNoAppBar({Key? key}) : super(key: key);
+  const _ListPageNoAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
