@@ -38,29 +38,33 @@ class _PokemonListState extends State<PokemonList> {
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
           final model = _list[index];
-          return InkWell(
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(model.name),
-                ],
-              ),
-              subtitle: Text(model.fmtId),
-              leading: SizedBox(
-                width: 64,
-                height: 64,
-                child: Image.network(model.pictureUrl),
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.keyboard_arrow_right),
-                ],
-              ),
-            ),
-          );
+          return _buildItem(model);
         },
+      ),
+    );
+  }
+
+  Widget _buildItem(Pokemon model) {
+    return InkWell(
+      child: ListTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(model.name),
+          ],
+        ),
+        subtitle: Text(model.fmtId),
+        leading: SizedBox(
+          width: 64,
+          height: 64,
+          child: Image.network(model.pictureUrl),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(Icons.keyboard_arrow_right),
+          ],
+        ),
       ),
     );
   }

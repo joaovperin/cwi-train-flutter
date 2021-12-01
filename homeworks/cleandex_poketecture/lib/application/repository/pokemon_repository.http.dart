@@ -1,64 +1,61 @@
+import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
+import 'package:cleandex_poketecture/domain/search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-class PokemonRepositoryHttp implements PokemonRepository {
-  const PokemonRepositoryHttp();
-
-  static const _maxResultCount = 300;
+class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
+    implements PokemonRepository {
+  PokemonRepositoryHttp() : super('pokemon');
 
   @override
-  Future<List<Pokemon>> findAll() async {
-    final http = GetIt.I.get<Dio>();
+  Future<List<Pokemon>> findAll({int maxRowsLimit = 300}) async {
     final list = <Pokemon>[];
-
-    final response = await http
-        .get('https://pokeapi.co/api/v2/pokemon?limit=$_maxResultCount');
-
-    var json = response.data;
-
-    List<dynamic>? results = json['results'];
-    while (results != null && results.isNotEmpty) {
-      list.addAll(results.map((map) => _fromMap(map)));
-
-      if (json['next'] != null) {
-        json = (await http.get(json['next'])).data;
-      } else {
-        break;
-      }
-
-      if (list.length >= _maxResultCount) {
+    int pageNumber = 0;
+    while (list.length < maxRowsLimit) {
+      final page = await findPage(page: pageNumber++);
+      list.addAll(page.results);
+      if (page.isLastPage) {
         break;
       }
     }
-
     return list;
   }
 
   @override
   Future<Pokemon?> findById(int id) async {
     final http = GetIt.I.get<Dio>();
-    final response = await http.get('https://pokeapi.co/api/v2/pokemon/$id');
-    return _fromMap(response.data);
+    final response = await http.get('$url/$id');
+    return fromMap(response.data);
   }
 
-  static final _regex = RegExp(r'.*\/pokemon\/(\d+)\/?');
-  static Pokemon _fromMap(Map<String, dynamic> map) {
-    final name = _formatName(map['name']);
-    final id = int.parse(_regex.firstMatch(map['url'])?.group(1) ?? '0');
+  @override
+  Future<PaginatedSearchResult<Pokemon>> findPage({
+    int page = 0,
+    int size = 300,
+  }) async {
+    final http = GetIt.I.get<Dio>();
+    final response = await http.get('$url?offset=${page * size}&limit=$size');
+
+    final json = response.data;
+    return PaginatedSearchResult<Pokemon>(
+      count: json['count'],
+      results: [...json['results'].map((map) => fromMap(map))],
+      next: json['next'],
+      previous: json['previous'],
+    );
+  }
+
+  @override
+  Pokemon fromMap(Map<String, dynamic> map) {
+    final name = formatName(map['name']);
+    final id = parseIdFromUrl(map['url']);
     return Pokemon(
       id: id,
       name: name,
       pictureUrl:
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png',
     );
-  }
-
-  static String _formatName(String name) {
-    return name
-        .split('-')
-        .map((e) => e[0].toUpperCase() + e.substring(1))
-        .join(' ');
   }
 }

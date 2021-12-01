@@ -16,7 +16,7 @@ void main() {
 }
 
 void _registerDependencies() {
-  GetIt.I.registerSingleton<PokemonRepository>(const PokemonRepositoryHttp());
+  GetIt.I.registerSingleton<PokemonRepository>(PokemonRepositoryHttp());
   GetIt.I.registerSingleton<ItemRepository>(ItemRepositoryHttp());
   GetIt.I.registerSingleton<MoveRepository>(MoveRepositoryHttp());
   GetIt.I.registerSingleton<Dio>(Dio());
