@@ -1,21 +1,22 @@
+import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
-import 'package:cleandex_poketecture/domain/move/move.dart';
-import 'package:cleandex_poketecture/domain/move/move.repository.dart';
+import 'package:cleandex_poketecture/domain/item/item.dart';
+import 'package:cleandex_poketecture/domain/item/item.repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-class MoveRepositoryHttp extends AbstractHttpRepository<Move>
-    implements MoveRepository {
-  MoveRepositoryHttp() : super('move');
+class ItemRepositoryHttp extends AbstractHttpRepository<Item>
+    implements ItemRepository {
+  ItemRepositoryHttp() : super('item');
 
-  static const _maxResultCount = 300;
+  static const maxResultCount = 300;
 
   @override
-  Future<List<Move>> findAll() async {
+  Future<List<Item>> findAll() async {
     final http = GetIt.I.get<Dio>();
-    final list = <Move>[];
+    final list = <Item>[];
 
-    final response = await http.get('$url?limit=$_maxResultCount');
+    final response = await http.get('$url?limit=$maxResultCount');
 
     var json = response.data;
 
@@ -29,7 +30,7 @@ class MoveRepositoryHttp extends AbstractHttpRepository<Move>
         break;
       }
 
-      if (list.length >= _maxResultCount) {
+      if (list.length >= maxResultCount) {
         break;
       }
     }
@@ -38,17 +39,13 @@ class MoveRepositoryHttp extends AbstractHttpRepository<Move>
   }
 
   @override
-  Future<Move?> findById(int id) async {
+  Future<Item?> findById(int id) async {
     final http = GetIt.I.get<Dio>();
     final response = await http.get('$url/$id');
     return fromMap(response.data);
   }
 
-  @override
-  Move fromMap(Map<String, dynamic> map) {
-    return Move(
-      id: parseIdFromUrl(map['url']),
-      name: formatName(map['name']),
-    );
+  Item fromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<AbstractHttpMapper<Item>>().fromMap(map);
   }
 }

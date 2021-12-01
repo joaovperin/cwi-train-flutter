@@ -1,3 +1,4 @@
+import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
 import 'package:cleandex_poketecture/domain/paginated_search_result.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
@@ -56,15 +57,7 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     );
   }
 
-  @override
   Pokemon fromMap(Map<String, dynamic> map) {
-    final name = formatName(map['name']);
-    final id = parseIdFromUrl(map['url']);
-    return Pokemon(
-      id: id,
-      name: name,
-      pictureUrl:
-          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png',
-    );
+    return GetIt.I.get<AbstractHttpMapper<Pokemon>>().fromMap(map);
   }
 }

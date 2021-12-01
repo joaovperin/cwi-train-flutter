@@ -14,3 +14,10 @@ mixin WidgetWithSearchableBlock on Widget {
 mixin Searchable {
   void onSearch(String searchText);
 }
+
+abstract class MappableMapper<T> {
+  const MappableMapper._();
+
+  Map<String, dynamic> toMap(T entity);
+  T fromMap(Map<String, dynamic> map);
+}
