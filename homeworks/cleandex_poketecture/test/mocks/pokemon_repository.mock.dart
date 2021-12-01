@@ -1,6 +1,7 @@
-import 'package:cleandex_poketecture/domain/paginated_search_result.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 
 class PokemonRepositoryMock implements PokemonRepository {
   const PokemonRepositoryMock();
@@ -39,8 +40,8 @@ class PokemonRepositoryMock implements PokemonRepository {
   }
 
   @override
-  Future<Pokemon?> findById(int id) async {
-    return (await findAll()).firstWhere((pokemon) => pokemon.id == id);
+  Future<PokemonInfo?> findInfoById(int id) async {
+    return null;
   }
 
   @override

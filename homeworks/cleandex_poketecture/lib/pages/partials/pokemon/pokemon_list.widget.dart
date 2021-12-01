@@ -51,7 +51,12 @@ class _PokemonListState extends State<PokemonList> {
               separatorBuilder: (context, index) => const Divider(),
               itemBuilder: (context, index) {
                 if (index < list.length) {
-                  return _PokemonTileWidget(model: list[index]);
+                  return _PokemonTileWidget(
+                    model: list[index],
+                    onDoubleTap: (model) {
+                      _pokeBloc.add(PokemonShowPopupInfoEvent(model));
+                    },
+                  );
                 }
                 return const Center(child: CircularProgressIndicator());
               },
@@ -95,9 +100,11 @@ class _PokemonTileWidget extends StatelessWidget {
   const _PokemonTileWidget({
     Key? key,
     required this.model,
+    required this.onDoubleTap,
   }) : super(key: key);
 
   final Pokemon model;
+  final OnTapFn<Pokemon> onDoubleTap;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +112,7 @@ class _PokemonTileWidget extends StatelessWidget {
       color: AppColors.listTileBg,
       child: InkWell(
         splashColor: AppColors.splash,
-        onDoubleTap: () {},
+        onDoubleTap: () => onDoubleTap.call(model),
         child: ListTile(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

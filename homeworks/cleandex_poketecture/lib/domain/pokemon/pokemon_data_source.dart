@@ -1,5 +1,6 @@
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
 import 'package:get_it/get_it.dart';
 
 class PokemonDataSource {
@@ -16,6 +17,14 @@ class PokemonDataSource {
   Future<List<Pokemon>> searchByName(String search) async {
     _resetCounter();
     return _pokemonRepository.findAll(search: search);
+  }
+
+  Future<PokemonInfo> findInfo(Pokemon model) async {
+    final info = await _pokemonRepository.findInfoById(model.id);
+    if (info == null) {
+      throw PokemonNotFoundException();
+    }
+    return info;
   }
 
   Future<List<Pokemon>> fetchNextPage() async {
@@ -39,3 +48,5 @@ class PokemonDataSource {
 }
 
 class NoMoreRowsException implements Exception {}
+
+class PokemonNotFoundException implements Exception {}

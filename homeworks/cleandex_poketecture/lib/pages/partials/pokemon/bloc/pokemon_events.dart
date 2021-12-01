@@ -9,6 +9,11 @@ class PokemonSearchEvent extends PokemonEvent {
   final String search;
 }
 
+class PokemonShowPopupInfoEvent extends PokemonEvent {
+  const PokemonShowPopupInfoEvent(this.model);
+  final Pokemon model;
+}
+
 class PokemonFetchPageEvent extends PokemonEvent {
   final List<Pokemon> currentList;
   const PokemonFetchPageEvent._(this.currentList);

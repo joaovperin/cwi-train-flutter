@@ -1,8 +1,9 @@
-import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
-import 'package:cleandex_poketecture/domain/paginated_search_result.dart';
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -34,10 +35,12 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
   }
 
   @override
-  Future<Pokemon?> findById(int id) async {
+  Future<PokemonInfo?> findInfoById(int id) async {
     final http = GetIt.I.get<Dio>();
     final response = await http.get('$url/$id');
-    return fromMap(response.data);
+    if (response.data != null) {
+      return _pokemonInfoFromMap(response.data);
+    }
   }
 
   @override
@@ -51,13 +54,17 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     final json = response.data;
     return PaginatedSearchResult<Pokemon>(
       count: json['count'],
-      results: [...json['results'].map((map) => fromMap(map))],
+      results: [...json['results'].map((map) => _pokemonFromMap(map))],
       next: json['next'],
       previous: json['previous'],
     );
   }
 
-  Pokemon fromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<AbstractHttpMapper<Pokemon>>().fromMap(map);
+  Pokemon _pokemonFromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<MappableMapper<Pokemon>>().fromMap(map);
+  }
+
+  PokemonInfo _pokemonInfoFromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<MappableMapper<PokemonInfo>>().fromMap(map);
   }
 }

@@ -8,6 +8,7 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
   PokemonBloc() : super(const PokemonLoadingState()) {
     on<PokemonFetchPageEvent>(_onFetchPageEvent);
     on<PokemonSearchEvent>(_onSearchEvent);
+    on<PokemonShowPopupInfoEvent>(_onShowPopupInfoEvent);
   }
 
   final PokemonDataSource _pokemonDataSource = PokemonDataSource();
@@ -30,6 +31,19 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
       emit(PokemonListState.next(event.currentList + results));
     } on NoMoreRowsException catch (_) {
       emit(PokemonListState.next(event.currentList, noMoreResults: true));
+    } on Exception catch (e) {
+      emit(PokemonFailState(e.toString()));
+    }
+  }
+
+  Future<void> _onShowPopupInfoEvent(
+    PokemonShowPopupInfoEvent event,
+    Emitter<PokemonState> emit,
+  ) async {
+    try {
+      final info = await _pokemonDataSource.findInfo(event.model);
+      print(info);
+    } on PokemonNotFoundException catch (_) {
     } on Exception catch (e) {
       emit(PokemonFailState(e.toString()));
     }

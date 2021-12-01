@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+typedef OnTapFn<T> = void Function(T value);
 typedef OnSearchFn = void Function(String searchText);
 
 abstract class SearchableBloc<E, S> extends Bloc<E, S> with Searchable {

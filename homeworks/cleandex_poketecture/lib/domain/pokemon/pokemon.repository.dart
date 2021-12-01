@@ -1,4 +1,5 @@
-import 'package:cleandex_poketecture/domain/paginated_search_result.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 
 abstract class PokemonRepository {
@@ -6,7 +7,7 @@ abstract class PokemonRepository {
 
   Future<List<Pokemon>> findAll({String? search});
 
-  Future<Pokemon?> findById(int id);
+  Future<PokemonInfo?> findInfoById(int id);
 
   Future<PaginatedSearchResult<Pokemon>> findPage({
     required int page,
