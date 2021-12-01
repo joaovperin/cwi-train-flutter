@@ -6,11 +6,13 @@ class AppScaffold extends StatelessWidget {
   const AppScaffold({
     Key? key,
     required this.body,
-    required this.titleText,
+    required this.title,
+    this.bottomNavigationBar,
   }) : super(key: key);
 
+  final String title;
   final Widget? body;
-  final String titleText;
+  final Widget? bottomNavigationBar;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class AppScaffold extends StatelessWidget {
           statusBarColor: AppColors.transparent,
         ),
         title: Text(
-          titleText,
+          title,
           style: const TextStyle(
             color: Colors.black,
             fontSize: 30,
@@ -57,6 +59,7 @@ class AppScaffold extends StatelessWidget {
         ),
       ),
       body: body,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }

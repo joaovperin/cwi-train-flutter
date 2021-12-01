@@ -1,9 +1,9 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
-import 'package:cleandex_poketecture/pages/pokemon/pokemons_list_page.dart';
+import 'package:cleandex_poketecture/pages/main.page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/loading';
   const SplashPage({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +15,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(PokemonListPage.routeName);
+      Navigator.of(context).pushReplacementNamed(MainPage.routeName);
     });
   }
 
