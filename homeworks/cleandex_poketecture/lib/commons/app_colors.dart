@@ -34,21 +34,45 @@ class AppColors {
   static const Color bug = Color(0xFF92BC2C);
   static const Color dark = Color(0xFF595761);
   static const Color dragon = Color(0xFF0C69C8);
-  static const Color water = Color(0xFF4A90DD);
-  static const Color eletric = Color(0xFFEDD53E);
+  static const Color electric = Color(0xFFEDD53E);
   static const Color fairy = Color(0xFFEC8CE5);
-  static const Color fight = Color(0xFFCE4265);
+  static const Color fighting = Color(0xFFCE4265);
   static const Color fire = Color(0xFFFB9B51);
   static const Color flying = Color(0xFF90A7DA);
   static const Color ghost = Color(0xFF516AAC);
   static const Color grass = Color(0xFF5FBC51);
-  static const Color ground1 = Color(0xFFDC7545);
-  static const Color ground2 = Color(0xFFD7CD90);
+  static const Color ground = Color(0xFFD38F5E);
   static const Color ice = Color(0xFF8CDDD4);
   static const Color normal = Color(0xFF9298A4);
   static const Color poison = Color(0xFFA864C7);
   static const Color psychic = Color(0xFFF66F71);
+  static const Color rock = Color(0xFFCCBD8C);
   static const Color steel = Color(0xFF52869D);
+  static const Color water = Color(0xFF4A90DD);
+  // .....
+  static const Color unknown = Colors.black;
+  // .....
+
+  static const element = {
+    'bug': AppColors.bug,
+    'dark': AppColors.dark,
+    'dragon': AppColors.dragon,
+    'electric': AppColors.electric,
+    'fairy': AppColors.fairy,
+    'fighting': AppColors.fighting,
+    'fire': AppColors.fire,
+    'flying': AppColors.flying,
+    'ghost': AppColors.ghost,
+    'grass': AppColors.grass,
+    'ground': AppColors.ground,
+    'ice': AppColors.ice,
+    'normal': AppColors.normal,
+    'poison': AppColors.poison,
+    'psychic': AppColors.psychic,
+    'rock': AppColors.rock,
+    'steel': AppColors.steel,
+    'water': AppColors.water,
+  };
 
   static MaterialColor? get primarySwatch => null;
 }

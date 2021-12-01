@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
@@ -8,6 +10,7 @@ import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PokemonList extends StatefulWidget with WidgetWithSearchableBlock {
   const PokemonList({Key? key}) : super(key: key);
@@ -111,19 +114,44 @@ class _PokemonTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pokemonStats = [];
+    // final pokemonStats = _stats;
     return Material(
       color: AppColors.listTileBg,
       child: InkWell(
         splashColor: AppColors.splash,
         onDoubleTap: () => onDoubleTap.call(model),
         child: ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(model.name),
-              ...pokemonStats.map((e) => Text(e.type.name)).toList(),
-            ],
+          title: FutureBuilder<List<PokeType>>(
+            future: _stats,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Text(model.name);
+              }
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(model.name),
+                  const Spacer(),
+                  ...snapshot.data!.map((e) {
+                    final type = e.type.name;
+                    return Container(
+                      width: 36,
+                      height: 36,
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: AppColors.element[type] ?? AppColors.unknown,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/icons/elements/$type.svg',
+                        semanticsLabel: type,
+                      ),
+                    );
+                  }).toList(),
+                ],
+              );
+            },
           ),
           subtitle: Text(model.fmtId),
           leading: SizedBox(
@@ -131,24 +159,39 @@ class _PokemonTileWidget extends StatelessWidget {
             height: 64,
             child: Image.network(model.pictureUrl),
           ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.keyboard_arrow_right),
-            ],
-          ),
         ),
       ),
     );
   }
 
   // Future<List<PokeType>> get _stats async {
-  List<PokeType> get _stats {
-    return [
-      const PokeType(
+  Future<List<PokeType>> get _stats async {
+    switch (Random().nextInt(5)) {
+      case 1:
+        return const [
+          PokeType(slot: 1, type: NameUrlPair(name: 'normal', url: '')),
+          PokeType(slot: 2, type: NameUrlPair(name: 'fighting', url: '')),
+        ];
+      case 2:
+        return const [
+          PokeType(slot: 1, type: NameUrlPair(name: 'normal', url: '')),
+          PokeType(slot: 2, type: NameUrlPair(name: 'flying', url: '')),
+        ];
+      case 3:
+        return const [
+          PokeType(slot: 2, type: NameUrlPair(name: 'poison', url: '')),
+        ];
+      case 4:
+        return const [
+          PokeType(slot: 1, type: NameUrlPair(name: 'bug', url: '')),
+          PokeType(slot: 2, type: NameUrlPair(name: 'fire', url: '')),
+        ];
+    }
+    return const [
+      PokeType(
         slot: 1,
         type: NameUrlPair(
-          name: 'normal',
+          name: 'ground',
           url: 'https://pokeapi.co/api/v2/type/1/',
         ),
       )
