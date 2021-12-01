@@ -8,7 +8,14 @@ class PokemonListState extends PokemonState {
   final List<Pokemon> list;
   final bool noMoreResults;
 
-  const PokemonListState(this.list, {this.noMoreResults = false});
+  const PokemonListState._(this.list, {this.noMoreResults = false});
+
+  factory PokemonListState.empty() => const PokemonListState._([]);
+
+  const factory PokemonListState.next(
+    List<Pokemon> list, {
+    bool noMoreResults,
+  }) = PokemonListState._;
 }
 
 class PokemonFailState extends PokemonState {

@@ -5,6 +5,13 @@ abstract class PokemonEvent {
 }
 
 class PokemonLoadRequestEvent extends PokemonEvent {
-  const PokemonLoadRequestEvent(this.currentList);
   final List<Pokemon> currentList;
+  const PokemonLoadRequestEvent._(this.currentList);
+
+  factory PokemonLoadRequestEvent.first() =>
+      const PokemonLoadRequestEvent._([]);
+
+  const factory PokemonLoadRequestEvent.list(
+    List<Pokemon> currentList,
+  ) = PokemonLoadRequestEvent._;
 }

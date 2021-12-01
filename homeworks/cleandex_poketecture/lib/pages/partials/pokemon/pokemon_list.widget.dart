@@ -14,14 +14,14 @@ class PokemonList extends StatefulWidget {
 }
 
 class _PokemonListState extends State<PokemonList> {
-  late PokemonBloc pokeBloc;
+  late PokemonBloc _pokeBloc;
   final ScrollController _scrollCtrl = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    pokeBloc = BlocProvider.of<PokemonBloc>(context);
-    pokeBloc.add(const PokemonLoadRequestEvent([]));
+    _pokeBloc = BlocProvider.of<PokemonBloc>(context);
+    _pokeBloc.add(PokemonLoadRequestEvent.first());
   }
 
   @override
@@ -40,7 +40,7 @@ class _PokemonListState extends State<PokemonList> {
             onNotification: (notification) {
               if (notification is ScrollEndNotification &&
                   _scrollCtrl.position.extentAfter == 0) {
-                pokeBloc.add(PokemonLoadRequestEvent(list));
+                _pokeBloc.add(PokemonLoadRequestEvent.list(list));
               }
               return false;
             },

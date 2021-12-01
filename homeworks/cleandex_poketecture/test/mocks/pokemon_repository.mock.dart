@@ -1,6 +1,6 @@
+import 'package:cleandex_poketecture/domain/paginated_search_result.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
-import 'package:cleandex_poketecture/domain/search_result.dart';
 
 class PokemonRepositoryMock implements PokemonRepository {
   const PokemonRepositoryMock();

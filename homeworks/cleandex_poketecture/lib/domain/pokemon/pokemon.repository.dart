@@ -1,5 +1,5 @@
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
-import 'package:cleandex_poketecture/domain/search_result.dart';
+import 'package:cleandex_poketecture/domain/paginated_search_result.dart';
 
 abstract class PokemonRepository {
   const PokemonRepository._();

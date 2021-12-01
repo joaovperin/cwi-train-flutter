@@ -1,7 +1,7 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
-import 'package:cleandex_poketecture/domain/search_result.dart';
+import 'package:cleandex_poketecture/domain/paginated_search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
