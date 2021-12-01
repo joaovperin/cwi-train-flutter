@@ -18,8 +18,8 @@ class PokemonListState extends PokemonState {
   }) = PokemonListState._;
 }
 
-class PokemonReloadingState extends PokemonState {
-  const PokemonReloadingState();
+class PokemonLoadingState extends PokemonState {
+  const PokemonLoadingState();
 }
 
 class PokemonFailState extends PokemonState {

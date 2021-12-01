@@ -3,7 +3,7 @@ import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:get_it/get_it.dart';
 
 class PokemonDataSource {
-  static const itemsPerPage = 50;
+  static const itemsPerPage = 60;
 
   final PokemonRepository _pokemonRepository = GetIt.I.get<PokemonRepository>();
   int currentPage;

@@ -9,16 +9,12 @@ class PokemonSearchEvent extends PokemonEvent {
   final String search;
 }
 
-class PokemonLoadRequestEvent extends PokemonEvent {
-  final String? search;
+class PokemonFetchPageEvent extends PokemonEvent {
   final List<Pokemon> currentList;
-  const PokemonLoadRequestEvent._(this.currentList, [this.search]);
+  const PokemonFetchPageEvent._(this.currentList);
 
-  factory PokemonLoadRequestEvent.first([String? search]) =>
-      PokemonLoadRequestEvent._([], search);
+  factory PokemonFetchPageEvent.first() => const PokemonFetchPageEvent._([]);
 
-  const factory PokemonLoadRequestEvent.next(
-    List<Pokemon> currentList, [
-    String? search,
-  ]) = PokemonLoadRequestEvent._;
+  const factory PokemonFetchPageEvent.next(List<Pokemon> currentList) =
+      PokemonFetchPageEvent._;
 }

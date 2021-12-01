@@ -5,8 +5,8 @@ import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
 
 class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
-  PokemonBloc() : super(const PokemonReloadingState()) {
-    on<PokemonLoadRequestEvent>(_onLoadRequestEvent);
+  PokemonBloc() : super(const PokemonLoadingState()) {
+    on<PokemonFetchPageEvent>(_onFetchPageEvent);
     on<PokemonSearchEvent>(_onSearchEvent);
   }
 
@@ -16,25 +16,18 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
     PokemonSearchEvent event,
     Emitter<PokemonState> emit,
   ) async {
-    emit(const PokemonReloadingState());
+    emit(const PokemonLoadingState());
     final results = await _pokemonDataSource.searchByName(event.search);
     emit(PokemonListState.next(results, noMoreResults: true));
   }
 
-  Future<void> _onLoadRequestEvent(
-    PokemonLoadRequestEvent event,
+  Future<void> _onFetchPageEvent(
+    PokemonFetchPageEvent event,
     Emitter<PokemonState> emit,
   ) async {
     try {
-      final search = event.search;
-      if (search != null) {
-        emit(const PokemonReloadingState());
-        final results = await _pokemonDataSource.searchByName(search);
-        emit(PokemonListState.next(results, noMoreResults: true));
-      } else {
-        final results = await _pokemonDataSource.fetchNextPage();
-        emit(PokemonListState.next(event.currentList + results));
-      }
+      final results = await _pokemonDataSource.fetchNextPage();
+      emit(PokemonListState.next(event.currentList + results));
     } on NoMoreRowsException catch (_) {
       emit(PokemonListState.next(event.currentList, noMoreResults: true));
     } on Exception catch (e) {
@@ -44,6 +37,6 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
 
   @override
   void onSearch(String searchText) {
-    add(PokemonLoadRequestEvent.first(searchText));
+    add(PokemonSearchEvent(searchText));
   }
 }

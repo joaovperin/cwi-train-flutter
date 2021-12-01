@@ -27,7 +27,7 @@ class _PokemonListState extends State<PokemonList> {
   void initState() {
     super.initState();
     _pokeBloc = widget.getBloc(context);
-    _pokeBloc.add(PokemonLoadRequestEvent.first());
+    _pokeBloc.add(PokemonFetchPageEvent.first());
   }
 
   @override
@@ -40,18 +40,11 @@ class _PokemonListState extends State<PokemonList> {
     return Container(
       color: AppColors.container,
       child: BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
+        // If the state has data, show it
         if (state is PokemonListState) {
           final list = state.list;
-          return NotificationListener(
-            onNotification: (notification) {
-              if (notification is ScrollEndNotification &&
-                  _scrollCtrl.position.extentAfter == 0) {
-                if (!state.noMoreResults) {
-                  _pokeBloc.add(PokemonLoadRequestEvent.next(list));
-                }
-              }
-              return false;
-            },
+          return NotificationListener<ScrollNotification>(
+            onNotification: (scroll) => _onScrollNotification(scroll, state),
             child: ListView.separated(
               controller: _scrollCtrl,
               itemCount: state.noMoreResults ? list.length : list.length + 1,
@@ -66,7 +59,7 @@ class _PokemonListState extends State<PokemonList> {
           );
         }
 
-        if (state is PokemonReloadingState) {
+        if (state is PokemonLoadingState) {
           return const Center(child: CircularProgressIndicator());
         }
 
@@ -83,6 +76,18 @@ class _PokemonListState extends State<PokemonList> {
         );
       }),
     );
+  }
+
+  bool _onScrollNotification(
+    ScrollNotification scroll,
+    PokemonListState state,
+  ) {
+    if (scroll is ScrollEndNotification &&
+        _scrollCtrl.position.extentAfter == 0 &&
+        !state.noMoreResults) {
+      _pokeBloc.add(PokemonFetchPageEvent.next(state.list));
+    }
+    return false;
   }
 }
 

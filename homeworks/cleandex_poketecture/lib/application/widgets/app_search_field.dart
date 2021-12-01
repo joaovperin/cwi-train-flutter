@@ -50,11 +50,18 @@ class _AppSearchFieldState extends State<AppSearchField> {
           suffixIcon: IconButton(
             icon: const Icon(Icons.close),
             color: AppColors.inputText,
-            onPressed: () => _searchCtrl.clear(),
+            onPressed: () => _clearSearch(),
           ),
         ),
       ),
     );
+  }
+
+  void _clearSearch() {
+    if (_searchCtrl.text.isNotEmpty) {
+      _searchCtrl.clear();
+      _doSearch();
+    }
   }
 
   void _doSearch() {
