@@ -1,5 +1,5 @@
-import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
 import 'package:dio/dio.dart';
@@ -46,6 +46,6 @@ class MoveRepositoryHttp extends AbstractHttpRepository<Move>
   }
 
   Move fromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<AbstractHttpMapper<Move>>().fromMap(map);
+    return GetIt.I.get<MappableMapper<Move>>().fromMap(map);
   }
 }

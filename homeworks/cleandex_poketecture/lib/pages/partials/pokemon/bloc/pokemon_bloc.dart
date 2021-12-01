@@ -53,4 +53,8 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
   void onSearch(String searchText) {
     add(PokemonSearchEvent(searchText));
   }
+
+  void resetCounter() {
+    _pokemonDataSource.resetCounter();
+  }
 }

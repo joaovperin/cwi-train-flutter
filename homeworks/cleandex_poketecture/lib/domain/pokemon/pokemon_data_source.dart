@@ -15,7 +15,7 @@ class PokemonDataSource {
         rowsCount = 0;
 
   Future<List<Pokemon>> searchByName(String search) async {
-    _resetCounter();
+    resetCounter();
     return _pokemonRepository.findAll(search: search);
   }
 
@@ -41,7 +41,7 @@ class PokemonDataSource {
     return page.results;
   }
 
-  void _resetCounter() {
+  void resetCounter() {
     currentPage = 0;
     rowsCount = 0;
   }

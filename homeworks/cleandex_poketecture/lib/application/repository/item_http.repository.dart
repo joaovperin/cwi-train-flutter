@@ -1,5 +1,5 @@
-import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/item/item.dart';
 import 'package:cleandex_poketecture/domain/item/item.repository.dart';
 import 'package:dio/dio.dart';
@@ -46,6 +46,6 @@ class ItemRepositoryHttp extends AbstractHttpRepository<Item>
   }
 
   Item fromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<AbstractHttpMapper<Item>>().fromMap(map);
+    return GetIt.I.get<MappableMapper<Item>>().fromMap(map);
   }
 }

@@ -1,6 +1,8 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
@@ -27,6 +29,7 @@ class _PokemonListState extends State<PokemonList> {
   void initState() {
     super.initState();
     _pokeBloc = widget.getBloc(context);
+    _pokeBloc.resetCounter();
     _pokeBloc.add(PokemonFetchPageEvent.first());
   }
 
@@ -108,6 +111,7 @@ class _PokemonTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pokemonStats = [];
     return Material(
       color: AppColors.listTileBg,
       child: InkWell(
@@ -118,6 +122,7 @@ class _PokemonTileWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(model.name),
+              ...pokemonStats.map((e) => Text(e.type.name)).toList(),
             ],
           ),
           subtitle: Text(model.fmtId),
@@ -135,5 +140,18 @@ class _PokemonTileWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Future<List<PokeType>> get _stats async {
+  List<PokeType> get _stats {
+    return [
+      const PokeType(
+        slot: 1,
+        type: NameUrlPair(
+          name: 'normal',
+          url: 'https://pokeapi.co/api/v2/type/1/',
+        ),
+      )
+    ];
   }
 }
