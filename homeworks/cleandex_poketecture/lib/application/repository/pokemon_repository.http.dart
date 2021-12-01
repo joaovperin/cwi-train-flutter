@@ -14,7 +14,7 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     final list = <Pokemon>[];
     int pageNumber = 0;
     while (list.length < maxRowsLimit) {
-      final page = await findPage(page: pageNumber++);
+      final page = await findPage(page: pageNumber++, size: 50);
       list.addAll(page.results);
       if (page.isLastPage) {
         break;
@@ -32,8 +32,8 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
 
   @override
   Future<PaginatedSearchResult<Pokemon>> findPage({
-    int page = 0,
-    int size = 300,
+    required int page,
+    required int size,
   }) async {
     final http = GetIt.I.get<Dio>();
     final response = await http.get('$url?offset=${page * size}&limit=$size');

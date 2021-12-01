@@ -9,7 +9,7 @@ abstract class PokemonRepository {
   Future<Pokemon?> findById(int id);
 
   Future<PaginatedSearchResult<Pokemon>> findPage({
-    int page = 0,
-    int size = 300,
+    required int page,
+    required int size,
   });
 }

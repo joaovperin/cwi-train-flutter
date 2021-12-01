@@ -6,8 +6,10 @@ import 'package:cleandex_poketecture/commons/app_routes.dart';
 import 'package:cleandex_poketecture/domain/item/item.repository.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
+import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 void main() {
@@ -27,15 +29,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cleandex Pokétecture',
-      theme: ThemeData(
-        backgroundColor: AppColors.background,
-        scaffoldBackgroundColor: AppColors.background,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PokemonBloc>(create: (context) => PokemonBloc())
+      ],
+      child: MaterialApp(
+        title: 'Cleandex Pokétecture',
+        theme: ThemeData(
+          backgroundColor: AppColors.background,
+          scaffoldBackgroundColor: AppColors.background,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: AppRoutes.initialRoute,
+        routes: AppRoutes.routes,
       ),
-      initialRoute: AppRoutes.initialRoute,
-      routes: AppRoutes.routes,
     );
   }
 }
