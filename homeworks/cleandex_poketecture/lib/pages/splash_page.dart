@@ -25,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
       body: Center(
         child: Text(
           'Splash Page',
-          style: TextStyle(fontSize: 30, color: AppColors.textColor),
+          style: TextStyle(fontSize: 30, color: AppColors.text),
         ),
       ),
     );

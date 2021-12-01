@@ -32,7 +32,7 @@ class _MovesListState extends State<MovesList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.container,
       child: ListView.separated(
         itemCount: _list.length,
         separatorBuilder: (context, index) => const Divider(),

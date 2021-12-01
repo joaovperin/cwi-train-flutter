@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> {
           Container(
             height: 3,
             width: double.infinity,
-            decoration: const BoxDecoration(color: AppColors.separatorColor),
+            decoration: const BoxDecoration(color: AppColors.separator),
           )
         ],
       ),

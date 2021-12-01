@@ -4,14 +4,18 @@ class AppColors {
   const AppColors._();
 
   static const Color background = Color(0xFFE4F5DB);
-  static const Color textColor = Colors.black;
-  static const Color white = Colors.white;
-  static const Color transparent = Colors.transparent;
+  static const Color text = Colors.black;
+  static const Color container = Colors.white;
+  static const Color statusBar = Colors.transparent;
 
   static const Color enabledIcon = Color(0xFF000000);
   static const Color disabledIcon = Color(0xFFA3AF9D);
 
-  static const Color separatorColor = Color(0xFF8DE061);
+  static Color get inputText => Colors.black.withAlpha(180);
+  static Color get inputBackground => Colors.grey.withAlpha(70);
+  static Color get cursor => inputText;
+
+  static const Color separator = Color(0xFF8DE061);
 
   static const List<Color> appBarGradient = [
     Color(0xFFDEE8FA),

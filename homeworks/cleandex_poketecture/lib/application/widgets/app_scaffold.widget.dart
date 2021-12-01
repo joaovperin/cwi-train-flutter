@@ -1,3 +1,4 @@
+import 'package:cleandex_poketecture/application/widgets/app_search_field.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,14 +22,22 @@ class AppScaffold extends StatelessWidget {
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
-          statusBarColor: AppColors.transparent,
+          statusBarColor: AppColors.statusBar,
         ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 30,
-          ),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            const SizedBox(height: 20),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 30,
+              ),
+            ),
+            const SizedBox(height: 10),
+            AppSearchField(),
+          ],
         ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(

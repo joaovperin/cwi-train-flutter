@@ -32,7 +32,7 @@ class _PokemonListState extends State<PokemonList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.container,
       child: BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
         if (state is PokemonListState) {
           final list = state.list;
@@ -64,7 +64,7 @@ class _PokemonListState extends State<PokemonList> {
         }
         // By default, state is PokemonFailedState (error)
         return Container(
-          color: AppColors.white,
+          color: AppColors.container,
           child: Center(
             child: Text(message),
           ),
