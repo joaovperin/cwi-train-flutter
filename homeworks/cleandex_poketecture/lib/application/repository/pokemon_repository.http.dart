@@ -50,7 +50,7 @@ class PokemonRepositoryHttp implements PokemonRepository {
     return Pokemon(
       id: id,
       name: name,
-      avatarUrl:
+      pictureUrl:
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png',
     );
   }
