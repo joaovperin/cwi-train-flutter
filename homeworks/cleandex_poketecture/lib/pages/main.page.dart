@@ -1,5 +1,6 @@
 import 'package:cleandex_poketecture/application/widgets/app_scaffold.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/pages/partials/items_list.widget.dart';
 import 'package:cleandex_poketecture/pages/partials/moves_list.widget.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_list.widget.dart';
@@ -40,6 +41,9 @@ class _MainPageState extends State<MainPage> {
     final selectedItem = appScreenItems[currentSelected];
     return AppScaffold(
       title: selectedItem.title,
+      onSearch: (value) {
+        selectedItem.body.getBloc(context).onSearch(value);
+      },
       body: Column(
         children: [
           Expanded(child: selectedItem.body),
@@ -78,7 +82,7 @@ class _MainPageState extends State<MainPage> {
 class _AppScreenItem {
   final String title;
   final String icon;
-  final Widget body;
+  final WidgetWithSearchableBlock body;
 
   const _AppScreenItem({
     required this.title,

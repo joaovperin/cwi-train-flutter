@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_data_source.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
 
-class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
+class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
   PokemonBloc() : super(PokemonListState.empty()) {
     on<PokemonLoadRequestEvent>(_onLoadRequestEvent);
   }
@@ -20,5 +21,10 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     } on Exception catch (e) {
       emit(PokemonFailState(e.toString()));
     }
+  }
+
+  @override
+  void onSearch(String searchText) {
+    print('**** Search Pokemon: $searchText');
   }
 }

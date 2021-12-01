@@ -1,4 +1,5 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
@@ -6,8 +7,13 @@ import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PokemonList extends StatefulWidget {
+class PokemonList extends StatefulWidget with WidgetWithSearchableBlock {
   const PokemonList({Key? key}) : super(key: key);
+
+  @override
+  PokemonBloc getBloc(BuildContext context) {
+    return BlocProvider.of<PokemonBloc>(context);
+  }
 
   @override
   State<PokemonList> createState() => _PokemonListState();
@@ -20,7 +26,7 @@ class _PokemonListState extends State<PokemonList> {
   @override
   void initState() {
     super.initState();
-    _pokeBloc = BlocProvider.of<PokemonBloc>(context);
+    _pokeBloc = widget.getBloc(context);
     _pokeBloc.add(PokemonLoadRequestEvent.first());
   }
 
@@ -40,7 +46,7 @@ class _PokemonListState extends State<PokemonList> {
             onNotification: (notification) {
               if (notification is ScrollEndNotification &&
                   _scrollCtrl.position.extentAfter == 0) {
-                _pokeBloc.add(PokemonLoadRequestEvent.list(list));
+                _pokeBloc.add(PokemonLoadRequestEvent.next(list));
               }
               return false;
             },
