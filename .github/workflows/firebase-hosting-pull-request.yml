@@ -20,6 +20,14 @@ jobs:
       - name: Download Dependencies
         run: flutter pub get
         working-directory: homeworks/cleandex_poketecture
+
+      - name: Static analysis on the sources
+        run: flutter analyze
+        working-directory: homeworks/cleandex_poketecture
+
+      - name: Run all tests
+        run: flutter test
+        working-directory: homeworks/cleandex_poketecture
         
       - name: Build flutter web app
         run: flutter build web
