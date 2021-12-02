@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
@@ -145,7 +145,13 @@ class _PokemonTileWidget extends StatelessWidget {
           leading: SizedBox(
             width: 64,
             height: 64,
-            child: Image.network(model.pictureUrl),
+            child: CachedNetworkImage(
+              imageUrl: model.pictureUrl,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
           ),
         ),
       ),
