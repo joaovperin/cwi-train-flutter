@@ -20,6 +20,12 @@ class AppColors {
   static Color get cursor => inputText;
 
   static const Color separator = Color(0xFF8DE061);
+  static const Color cardColor = Color(0xFFFFFFFF);
+
+  static const List<Color> detailsPageGradient = [
+    Color(0xFF559EDF),
+    Color(0xFF69B9E3),
+  ];
 
   static const List<Color> appBarGradient = [
     Color(0xFFDEE8FA),

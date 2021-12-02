@@ -1,4 +1,5 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
+import 'package:cleandex_poketecture/pages/details.page.dart';
 import 'package:cleandex_poketecture/pages/main.page.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(MainPage.routeName);
+      Navigator.of(context).pushReplacementNamed(DetailsPage.routeName);
     });
   }
 
