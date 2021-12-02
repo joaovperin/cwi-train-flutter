@@ -8,8 +8,9 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - run: ls -lah
       - uses: actions/checkout@v2
+      - run: ls -lah
+      - run: cd homeworks/cleandex_poketecture
       - run: flutter build web
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
