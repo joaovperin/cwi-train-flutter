@@ -2,6 +2,7 @@ import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
+import 'package:cleandex_poketecture/pages/details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,13 +46,20 @@ class _MovesListState extends State<MovesList> {
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
           final model = _list[index];
-          return InkWell(
-            child: ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(model.name),
-                ],
+          return Material(
+            color: AppColors.listTileBg,
+            child: InkWell(
+              onDoubleTap: () {
+                Navigator.pushNamed(context, DetailsPage.routeName,
+                    arguments: DetailsPageArgs.mockMove());
+              },
+              child: ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(model.name),
+                  ],
+                ),
               ),
             ),
           );

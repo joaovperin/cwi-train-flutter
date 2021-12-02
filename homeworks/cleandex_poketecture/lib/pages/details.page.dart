@@ -1,16 +1,47 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:flutter/material.dart';
 
-const _bgGradientColorsPoke = AppColors.detailsPagePokeGradient;
-const _bgGradientColorsItems = AppColors.detailsPageItemsGradient;
-const _imageUrlPoke =
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png';
-const _imageUrlItem =
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png';
+class DetailsPageArgs {
+  final String imageUrl;
+  final List<Color> colors;
+  final String title;
+  final String subtitle;
+  final String description;
+
+  const DetailsPageArgs({
+    required this.imageUrl,
+    required this.colors,
+    required this.title,
+    required this.subtitle,
+    required this.description,
+  });
+
+  factory DetailsPageArgs.mockItem() => const DetailsPageArgs(
+        imageUrl:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png',
+        colors: AppColors.detailsPageItemsGradient,
+        title: 'Ultra Ball',
+        subtitle: '1200 ¥',
+        description: '''Used in Battle\n
+Attempts to catch a wild Pokémon, using a catch rate of 2x.
+If used in a trainer battle, nothing happens and the ball is lost.''',
+      );
+
+  factory DetailsPageArgs.mockMove() => const DetailsPageArgs(
+        imageUrl:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png',
+        colors: AppColors.detailsPagePokeGradient,
+        title: 'Bubble',
+        subtitle: 'WATER',
+        description: '''Inflicts regular damage. Has a 10% chance to
+lower the target's Speed by one stage.''',
+      );
+}
 
 class DetailsPage extends StatefulWidget {
   static const routeName = '/details';
-  const DetailsPage({Key? key}) : super(key: key);
+  const DetailsPage({Key? key, required this.args}) : super(key: key);
+  final DetailsPageArgs args;
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -26,24 +57,22 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.topRight,
-            // colors: _bgGradientColorsPoke,
-            colors: _bgGradientColorsItems,
+            colors: widget.args.colors,
           ),
         ),
         child: Column(
-          children: const [
+          children: [
             Flexible(
               flex: 10,
-              // child: DetailsTopWidget(_imageUrlPoke),
-              child: DetailsTopWidget(_imageUrlItem),
+              child: DetailsTopWidget(widget.args),
             ),
             Expanded(
               flex: 31,
-              child: DetailsBottomWidget(),
+              child: DetailsBottomWidget(widget.args),
             ),
           ],
         ),
@@ -54,11 +83,11 @@ class _DetailsPageState extends State<DetailsPage> {
 
 class DetailsTopWidget extends StatelessWidget {
   const DetailsTopWidget(
-    this.imageUrl, {
+    this.args, {
     Key? key,
   }) : super(key: key);
 
-  final String imageUrl;
+  final DetailsPageArgs args;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +117,7 @@ class DetailsTopWidget extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(imageUrl),
+                image: NetworkImage(args.imageUrl),
                 fit: BoxFit.fill,
               ),
             ),
@@ -100,43 +129,13 @@ class DetailsTopWidget extends StatelessWidget {
   }
 }
 
-class DetailsInfoTitle extends StatelessWidget {
-  const DetailsInfoTitle(
-    this.title, {
-    required this.size,
-    Key? key,
-  }) : super(key: key);
-
-  final String title;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: size,
-        // fontWeight: FontWeight.bold,
-        color: AppColors.text,
-      ),
-    );
-  }
-}
-
-// class DetailsPageArgs {
-//   // final String imageUrl;
-//   final Widget title;
-//   final Widget subtitle;
-//   final TextSpan description;
-//   final Widget? child;
-// }
-
-// var _myArgs = DEt
-
 class DetailsBottomWidget extends StatelessWidget {
-  const DetailsBottomWidget({
+  const DetailsBottomWidget(
+    this.args, {
     Key? key,
   }) : super(key: key);
+
+  final DetailsPageArgs args;
 
   @override
   Widget build(BuildContext context) {
@@ -145,18 +144,18 @@ class DetailsBottomWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Flexible(
+          Flexible(
             flex: 1,
             child: Text(
-              'Ultra Ball',
-              style: TextStyle(fontSize: 36, color: AppColors.text),
+              args.title,
+              style: const TextStyle(fontSize: 36, color: AppColors.text),
             ),
           ),
-          const Flexible(
+          Flexible(
             flex: 1,
             child: Text(
-              '1200 ¥',
-              style: TextStyle(fontSize: 20, color: AppColors.lightText),
+              args.subtitle,
+              style: const TextStyle(fontSize: 20, color: AppColors.lightText),
             ),
           ),
           Flexible(
@@ -166,24 +165,7 @@ class DetailsBottomWidget extends StatelessWidget {
               child: Wrap(
                 runSpacing: 12,
                 alignment: WrapAlignment.center,
-                children: const [
-                  Text(
-                    'Used in Battle',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: AppColors.lightText),
-                  ),
-                  SizedBox(height: 24),
-                  Text(
-                    'Attempts to catch a wild Pokémon, using a catch rate of 2x.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: AppColors.lightText),
-                  ),
-                  Text(
-                    'If used in a trainer battle, nothing happens and the ball is lost.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: AppColors.lightText),
-                  ),
-                ],
+                children: _buildDetailsFromText(args.description),
               ),
             ),
           ),
@@ -197,4 +179,20 @@ class DetailsBottomWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+List<Widget> _buildDetailsFromText(String text) {
+  final _list = <Widget>[];
+  for (final _line in text.split('\n')) {
+    if (_line.isEmpty) {
+      _list.add(const SizedBox(height: 32));
+      continue;
+    }
+    _list.add(Text(
+      _line,
+      textAlign: TextAlign.center,
+      style: const TextStyle(fontSize: 16, color: AppColors.lightText),
+    ));
+  }
+  return _list;
 }

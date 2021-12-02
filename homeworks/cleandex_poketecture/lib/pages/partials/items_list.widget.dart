@@ -4,6 +4,7 @@ import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/item/item.dart';
 import 'package:cleandex_poketecture/domain/item/item.repository.dart';
+import 'package:cleandex_poketecture/pages/details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +70,10 @@ class _ItemsTitleWidget extends StatelessWidget {
     return Material(
       color: AppColors.listTileBg,
       child: InkWell(
-        onDoubleTap: () {},
+        onDoubleTap: () {
+          Navigator.pushNamed(context, DetailsPage.routeName,
+              arguments: DetailsPageArgs.mockItem());
+        },
         child: ListTile(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
