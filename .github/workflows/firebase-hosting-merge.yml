@@ -26,6 +26,7 @@ jobs:
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
+          entryPoint: "./homeworks/cleandex_poketecture" 
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CLEANDEX_POKETECTURE }}'
           channelId: live
