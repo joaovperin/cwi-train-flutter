@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:bloc/bloc.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_data_source.dart';
@@ -41,7 +43,7 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
     Emitter<PokemonState> emit,
   ) async {
     try {
-      print(event.model);
+      dev.log(event.model.toString());
     } on PokemonNotFoundException catch (_) {
     } on Exception catch (e) {
       emit(PokemonFailState(e.toString()));

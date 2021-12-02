@@ -4,7 +4,7 @@ class Item {
   final String pictureUrl;
 
   String get fmtId {
-    return id.toString().padLeft(3, "0");
+    return id.toString().padLeft(3, '0');
   }
 
   const Item({
