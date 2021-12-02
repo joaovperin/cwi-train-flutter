@@ -1,16 +1,16 @@
-import 'package:cleandex_poketecture/application/widgets/app_search_field.dart';
+import 'package:cleandex_poketecture/application/widgets/app_search_field.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AppScaffold extends StatelessWidget {
-  const AppScaffold({
-    Key? key,
+class AppScaffoldWidget extends StatelessWidget {
+  const AppScaffoldWidget({
     required this.title,
     required this.body,
     this.bottomNavigationBar,
     this.onSearch,
+    Key? key,
   }) : super(key: key);
 
   final String title;
@@ -39,7 +39,7 @@ class AppScaffold extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            if (onSearch != null) AppSearchField(onSearch: onSearch!),
+            if (onSearch != null) AppSearchFieldWidget(onSearch: onSearch!),
           ],
         ),
         flexibleSpace: Container(

@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
+import 'package:cleandex_poketecture/application/widgets/app_square_image_box.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/item/item.dart';
@@ -48,7 +49,7 @@ class _ItemsListState extends State<ItemsList> {
           if (index < _list.length) {
             return _ItemsTitleWidget(model: _list[index]);
           }
-          return const Center(child: CircularProgressIndicator());
+          return AppLoadingWidget.centered();
         },
       ),
     );
@@ -77,17 +78,7 @@ class _ItemsTitleWidget extends StatelessWidget {
             ],
           ),
           subtitle: Text(model.fmtId),
-          leading: SizedBox(
-            width: 64,
-            height: 64,
-            child: CachedNetworkImage(
-              imageUrl: model.pictureUrl,
-              placeholder: (context, url) => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-          ),
+          leading: SquareImageBoxWidget(model.pictureUrl),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: const [
