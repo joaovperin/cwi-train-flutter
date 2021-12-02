@@ -20,7 +20,6 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     int pageNumber = 0;
     while (true) {
       final page = await findPage(page: pageNumber++, size: 150);
-      // Search
       if (search != null && search.trim().isNotEmpty) {
         final searchTerm = search.trim().toLowerCase();
         list.addAll(page.results.where((e) => searchMatches(e, searchTerm)));

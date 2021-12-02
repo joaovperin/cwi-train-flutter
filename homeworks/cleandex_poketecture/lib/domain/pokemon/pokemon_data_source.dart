@@ -16,7 +16,8 @@ class PokemonDataSource {
 
   Future<List<Pokemon>> searchByName(String search) async {
     resetCounter();
-    return _pokemonRepository.findAll(search: search);
+    final results = await _pokemonRepository.findAll(search: search);
+    return results.map((p) => p..info = findInfo(p).asStream()).toList();
   }
 
   Future<PokemonInfo> findInfo(Pokemon model) async {
@@ -38,7 +39,7 @@ class PokemonDataSource {
     }
 
     rowsCount = page.count;
-    return page.results;
+    return page.results.map((p) => p..info = findInfo(p).asStream()).toList();
   }
 
   void resetCounter() {

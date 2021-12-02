@@ -10,6 +10,7 @@ class PokemonInfoHttpMapper extends AbstractHttpMapper<PokemonInfo> {
     return {
       'id': entity.id,
       'name': entity.name,
+      // TODO: implement toMap
     };
   }
 
@@ -31,7 +32,6 @@ class PokemonInfoHttpMapper extends AbstractHttpMapper<PokemonInfo> {
   }
 
   PokeSprites pokeSpritesFromMap(Map<String, dynamic> map) {
-    // 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png',
     return PokeSprites(
       frontDefault: map['front_default'],
       backDefault: map['back_default'],
@@ -41,59 +41,42 @@ class PokemonInfoHttpMapper extends AbstractHttpMapper<PokemonInfo> {
   }
 
   List<PokeStat> pokeStatsFromMap(List<dynamic> list) {
-    // stats: List<PokeStat>.from(map['stats']?.map((x) => PokeStat.fromMap(x))),
-    // TODO: Unhardcode that
-    return [
-      const PokeStat(
-        baseStat: 28,
-        effort: 0,
-        stat: NameUrlPair(
-          name: 'hp',
-          url: 'https://pokeapi.co/api/v2/stat/1/',
-        ),
-      ),
-    ];
+    return List<PokeStat>.from(list.map((map) => PokeStat(
+          baseStat: map['base_stat'],
+          effort: map['effort'],
+          stat: NameUrlPair(
+            name: map['stat']['name'],
+            url: map['stat']['url'],
+          ),
+        )));
   }
 
   List<PokeType> pokeTypesFromMap(List<dynamic> list) {
-    // types: List<PokeType>.from(map['types']?.map((x) => PokeType.fromMap(x))),
-    // TODO: Unhardcode that
-    return [
-      const PokeType(
-        slot: 1,
-        type: NameUrlPair(
-          name: 'normal',
-          url: 'https://pokeapi.co/api/v2/type/1/',
-        ),
-      ),
-    ];
+    return List<PokeType>.from(list.map((map) => PokeType(
+          slot: map['slot'],
+          type: NameUrlPair(
+            name: map['type']['name'],
+            url: map['type']['url'],
+          ),
+        )));
   }
 
   List<PokeMove> pokeMovesFromMap(List<dynamic> list) {
-    // moves: List<PokeMove>.from(map['moves']?.map((x) => PokeMove.fromMap(x))),
-    // TODO: Unhardcode that
-    return [
-      const PokeMove(
-        move: NameUrlPair(
-          name: 'tackle',
-          url: 'https://pokeapi.co/api/v2/move/1/',
-        ),
-      ),
-    ];
+    return List<PokeMove>.from(list.map((map) => PokeMove(
+          move: NameUrlPair(
+            name: map['move']['name'],
+            url: map['move']['url'],
+          ),
+        )));
   }
 
   List<PokeAbility> pokeAbilitiesFromMap(List<dynamic> list) {
-    // abilities: List<PokeAbilitiy>.from(
-    //     map['abilities']?.map((x) => PokeAbilitiy.fromMap(x))),
-    // TODO: Unhardcode that
-    return [
-      const PokeAbility(
-        slot: 1,
-        ability: NameUrlPair(
-          name: 'blaze',
-          url: 'https://pokeapi.co/api/v2/ability/1/',
-        ),
-      ),
-    ];
+    return List<PokeAbility>.from(list.map((map) => PokeAbility(
+          slot: map['slot'],
+          ability: NameUrlPair(
+            name: map['ability']['name'],
+            url: map['ability']['url'],
+          ),
+        )));
   }
 }

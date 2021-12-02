@@ -41,6 +41,13 @@ class PokeSprites {
     required this.frontDefault,
     required this.frontShiny,
   });
+
+  factory PokeSprites.empty() => const PokeSprites(
+        backDefault: null,
+        backShiny: null,
+        frontDefault: null,
+        frontShiny: null,
+      );
 }
 
 class PokeStat {

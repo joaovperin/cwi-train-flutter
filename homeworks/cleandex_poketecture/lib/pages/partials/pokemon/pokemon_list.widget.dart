@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
-import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
@@ -114,17 +111,16 @@ class _PokemonTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final pokemonStats = _stats;
     return Material(
       color: AppColors.listTileBg,
       child: InkWell(
         splashColor: AppColors.splash,
         onDoubleTap: () => onDoubleTap.call(model),
         child: ListTile(
-          title: FutureBuilder<List<PokeType>>(
-            future: _stats,
+          title: StreamBuilder<PokemonInfo?>(
+            stream: model.info,
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
+              if (!snapshot.hasData || snapshot.data == null) {
                 return Text(model.name);
               }
               return Row(
@@ -132,7 +128,7 @@ class _PokemonTileWidget extends StatelessWidget {
                 children: [
                   Text(model.name),
                   const Spacer(),
-                  ...snapshot.data!.map((e) {
+                  ...snapshot.data!.types.map((e) {
                     final type = e.type.name;
                     return Container(
                       width: 36,
@@ -162,39 +158,5 @@ class _PokemonTileWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  // Future<List<PokeType>> get _stats async {
-  Future<List<PokeType>> get _stats async {
-    switch (Random().nextInt(5)) {
-      case 1:
-        return const [
-          PokeType(slot: 1, type: NameUrlPair(name: 'normal', url: '')),
-          PokeType(slot: 2, type: NameUrlPair(name: 'fighting', url: '')),
-        ];
-      case 2:
-        return const [
-          PokeType(slot: 1, type: NameUrlPair(name: 'normal', url: '')),
-          PokeType(slot: 2, type: NameUrlPair(name: 'flying', url: '')),
-        ];
-      case 3:
-        return const [
-          PokeType(slot: 2, type: NameUrlPair(name: 'poison', url: '')),
-        ];
-      case 4:
-        return const [
-          PokeType(slot: 1, type: NameUrlPair(name: 'bug', url: '')),
-          PokeType(slot: 2, type: NameUrlPair(name: 'fire', url: '')),
-        ];
-    }
-    return const [
-      PokeType(
-        slot: 1,
-        type: NameUrlPair(
-          name: 'ground',
-          url: 'https://pokeapi.co/api/v2/type/1/',
-        ),
-      )
-    ];
   }
 }
