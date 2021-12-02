@@ -4,8 +4,8 @@ import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:flutter/material.dart';
 
-class AppSearchField extends StatefulWidget {
-  const AppSearchField({
+class AppSearchFieldWidget extends StatefulWidget {
+  const AppSearchFieldWidget({
     required this.onSearch,
     this.debounceTime = 220,
     Key? key,
@@ -15,10 +15,10 @@ class AppSearchField extends StatefulWidget {
   final int debounceTime;
 
   @override
-  State<AppSearchField> createState() => _AppSearchFieldState();
+  State<AppSearchFieldWidget> createState() => _AppSearchFieldWidgetState();
 }
 
-class _AppSearchFieldState extends State<AppSearchField> {
+class _AppSearchFieldWidgetState extends State<AppSearchFieldWidget> {
   final TextEditingController _searchCtrl = TextEditingController();
 
   Timer? _searchDebounce;

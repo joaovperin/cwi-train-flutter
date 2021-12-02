@@ -39,7 +39,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final selectedItem = appScreenItems[currentSelected];
-    return AppScaffold(
+    return AppScaffoldWidget(
       title: selectedItem.title,
       onSearch: (value) {
         selectedItem.body.getBloc(context).onSearch(value);
