@@ -17,7 +17,7 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
   @override
   Future<List<Pokemon>> findAll({String? search}) async {
     final list = <Pokemon>[];
-    int pageNumber = 0;
+    var pageNumber = 0;
     while (true) {
       final page = await findPage(page: pageNumber++, size: 150);
       if (search != null && search.trim().isNotEmpty) {
