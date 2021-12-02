@@ -4,7 +4,9 @@ class AppColors {
   const AppColors._();
 
   static const Color background = Color(0xFFE4F5DB);
-  static const Color text = Color(0xFF000000);
+  // static const Color text = Color(0xFF000000);
+  static const Color text = Color(0xFF4F4F4F);
+  static const Color lightText = Color(0xFFA4A4A4);
   static const Color fadedText = Color(0x47000000);
   static const Color container = Colors.white;
   static const Color statusBar = Colors.transparent;
@@ -22,9 +24,14 @@ class AppColors {
   static const Color separator = Color(0xFF8DE061);
   static const Color cardColor = Color(0xFFFFFFFF);
 
-  static const List<Color> detailsPageGradient = [
+  static const List<Color> detailsPagePokeGradient = [
     Color(0xFF559EDF),
     Color(0xFF69B9E3),
+  ];
+
+  static const List<Color> detailsPageItemsGradient = [
+    Color(0xFF6FD3D2),
+    Color(0xFF6FD3D2),
   ];
 
   static const List<Color> appBarGradient = [
