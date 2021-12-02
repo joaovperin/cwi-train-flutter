@@ -4,7 +4,8 @@ class AppColors {
   const AppColors._();
 
   static const Color background = Color(0xFFE4F5DB);
-  static const Color text = Colors.black;
+  static const Color text = Color(0xFF000000);
+  static const Color fadedText = Color(0x47000000);
   static const Color container = Colors.white;
   static const Color statusBar = Colors.transparent;
 
