@@ -1,11 +1,11 @@
-import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
 
 abstract class PokemonState {
   const PokemonState();
 }
 
 class PokemonListState extends PokemonState {
-  final List<Pokemon> list;
+  final List<PokemonInfo> list;
   final bool noMoreResults;
 
   const PokemonListState._(this.list, {this.noMoreResults = false});
@@ -13,7 +13,7 @@ class PokemonListState extends PokemonState {
   factory PokemonListState.empty() => const PokemonListState._([]);
 
   const factory PokemonListState.next(
-    List<Pokemon> list, {
+    List<PokemonInfo> list, {
     bool noMoreResults,
   }) = PokemonListState._;
 }

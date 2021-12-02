@@ -41,8 +41,7 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
     Emitter<PokemonState> emit,
   ) async {
     try {
-      final info = await _pokemonDataSource.findInfo(event.model);
-      print(info);
+      print(event.model);
     } on PokemonNotFoundException catch (_) {
     } on Exception catch (e) {
       emit(PokemonFailState(e.toString()));

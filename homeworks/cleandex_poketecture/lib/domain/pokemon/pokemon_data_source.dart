@@ -14,10 +14,12 @@ class PokemonDataSource {
       : currentPage = 0,
         rowsCount = 0;
 
-  Future<List<Pokemon>> searchByName(String search) async {
+  Future<List<PokemonInfo>> searchByName(String search) async {
     resetCounter();
     final results = await _pokemonRepository.findAll(search: search);
-    return results.map((p) => p..info = findInfo(p).asStream()).toList();
+    return Stream.fromFutures(
+      results.map((p) => findInfo(p)),
+    ).toList();
   }
 
   Future<PokemonInfo> findInfo(Pokemon model) async {
@@ -28,7 +30,7 @@ class PokemonDataSource {
     return info;
   }
 
-  Future<List<Pokemon>> fetchNextPage() async {
+  Future<List<PokemonInfo>> fetchNextPage() async {
     final page = await _pokemonRepository.findPage(
       page: currentPage++,
       size: itemsPerPage,
@@ -39,7 +41,9 @@ class PokemonDataSource {
     }
 
     rowsCount = page.count;
-    return page.results.map((p) => p..info = findInfo(p).asStream()).toList();
+    return Stream.fromFutures(
+      page.results.map((p) => findInfo(p)),
+    ).toList();
   }
 
   void resetCounter() {

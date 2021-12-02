@@ -14,6 +14,12 @@ class PokemonInfo {
   final List<PokeMove> moves;
   final List<PokeAbility> abilities;
 
+  String get pictureUrl => sprites.frontDefault ?? '';
+
+  String get fmtId {
+    return '#${id.toString().padLeft(3, "0")}';
+  }
+
   const PokemonInfo({
     required this.id,
     required this.order,

@@ -106,8 +106,8 @@ class _PokemonTileWidget extends StatelessWidget {
     required this.onDoubleTap,
   }) : super(key: key);
 
-  final Pokemon model;
-  final OnTapFn<Pokemon> onDoubleTap;
+  final PokemonInfo model;
+  final OnTapFn<PokemonInfo> onDoubleTap;
 
   @override
   Widget build(BuildContext context) {
@@ -117,37 +117,29 @@ class _PokemonTileWidget extends StatelessWidget {
         splashColor: AppColors.splash,
         onDoubleTap: () => onDoubleTap.call(model),
         child: ListTile(
-          title: StreamBuilder<PokemonInfo?>(
-            stream: model.info,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData || snapshot.data == null) {
-                return Text(model.name);
-              }
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(model.name),
-                  const Spacer(),
-                  ...snapshot.data!.types.map((e) {
-                    final type = e.type.name;
-                    return Container(
-                      width: 36,
-                      height: 36,
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.element[type] ?? AppColors.unknown,
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        'assets/icons/elements/$type.svg',
-                        semanticsLabel: type,
-                      ),
-                    );
-                  }).toList(),
-                ],
-              );
-            },
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(model.name),
+              const Spacer(),
+              ...model.types.map((e) {
+                final type = e.type.name;
+                return Container(
+                  width: 36,
+                  height: 36,
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.element[type] ?? AppColors.unknown,
+                    shape: BoxShape.circle,
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/icons/elements/$type.svg',
+                    semanticsLabel: type,
+                  ),
+                );
+              }).toList(),
+            ],
           ),
           subtitle: Text(model.fmtId),
           leading: SizedBox(
