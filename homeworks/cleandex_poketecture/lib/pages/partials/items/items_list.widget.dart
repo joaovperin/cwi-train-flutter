@@ -1,10 +1,10 @@
 import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
-import 'package:cleandex_poketecture/application/widgets/app_square_image_box.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/item/item.dart';
 import 'package:cleandex_poketecture/domain/item/item.repository.dart';
 import 'package:cleandex_poketecture/pages/details.page.dart';
+import 'package:cleandex_poketecture/pages/partials/items/item_tile.widget.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,49 +48,19 @@ class _ItemsListState extends State<ItemsList> {
         separatorBuilder: (context, index) => const Divider(),
         itemBuilder: (context, index) {
           if (index < _list.length) {
-            return _ItemsTitleWidget(model: _list[index]);
+            return ItemsTitleWidget(
+              model: _list[index],
+              onDoubleTap: (model) => _showInfoPopup(model),
+            );
           }
           return AppLoadingWidget.centered();
         },
       ),
     );
   }
-}
 
-class _ItemsTitleWidget extends StatelessWidget {
-  const _ItemsTitleWidget({
-    Key? key,
-    required this.model,
-  }) : super(key: key);
-
-  final Item model;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.listTileBg,
-      child: InkWell(
-        onDoubleTap: () {
-          Navigator.pushNamed(context, DetailsPage.routeName,
-              arguments: DetailsPageArgs.mockItem());
-        },
-        child: ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(model.name),
-            ],
-          ),
-          subtitle: Text(model.fmtId),
-          leading: SquareImageBoxWidget(model.pictureUrl),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.keyboard_arrow_right),
-            ],
-          ),
-        ),
-      ),
-    );
+  Future<void> _showInfoPopup(Item model) async {
+    Navigator.pushNamed(context, DetailsPage.routeName,
+        arguments: DetailsPageArgs.mockItem());
   }
 }
