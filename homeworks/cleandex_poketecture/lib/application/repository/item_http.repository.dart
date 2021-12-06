@@ -46,6 +46,6 @@ class ItemRepositoryHttp extends AbstractHttpRepository<Item>
   }
 
   Item fromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<MappableMapper<Item>>().fromMap(map);
+    return GetIt.I.get<EntityMapper<Item>>().fromMap(map);
   }
 }

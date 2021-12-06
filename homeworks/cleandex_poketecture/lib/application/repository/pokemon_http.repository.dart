@@ -60,10 +60,10 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
   }
 
   Pokemon _pokemonFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<MappableMapper<Pokemon>>().fromMap(map);
+    return GetIt.I.get<EntityMapper<Pokemon>>().fromMap(map);
   }
 
   PokemonInfo _pokemonInfoFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<MappableMapper<PokemonInfo>>().fromMap(map);
+    return GetIt.I.get<EntityMapper<PokemonInfo>>().fromMap(map);
   }
 }

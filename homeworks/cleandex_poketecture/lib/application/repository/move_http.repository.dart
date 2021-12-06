@@ -60,10 +60,10 @@ class MoveRepositoryHttp extends AbstractHttpRepository<Move>
   }
 
   Move _moveFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<MappableMapper<Move>>().fromMap(map);
+    return GetIt.I.get<EntityMapper<Move>>().fromMap(map);
   }
 
   MoveInfo _moveInfoFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<MappableMapper<MoveInfo>>().fromMap(map);
+    return GetIt.I.get<EntityMapper<MoveInfo>>().fromMap(map);
   }
 }

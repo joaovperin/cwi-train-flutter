@@ -1,6 +1,6 @@
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 
-abstract class AbstractHttpMapper<T> implements MappableMapper<T> {
+abstract class AbstractHttpMapper<T> implements EntityMapper<T> {
   const AbstractHttpMapper();
 
   int parseIdFromUrl(String url) {
