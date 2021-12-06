@@ -11,7 +11,7 @@ class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
       'id': entity.id,
       'name': entity.name,
       'type': entity.type.name,
-      'pictureUrl': entity.pictureUrl,
+      'pictureUrl': entity.picturePath,
       'description': entity.description,
       'power': entity.power,
       'pp': entity.pp,
@@ -21,13 +21,12 @@ class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
 
   @override
   MoveInfo fromMap(Map<String, dynamic> map) {
+    final type = moveTypeFromMap(map['type']);
     return MoveInfo(
       id: map['id'],
       name: moveNameFromList(map['names']),
-      type: moveTypeFromMap(map['type']),
-      // TODO: find images api por moves
-      pictureUrl:
-          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png',
+      type: type,
+      picturePath: 'assets/icons/elements/${type.name}.svg',
       description: moveDescriptionFromRootMap(map),
       power: map['power'] ?? 0,
       accuracy: map['accuracy'] ?? 0,

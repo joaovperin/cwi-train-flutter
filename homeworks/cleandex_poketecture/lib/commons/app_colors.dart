@@ -8,6 +8,7 @@ class AppColors {
   static const Color lightText = Color(0xFFA4A4A4);
   static const Color fadedText = Color(0x47000000);
   static const Color container = Colors.white;
+  static const Color containerShadow = Color(0x47000000);
   static const Color statusBar = Colors.transparent;
 
   static const Color listTileBg = Colors.transparent;

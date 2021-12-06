@@ -105,7 +105,7 @@ class _MoveListState extends State<MoveList> {
         arguments: DetailsPageArgs.move(
           title: model.name,
           subtitle: model.type.name,
-          imageUrl: model.pictureUrl,
+          picturePath: model.picturePath,
           description: model.description,
         ));
   }
