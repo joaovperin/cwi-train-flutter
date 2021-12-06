@@ -7,7 +7,7 @@ class Pokemon {
     return '#${id.toString().padLeft(3, "0")}';
   }
 
-  Pokemon({
+  const Pokemon({
     required this.id,
     required this.name,
     required this.pictureUrl,

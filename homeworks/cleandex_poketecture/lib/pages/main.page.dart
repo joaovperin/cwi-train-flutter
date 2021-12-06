@@ -2,7 +2,7 @@ import 'package:cleandex_poketecture/application/widgets/app_scaffold.widget.dar
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/pages/partials/items_list.widget.dart';
-import 'package:cleandex_poketecture/pages/partials/moves_list.widget.dart';
+import 'package:cleandex_poketecture/pages/partials/moves/move_list.widget.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_list.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,7 +27,7 @@ class _MainPageState extends State<MainPage> {
     _AppScreenItem(
       title: 'Moves',
       icon: 'moves.svg',
-      body: MovesList(),
+      body: MoveList(),
     ),
     _AppScreenItem(
       title: 'Items',

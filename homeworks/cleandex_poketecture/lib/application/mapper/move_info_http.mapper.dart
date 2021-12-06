@@ -25,12 +25,13 @@ class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
       id: map['id'],
       name: moveNameFromList(map['names']),
       type: moveTypeFromMap(map['type']),
+      // TODO: find images api por moves
       pictureUrl:
           'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png',
       description: moveDescriptionFromRootMap(map),
-      power: map['power'],
-      accuracy: map['accuracy'],
-      pp: map['pp'],
+      power: map['power'] ?? 0,
+      accuracy: map['accuracy'] ?? 0,
+      pp: map['pp'] ?? 0,
     );
   }
 

@@ -17,6 +17,7 @@ import 'package:cleandex_poketecture/domain/move/move_info.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<PokemonBloc>(create: (context) => PokemonBloc())
+        BlocProvider<PokemonBloc>(create: (context) => PokemonBloc()),
+        BlocProvider<MoveBloc>(create: (context) => MoveBloc())
       ],
       child: MaterialApp(
         title: 'Cleandex Pokétecture',
