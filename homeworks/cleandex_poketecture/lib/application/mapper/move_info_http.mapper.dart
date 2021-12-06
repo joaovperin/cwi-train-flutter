@@ -4,6 +4,7 @@ import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
 class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
   const MoveInfoHttpMapper() : super();
+  static final expressionsRegexp = RegExp(r'\$([\w\_]+)');
 
   @override
   Map<String, dynamic> toMap(MoveInfo entity) {
@@ -47,15 +48,9 @@ class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
         continue;
       }
       String effect = element['effect'];
-      final regexpExpressions = RegExp(r'\$([\w\_]+)');
-      regexpExpressions.allMatches(effect).forEach((match) {
-        final name = match.group(1);
-        if (name != null && map[name] != null) {
-          effect = effect.replaceAll('\$$name', map[name].toString());
-        }
-      });
       sb
-        ..write(effect) // TODO: expand tags ($effect_chance%)
+        ..write(effect.replaceAllMapped(
+            expressionsRegexp, (match) => map[match.group(1)].toString()))
         ..write('\n');
     }
 
