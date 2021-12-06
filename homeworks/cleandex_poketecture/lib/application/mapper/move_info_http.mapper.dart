@@ -46,7 +46,14 @@ class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
       if (element['language']['name'] != 'en') {
         continue;
       }
-      final effect = element['effect'];
+      String effect = element['effect'];
+      final regexpExpressions = RegExp(r'\$([\w\_]+)');
+      regexpExpressions.allMatches(effect).forEach((match) {
+        final name = match.group(1);
+        if (name != null && map[name] != null) {
+          effect = effect.replaceAll('\$$name', map[name].toString());
+        }
+      });
       sb
         ..write(effect) // TODO: expand tags ($effect_chance%)
         ..write('\n');
