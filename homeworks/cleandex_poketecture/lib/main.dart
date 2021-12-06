@@ -1,5 +1,6 @@
 import 'package:cleandex_poketecture/application/mapper/item_http.mapper.dart';
 import 'package:cleandex_poketecture/application/mapper/move_http.mapper.dart';
+import 'package:cleandex_poketecture/application/mapper/move_info_http.mapper.dart';
 import 'package:cleandex_poketecture/application/mapper/pokemon_http.mapper.dart';
 import 'package:cleandex_poketecture/application/mapper/pokemon_info_http.mapper.dart';
 import 'package:cleandex_poketecture/application/repository/item_http.repository.dart';
@@ -12,6 +13,7 @@ import 'package:cleandex_poketecture/domain/item/item.dart';
 import 'package:cleandex_poketecture/domain/item/item.repository.dart';
 import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
+import 'package:cleandex_poketecture/domain/move/move_info.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
@@ -37,6 +39,8 @@ void _registerDependencies() {
 
   GetIt.I.registerLazySingleton<MappableMapper<PokemonInfo>>(
       () => const PokemonInfoHttpMapper());
+  GetIt.I.registerLazySingleton<MappableMapper<MoveInfo>>(
+      () => const MoveInfoHttpMapper());
 
   GetIt.I.registerSingleton<Dio>(Dio());
 }

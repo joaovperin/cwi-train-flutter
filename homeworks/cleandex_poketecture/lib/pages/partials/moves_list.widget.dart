@@ -50,8 +50,18 @@ class _MovesListState extends State<MovesList> {
             color: AppColors.listTileBg,
             child: InkWell(
               onDoubleTap: () {
-                Navigator.pushNamed(context, DetailsPage.routeName,
-                    arguments: DetailsPageArgs.mockMove());
+                moveRepository.findInfoById(model.id).then((value) {
+                  if (value == null) {
+                    return;
+                  }
+                  Navigator.pushNamed(context, DetailsPage.routeName,
+                      arguments: DetailsPageArgs.move(
+                        title: value.name,
+                        subtitle: value.type.name,
+                        imageUrl: value.pictureUrl,
+                        description: value.description,
+                      ));
+                });
               },
               child: ListTile(
                 title: Row(

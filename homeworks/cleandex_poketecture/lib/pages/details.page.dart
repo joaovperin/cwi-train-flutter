@@ -36,6 +36,20 @@ If used in a trainer battle, nothing happens and the ball is lost.''',
         description: '''Inflicts regular damage. Has a 10% chance to
 lower the target's Speed by one stage.''',
       );
+
+  factory DetailsPageArgs.move({
+    required String imageUrl,
+    required String title,
+    required String subtitle,
+    required String description,
+  }) =>
+      DetailsPageArgs(
+        imageUrl: imageUrl,
+        colors: AppColors.detailsPagePokeGradient,
+        title: title,
+        subtitle: subtitle,
+        description: description,
+      );
 }
 
 class DetailsPage extends StatefulWidget {
