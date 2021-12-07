@@ -9,6 +9,7 @@ class ItemHttpMapper extends AbstractHttpMapper<Item> {
     return {
       'id': entity.id,
       'name': entity.name,
+      'cost': entity.cost,
       'description': entity.description,
       'pictureUrl': entity.pictureUrl,
     };
@@ -19,6 +20,7 @@ class ItemHttpMapper extends AbstractHttpMapper<Item> {
     return Item(
       id: map['id'],
       name: nameFromList(map['names']),
+      cost: map['cost'],
       pictureUrl: map['sprites']['default'],
       description: descriptionFromRootMap(map),
     );
@@ -30,7 +32,7 @@ class ItemHttpMapper extends AbstractHttpMapper<Item> {
   }
 
   String descriptionFromRootMap(Map<String, dynamic> map) {
-    final List<dynamic> list = map['flavor_text_entries'];
+    final List<dynamic> list = map['effect_entries'];
     final sb = StringBuffer();
 
     final elm = list.firstWhere(
@@ -38,7 +40,7 @@ class ItemHttpMapper extends AbstractHttpMapper<Item> {
         orElse: () => '');
 
     return (sb
-          ..write(elm['text'])
+          ..write(elm['effect'])
           ..write('\n'))
         .toString();
   }
