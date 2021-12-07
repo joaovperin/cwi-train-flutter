@@ -1,6 +1,6 @@
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 
-abstract class AbstractHttpMapper<T> implements MappableMapper<T> {
+abstract class AbstractHttpMapper<T> implements EntityMapper<T> {
   const AbstractHttpMapper();
 
   int parseIdFromUrl(String url) {
@@ -9,9 +9,11 @@ abstract class AbstractHttpMapper<T> implements MappableMapper<T> {
   }
 
   String formatName(String name) {
-    return name
-        .split('-')
-        .map((e) => e[0].toUpperCase() + e.substring(1))
-        .join(' ');
+    return name.split('-').map((e) {
+      if (e.length > 1) {
+        return e[0].toUpperCase() + e.substring(1);
+      }
+      return e;
+    }).join(' ');
   }
 }

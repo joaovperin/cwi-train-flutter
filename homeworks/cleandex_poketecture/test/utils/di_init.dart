@@ -20,12 +20,12 @@ void registerDependencies() {
   GetIt.I.registerSingleton<PokemonRepository>(PokemonRepositoryHttp());
   GetIt.I.registerSingleton<MoveRepository>(MoveRepositoryHttp());
   GetIt.I.registerSingleton<ItemRepository>(ItemRepositoryHttp());
-  GetIt.I.registerFactory<MappableMapper<Pokemon>>(
+  GetIt.I.registerFactory<EntityMapper<Pokemon>>(
       () => const PokemonHttpMapper());
-  GetIt.I.registerFactory<MappableMapper<Move>>(() => const MoveHttpMapper());
-  GetIt.I.registerFactory<MappableMapper<Item>>(() => const ItemHttpMapper());
+  GetIt.I.registerFactory<EntityMapper<Move>>(() => const MoveHttpMapper());
+  GetIt.I.registerFactory<EntityMapper<Item>>(() => const ItemHttpMapper());
 
-  GetIt.I.registerLazySingleton<MappableMapper<PokemonInfo>>(
+  GetIt.I.registerLazySingleton<EntityMapper<PokemonInfo>>(
       () => const PokemonInfoHttpMapper());
 
   GetIt.I.registerSingleton<Dio>(Dio());

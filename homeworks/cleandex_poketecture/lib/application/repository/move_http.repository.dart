@@ -2,6 +2,8 @@ import 'package:cleandex_poketecture/application/infra/abstract_http.repository.
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
+import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -9,43 +11,59 @@ class MoveRepositoryHttp extends AbstractHttpRepository<Move>
     implements MoveRepository {
   MoveRepositoryHttp() : super('move');
 
-  static const maxResultCount = 300;
+  bool searchMatches(Move e, String search) =>
+      e.name.toLowerCase().contains(search);
 
   @override
-  Future<List<Move>> findAll() async {
-    final http = GetIt.I.get<Dio>();
+  Future<List<Move>> findAll({String? search}) async {
     final list = <Move>[];
-
-    final response = await http.get('$url?limit=$maxResultCount');
-
-    var json = response.data;
-
-    List<dynamic>? results = json['results'];
-    while (results != null && results.isNotEmpty) {
-      list.addAll(results.map((map) => fromMap(map)));
-
-      if (json['next'] != null) {
-        json = (await http.get(json['next'])).data;
+    var pageNumber = 0;
+    while (true) {
+      final page = await findPage(page: pageNumber++, size: 150);
+      if (search != null && search.trim().isNotEmpty) {
+        final searchTerm = search.trim().toLowerCase();
+        list.addAll(page.results.where((e) => searchMatches(e, searchTerm)));
       } else {
-        break;
+        list.addAll(page.results);
       }
-
-      if (list.length >= maxResultCount) {
+      if (page.isLastPage) {
         break;
       }
     }
-
     return list;
   }
 
   @override
-  Future<Move?> findById(int id) async {
+  Future<MoveInfo?> findInfoById(int id) async {
     final http = GetIt.I.get<Dio>();
     final response = await http.get('$url/$id');
-    return fromMap(response.data);
+    if (response.data != null) {
+      return _moveInfoFromMap(response.data);
+    }
   }
 
-  Move fromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<MappableMapper<Move>>().fromMap(map);
+  @override
+  Future<PaginatedSearchResult<Move>> findPage({
+    required int page,
+    required int size,
+  }) async {
+    final http = GetIt.I.get<Dio>();
+    final response = await http.get('$url?offset=${page * size}&limit=$size');
+
+    final json = response.data;
+    return PaginatedSearchResult<Move>(
+      count: json['count'],
+      results: [...json['results'].map((map) => _moveFromMap(map))],
+      next: json['next'],
+      previous: json['previous'],
+    );
+  }
+
+  Move _moveFromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<EntityMapper<Move>>().fromMap(map);
+  }
+
+  MoveInfo _moveInfoFromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<EntityMapper<MoveInfo>>().fromMap(map);
   }
 }

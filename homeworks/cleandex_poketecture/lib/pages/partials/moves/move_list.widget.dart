@@ -2,37 +2,37 @@ import 'package:cleandex_poketecture/application/ui/scroll_and_drag_scroll_behav
 import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_info_dialog.widget.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_tile.widget.dart';
+import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/pages/details.page.dart';
+import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_bloc.dart';
+import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_events.dart';
+import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_states.dart';
+import 'package:cleandex_poketecture/pages/partials/moves/move_tile.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PokemonList extends StatefulWidget with WidgetWithSearchableBlock {
-  const PokemonList({Key? key}) : super(key: key);
+class MoveList extends StatefulWidget with WidgetWithSearchableBlock {
+  const MoveList({Key? key}) : super(key: key);
 
   @override
-  PokemonBloc getBloc(BuildContext context) {
-    return BlocProvider.of<PokemonBloc>(context);
+  MoveBloc getBloc(BuildContext context) {
+    return BlocProvider.of<MoveBloc>(context);
   }
 
   @override
-  State<PokemonList> createState() => _PokemonListState();
+  State<MoveList> createState() => _MoveListState();
 }
 
-class _PokemonListState extends State<PokemonList> {
-  late PokemonBloc _pokeBloc;
+class _MoveListState extends State<MoveList> {
+  late MoveBloc _bloc;
   final ScrollController _scrollCtrl = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _pokeBloc = widget.getBloc(context);
-    _pokeBloc.add(const PokemonFetchFirstPageEvent());
+    _bloc = widget.getBloc(context);
+    _bloc.add(const MoveFetchFirstPageEvent());
   }
 
   @override
@@ -40,22 +40,13 @@ class _PokemonListState extends State<PokemonList> {
     super.dispose();
   }
 
-  Future<void> _showInfoPopup(PokemonInfo model) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return PokemonInfoDialog(model);
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.container,
-      child: BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
+      child: BlocBuilder<MoveBloc, MoveState>(builder: (context, state) {
         // If the state has data, show it
-        if (state is PokemonListState) {
+        if (state is MoveListState) {
           final list = state.list;
           return NotificationListener<ScrollNotification>(
             onNotification: (scroll) => _onScrollNotification(scroll, state),
@@ -67,7 +58,7 @@ class _PokemonListState extends State<PokemonList> {
                 separatorBuilder: (context, index) => const Divider(),
                 itemBuilder: (context, index) {
                   if (index < list.length) {
-                    return PokemonTileWidget(
+                    return MoveTileWidget(
                       model: list[index],
                       onDoubleTap: (model) => _showInfoPopup(model),
                     );
@@ -79,15 +70,15 @@ class _PokemonListState extends State<PokemonList> {
           );
         }
 
-        if (state is PokemonLoadingState) {
+        if (state is MoveLoadingState) {
           return AppLoadingWidget.centered();
         }
 
         var message = 'Something went wrong';
-        if (state is PokemonFailState) {
+        if (state is MoveFailState) {
           message = state.message;
         }
-        // By default, state is PokemonFailedState (error)
+        // By default, state is MoveFailedState (error)
         return Container(
           color: AppColors.container,
           child: Center(child: Text(message)),
@@ -98,13 +89,23 @@ class _PokemonListState extends State<PokemonList> {
 
   bool _onScrollNotification(
     ScrollNotification scroll,
-    PokemonListState state,
+    MoveListState state,
   ) {
     if (scroll is ScrollEndNotification &&
         _scrollCtrl.position.extentAfter == 0 &&
         !state.noMoreResults) {
-      _pokeBloc.add(PokemonFetchPageEvent.next(state.list));
+      _bloc.add(MoveFetchPageEvent.next(state.list));
     }
     return false;
+  }
+
+  Future<void> _showInfoPopup(MoveInfo model) async {
+    Navigator.pushNamed(context, DetailsPage.routeName,
+        arguments: DetailsPageArgs.move(
+          title: model.name,
+          subtitle: model.type.name,
+          picturePath: model.picturePath,
+          description: model.description,
+        ));
   }
 }

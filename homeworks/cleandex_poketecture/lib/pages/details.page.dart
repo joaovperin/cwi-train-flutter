@@ -1,15 +1,17 @@
+import 'package:cleandex_poketecture/application/widgets/app_round_chip.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DetailsPageArgs {
-  final String imageUrl;
+  final Widget image;
   final List<Color> colors;
   final String title;
   final String subtitle;
   final String description;
 
   const DetailsPageArgs({
-    required this.imageUrl,
+    required this.image,
     required this.colors,
     required this.title,
     required this.subtitle,
@@ -17,24 +19,38 @@ class DetailsPageArgs {
   });
 
   factory DetailsPageArgs.mockItem() => const DetailsPageArgs(
-        imageUrl:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png',
         colors: AppColors.detailsPageItemsGradient,
         title: 'Ultra Ball',
         subtitle: '1200 ¥',
         description: '''Used in Battle\n
 Attempts to catch a wild Pokémon, using a catch rate of 2x.
 If used in a trainer battle, nothing happens and the ball is lost.''',
+        image: AppRoundNetworkImage(
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png'),
       );
 
   factory DetailsPageArgs.mockMove() => const DetailsPageArgs(
-        imageUrl:
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png',
         colors: AppColors.detailsPagePokeGradient,
         title: 'Bubble',
         subtitle: 'WATER',
         description: '''Inflicts regular damage. Has a 10% chance to
 lower the target's Speed by one stage.''',
+        image: AppRoundNetworkImage(
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png'),
+      );
+
+  factory DetailsPageArgs.move({
+    required String picturePath,
+    required String title,
+    required String subtitle,
+    required String description,
+  }) =>
+      DetailsPageArgs(
+        colors: AppColors.detailsPagePokeGradient,
+        title: title,
+        subtitle: subtitle,
+        description: description,
+        image: AppRoundAssetImage(picturePath, AppColors.dragon),
       );
 }
 
@@ -56,6 +72,20 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.light,
+          statusBarColor: AppColors.statusBar,
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -67,11 +97,11 @@ class _DetailsPageState extends State<DetailsPage> {
         child: Column(
           children: [
             Flexible(
-              flex: 10,
+              flex: 12,
               child: DetailsTopWidget(widget.args),
             ),
             Expanded(
-              flex: 31,
+              flex: 33,
               child: DetailsBottomWidget(widget.args),
             ),
           ],
@@ -96,8 +126,9 @@ class DetailsTopWidget extends StatelessWidget {
         Column(
           children: [
             Flexible(flex: 4, child: Container()),
-            Flexible(
+            Expanded(
               child: Container(
+                height: double.infinity,
                 decoration: const BoxDecoration(
                   color: AppColors.cardColor,
                   borderRadius: BorderRadius.only(
@@ -111,16 +142,9 @@ class DetailsTopWidget extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            width: 128,
-            height: 128,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(args.imageUrl),
-                fit: BoxFit.fill,
-              ),
-            ),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: args.image,
           ),
           // child: SquareImageBoxWidget(imageUrl),
         ),

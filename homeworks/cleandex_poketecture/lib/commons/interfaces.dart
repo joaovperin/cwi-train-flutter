@@ -16,8 +16,8 @@ mixin Searchable {
   void onSearch(String searchText);
 }
 
-abstract class MappableMapper<T> {
-  const MappableMapper._();
+abstract class EntityMapper<T> {
+  const EntityMapper._();
 
   Map<String, dynamic> toMap(T entity);
   T fromMap(Map<String, dynamic> map);
