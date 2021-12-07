@@ -9,18 +9,39 @@ class ItemHttpMapper extends AbstractHttpMapper<Item> {
     return {
       'id': entity.id,
       'name': entity.name,
+      'cost': entity.cost,
+      'description': entity.description,
       'pictureUrl': entity.pictureUrl,
     };
   }
 
   @override
   Item fromMap(Map<String, dynamic> map) {
-    final name = map['name'];
     return Item(
-      id: parseIdFromUrl(map['url']),
-      name: formatName(name),
-      pictureUrl:
-          'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/$name.png',
+      id: map['id'],
+      name: nameFromList(map['names']),
+      cost: map['cost'],
+      pictureUrl: map['sprites']['default'],
+      description: descriptionFromRootMap(map),
     );
+  }
+
+  String nameFromList(List<dynamic> list) {
+    return list
+        .firstWhere((element) => element['language']['name'] == 'en')['name'];
+  }
+
+  String descriptionFromRootMap(Map<String, dynamic> map) {
+    final List<dynamic> list = map['effect_entries'];
+    final sb = StringBuffer();
+
+    final elm = list.firstWhere(
+        (element) => element['language']['name'] == 'en',
+        orElse: () => '');
+
+    return (sb
+          ..write(elm['effect'])
+          ..write('\n'))
+        .toString();
   }
 }

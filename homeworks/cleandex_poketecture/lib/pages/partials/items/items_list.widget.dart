@@ -1,12 +1,13 @@
+import 'package:cleandex_poketecture/application/infra/bloc/generic_list_bloc_events.dart';
+import 'package:cleandex_poketecture/application/infra/bloc/generic_list_bloc_states.dart';
 import 'package:cleandex_poketecture/application/ui/scroll_and_drag_scroll_behaviour.dart';
 import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/item/item_info.dart';
+import 'package:cleandex_poketecture/domain/item/item.dart';
+import 'package:cleandex_poketecture/domain/item/item_details.dart';
 import 'package:cleandex_poketecture/pages/details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/items/bloc/item_bloc.dart';
-import 'package:cleandex_poketecture/pages/partials/items/bloc/item_events.dart';
-import 'package:cleandex_poketecture/pages/partials/items/bloc/item_states.dart';
 import 'package:cleandex_poketecture/pages/partials/items/item_tile.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class _ItemsListState extends State<ItemsList> {
   void initState() {
     super.initState();
     _bloc = widget.getBloc(context);
-    _bloc.add(const ItemFetchFirstPageEvent());
+    _bloc.add(AppBlocFetchFirstPageEvent<Item>());
   }
 
   @override
@@ -41,11 +42,11 @@ class _ItemsListState extends State<ItemsList> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.container,
-      child: BlocBuilder<ItemBloc, ItemState>(
+      child: BlocBuilder<ItemBloc, AppBlocState<Item>>(
           bloc: _bloc,
           builder: (context, state) {
             // If the state has data, show it
-            if (state is ItemListState) {
+            if (state is AppBlocListState<Item>) {
               final list = state.list;
               return NotificationListener<ScrollNotification>(
                 onNotification: (scroll) =>
@@ -61,7 +62,11 @@ class _ItemsListState extends State<ItemsList> {
                       if (index < list.length) {
                         return ItemsTitleWidget(
                           model: list[index],
-                          onDoubleTap: (model) => _showInfoPopup(model),
+                          onDoubleTap: (model) {
+                            _bloc.loadDetails(model).then((details) {
+                              _showInfoPopup(model, details);
+                            });
+                          },
                         );
                       }
                       return AppLoadingWidget.centered();
@@ -71,12 +76,12 @@ class _ItemsListState extends State<ItemsList> {
               );
             }
 
-            if (state is ItemLoadingState) {
+            if (state is AppBlocLoadingState<Item>) {
               return AppLoadingWidget.centered();
             }
 
             var message = 'Something went wrong';
-            if (state is ItemFailState) {
+            if (state is AppBlocFailState<Item>) {
               message = state.message;
             }
             // By default, state is ItemFailedState (error)
@@ -90,18 +95,23 @@ class _ItemsListState extends State<ItemsList> {
 
   bool _onScrollNotification(
     ScrollNotification scroll,
-    ItemListState state,
+    AppBlocListState<Item> state,
   ) {
     if (scroll is ScrollEndNotification &&
         _scrollCtrl.position.extentAfter == 0 &&
         !state.noMoreResults) {
-      _bloc.add(ItemFetchPageEvent.next(state.list));
+      _bloc.add(AppBlocFetchPageEvent<Item>.next(state.list));
     }
     return false;
   }
 
-  Future<void> _showInfoPopup(ItemInfo model) async {
+  Future<void> _showInfoPopup(Item model, ItemDetails _) async {
     Navigator.pushNamed(context, DetailsPage.routeName,
-        arguments: DetailsPageArgs.mockItem());
+        arguments: DetailsPageArgs.item(
+          title: model.name,
+          subtitle: model.fmtCost,
+          pictureUrl: model.pictureUrl,
+          description: model.description,
+        ));
   }
 }

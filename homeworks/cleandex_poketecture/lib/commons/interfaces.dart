@@ -1,3 +1,4 @@
+import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,4 +22,25 @@ abstract class EntityMapper<T> {
 
   Map<String, dynamic> toMap(T entity);
   T fromMap(Map<String, dynamic> map);
+}
+
+abstract class Entity<T> {
+  int get id;
+}
+
+abstract class ListRepository<MODEL extends Entity<MODEL>, MODEL_DETAILS> {
+  const ListRepository._();
+
+  Future<List<MODEL>> findAll({String? search});
+
+  Future<MODEL> findInfoById(int id);
+
+  Future<MODEL> findInfoByName(String name);
+
+  Future<PaginatedSearchResult<MODEL>> findPage({
+    required int page,
+    required int size,
+  });
+
+  Future<MODEL_DETAILS> findDetailsById(int id);
 }

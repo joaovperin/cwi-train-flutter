@@ -1,8 +1,8 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
-import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/domain/move/move_details.dart';
+import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -34,12 +34,17 @@ class MoveRepositoryHttp extends AbstractHttpRepository<Move>
   }
 
   @override
-  Future<MoveInfo?> findInfoById(int id) async {
+  Future<Move> findInfoById(int id) async {
     final http = GetIt.I.get<Dio>();
     final response = await http.get('$url/$id');
-    if (response.data != null) {
-      return _moveInfoFromMap(response.data);
-    }
+    return _fromMap(response.data);
+  }
+
+  @override
+  Future<Move> findInfoByName(String name) async {
+    final http = GetIt.I.get<Dio>();
+    final response = await http.get('$url/$name');
+    return _fromMap(response.data);
   }
 
   @override
@@ -53,17 +58,34 @@ class MoveRepositoryHttp extends AbstractHttpRepository<Move>
     final json = response.data;
     return PaginatedSearchResult<Move>(
       count: json['count'],
-      results: [...json['results'].map((map) => _moveFromMap(map))],
+      results: await _promoteAndSort(json['results']),
       next: json['next'],
       previous: json['previous'],
     );
   }
 
-  Move _moveFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<EntityMapper<Move>>().fromMap(map);
+  @override
+  Future<MoveDetails> findDetailsById(int id) async {
+    final http = GetIt.I.get<Dio>();
+    final response = await http.get('$url/$id');
+    return _detailsFromMap(response.data);
   }
 
-  MoveInfo _moveInfoFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<EntityMapper<MoveInfo>>().fromMap(map);
+  Future<List<Move>> _promoteAndSort(List<dynamic> list) async {
+    final result = (await Stream.fromFutures(
+      list.map((p) {
+        return findInfoByName(p['name']);
+      }),
+    ).toList());
+    result.sort((a, b) => a.id.compareTo(b.id));
+    return result;
+  }
+
+  MoveDetails _detailsFromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<EntityMapper<MoveDetails>>().fromMap(map);
+  }
+
+  Move _fromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<EntityMapper<Move>>().fromMap(map);
   }
 }

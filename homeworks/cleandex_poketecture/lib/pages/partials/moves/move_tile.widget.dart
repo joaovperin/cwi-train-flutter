@@ -1,6 +1,6 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:flutter/material.dart';
 
 class MoveTileWidget extends StatelessWidget {
@@ -10,8 +10,8 @@ class MoveTileWidget extends StatelessWidget {
     required this.onDoubleTap,
   }) : super(key: key);
 
-  final MoveInfo model;
-  final OnTapFn<MoveInfo> onDoubleTap;
+  final Move model;
+  final OnTapFn<Move> onDoubleTap;
 
   @override
   Widget build(BuildContext context) {

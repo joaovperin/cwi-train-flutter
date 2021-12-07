@@ -18,27 +18,6 @@ class DetailsPageArgs {
     required this.description,
   });
 
-  factory DetailsPageArgs.mockItem() => const DetailsPageArgs(
-        colors: AppColors.detailsPageItemsGradient,
-        title: 'Ultra Ball',
-        subtitle: '1200 ¥',
-        description: '''Used in Battle\n
-Attempts to catch a wild Pokémon, using a catch rate of 2x.
-If used in a trainer battle, nothing happens and the ball is lost.''',
-        image: AppRoundNetworkImage(
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png'),
-      );
-
-  factory DetailsPageArgs.mockMove() => const DetailsPageArgs(
-        colors: AppColors.detailsPagePokeGradient,
-        title: 'Bubble',
-        subtitle: 'WATER',
-        description: '''Inflicts regular damage. Has a 10% chance to
-lower the target's Speed by one stage.''',
-        image: AppRoundNetworkImage(
-            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png'),
-      );
-
   factory DetailsPageArgs.move({
     required String picturePath,
     required String title,
@@ -51,6 +30,20 @@ lower the target's Speed by one stage.''',
         subtitle: subtitle,
         description: description,
         image: AppRoundAssetImage(picturePath, AppColors.dragon),
+      );
+
+  factory DetailsPageArgs.item({
+    required String pictureUrl,
+    required String title,
+    required String subtitle,
+    required String description,
+  }) =>
+      DetailsPageArgs(
+        colors: AppColors.detailsPagePokeGradient,
+        title: title,
+        subtitle: subtitle,
+        description: description,
+        image: AppRoundNetworkImage(pictureUrl),
       );
 }
 
@@ -186,11 +179,7 @@ class DetailsBottomWidget extends StatelessWidget {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Wrap(
-                runSpacing: 12,
-                alignment: WrapAlignment.center,
-                children: _buildDetailsFromText(args.description),
-              ),
+              child: _buildDetailsFromText(args.description),
             ),
           ),
           Expanded(
@@ -205,18 +194,23 @@ class DetailsBottomWidget extends StatelessWidget {
   }
 }
 
-List<Widget> _buildDetailsFromText(String text) {
+Widget _buildDetailsFromText(String text) {
   final _list = <Widget>[];
-  for (final _line in text.split('\n')) {
-    if (_line.isEmpty) {
-      _list.add(const SizedBox(height: 32));
-      continue;
+  final input = text.replaceAll(':', '\n').split('\n');
+  for (final _line in input) {
+    if (_line.isNotEmpty) {
+      _list.add(FittedBox(
+        child: Text(
+          _line.trim(),
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 16, color: AppColors.lightText),
+        ),
+      ));
+    } else {
+      _list.add(const SizedBox(height: 4));
     }
-    _list.add(Text(
-      _line,
-      textAlign: TextAlign.center,
-      style: const TextStyle(fontSize: 16, color: AppColors.lightText),
-    ));
   }
-  return _list;
+  return Column(
+    children: _list,
+  );
 }

@@ -1,7 +1,9 @@
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
-class Pokemon {
+class Pokemon implements Entity<Pokemon> {
+  @override
   final int id;
   final int order;
   final String name;
