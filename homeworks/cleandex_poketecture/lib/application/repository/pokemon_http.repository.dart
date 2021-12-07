@@ -1,8 +1,8 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -34,12 +34,17 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
   }
 
   @override
-  Future<PokemonInfo?> findInfoById(int id) async {
+  Future<Pokemon> findInfoById(int id) async {
     final http = GetIt.I.get<Dio>();
     final response = await http.get('$url/$id');
-    if (response.data != null) {
-      return _pokemonInfoFromMap(response.data);
-    }
+    return _pokemonInfoFromMap(response.data);
+  }
+
+  @override
+  Future<Pokemon> findInfoByName(String name) async {
+    final http = GetIt.I.get<Dio>();
+    final response = await http.get('$url/$name');
+    return _pokemonInfoFromMap(response.data);
   }
 
   @override
@@ -53,17 +58,40 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     final json = response.data;
     return PaginatedSearchResult<Pokemon>(
       count: json['count'],
-      results: [...json['results'].map((map) => _pokemonFromMap(map))],
+      results: await _promoteAndSort(json['results']),
       next: json['next'],
       previous: json['previous'],
     );
   }
 
-  Pokemon _pokemonFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<EntityMapper<Pokemon>>().fromMap(map);
+  @override
+  Future<PokemonDetails> findDetailsById(int id) async {
+    final http = GetIt.I.get<Dio>();
+    final info = await findInfoById(id);
+
+    final pokeType = info.types.first;
+    final response = await http.get(
+      '$baseUrl/type/${pokeType.type.name}',
+    );
+
+    return _detailsFromMap(response.data);
   }
 
-  PokemonInfo _pokemonInfoFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<EntityMapper<PokemonInfo>>().fromMap(map);
+  Future<List<Pokemon>> _promoteAndSort(List<dynamic> list) async {
+    final result = (await Stream.fromFutures(
+      list.map((p) {
+        return findInfoByName(p['name']);
+      }),
+    ).toList());
+    result.sort((a, b) => a.id.compareTo(b.id));
+    return result;
+  }
+
+  PokemonDetails _detailsFromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<EntityMapper<PokemonDetails>>().fromMap(map);
+  }
+
+  Pokemon _pokemonInfoFromMap(Map<String, dynamic> map) {
+    return GetIt.I.get<EntityMapper<Pokemon>>().fromMap(map);
   }
 }

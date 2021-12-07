@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_data_source.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
 
@@ -46,6 +48,10 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
     } else {
       add(PokemonSearchEvent(searchText));
     }
+  }
+
+  Future<PokemonDetails> loadPokemonDetails(Pokemon model) async {
+    return _dataSource.findDetails(model);
   }
 
   void resetCounter() {

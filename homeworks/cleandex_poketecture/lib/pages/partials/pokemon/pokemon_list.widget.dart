@@ -2,11 +2,12 @@ import 'package:cleandex_poketecture/application/ui/scroll_and_drag_scroll_behav
 import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_info_dialog.widget.dart';
+import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_weaknesses.dialog.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_tile.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +41,11 @@ class _PokemonListState extends State<PokemonList> {
     super.dispose();
   }
 
-  Future<void> _showInfoPopup(PokemonInfo model) async {
+  Future<void> _showInfoPopup(Pokemon model, PokemonDetails details) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return PokemonInfoDialog(model);
+        return PokemonWeaknessesDialog(model, details);
       },
     );
   }
@@ -69,7 +70,11 @@ class _PokemonListState extends State<PokemonList> {
                   if (index < list.length) {
                     return PokemonTileWidget(
                       model: list[index],
-                      onDoubleTap: (model) => _showInfoPopup(model),
+                      onDoubleTap: (model) {
+                        _pokeBloc.loadPokemonDetails(model).then((details) {
+                          _showInfoPopup(model, details);
+                        });
+                      },
                     );
                   }
                   return AppLoadingWidget.centered();

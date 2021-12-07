@@ -1,4 +1,4 @@
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 
 abstract class PokemonEvent {
   const PokemonEvent();
@@ -14,9 +14,9 @@ class PokemonFetchFirstPageEvent extends PokemonFetchPageEvent {
 }
 
 class PokemonFetchPageEvent extends PokemonEvent {
-  final List<PokemonInfo> currentList;
+  final List<Pokemon> currentList;
   const PokemonFetchPageEvent._(this.currentList);
 
-  const factory PokemonFetchPageEvent.next(List<PokemonInfo> currentList) =
+  const factory PokemonFetchPageEvent.next(List<Pokemon> currentList) =
       PokemonFetchPageEvent._;
 }
