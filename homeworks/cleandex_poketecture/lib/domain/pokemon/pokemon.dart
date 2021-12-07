@@ -1,7 +1,7 @@
 import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
-class PokemonInfo {
+class Pokemon {
   final int id;
   final int order;
   final String name;
@@ -21,7 +21,7 @@ class PokemonInfo {
     return '#${id.toString().padLeft(3, "0")}';
   }
 
-  const PokemonInfo({
+  const Pokemon({
     required this.id,
     required this.order,
     required this.name,

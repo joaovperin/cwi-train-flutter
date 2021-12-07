@@ -1,13 +1,13 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
 import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
-class PokemonInfoHttpMapper extends AbstractHttpMapper<PokemonInfo> {
+class PokemonInfoHttpMapper extends AbstractHttpMapper<Pokemon> {
   const PokemonInfoHttpMapper() : super();
 
   @override
-  Map<String, dynamic> toMap(PokemonInfo entity) {
+  Map<String, dynamic> toMap(Pokemon entity) {
     return {
       'id': entity.id,
       'name': entity.name,
@@ -16,8 +16,8 @@ class PokemonInfoHttpMapper extends AbstractHttpMapper<PokemonInfo> {
   }
 
   @override
-  PokemonInfo fromMap(Map<String, dynamic> map) {
-    return PokemonInfo(
+  Pokemon fromMap(Map<String, dynamic> map) {
+    return Pokemon(
       id: map['id'],
       order: map['order'],
       name: formatName(map['name']),

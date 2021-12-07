@@ -3,7 +3,7 @@ import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
@@ -41,7 +41,7 @@ class _PokemonListState extends State<PokemonList> {
     super.dispose();
   }
 
-  Future<void> _showInfoPopup(PokemonInfo model, PokemonDetails details) async {
+  Future<void> _showInfoPopup(Pokemon model, PokemonDetails details) async {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {

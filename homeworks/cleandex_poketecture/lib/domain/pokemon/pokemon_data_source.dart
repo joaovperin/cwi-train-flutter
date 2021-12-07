@@ -1,6 +1,6 @@
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:get_it/get_it.dart';
 
 class PokemonDataSource {
@@ -14,15 +14,15 @@ class PokemonDataSource {
       : currentPage = 0,
         rowsCount = 0;
 
-  Future<List<PokemonInfo>> searchByName(String search) async {
+  Future<List<Pokemon>> searchByName(String search) async {
     return _pokemonRepository.findAll(search: search);
   }
 
-  Future<PokemonDetails> findDetails(PokemonInfo modelInfo) {
+  Future<PokemonDetails> findDetails(Pokemon modelInfo) {
     return _pokemonRepository.findDetailsById(modelInfo.id);
   }
 
-  Future<List<PokemonInfo>> fetchNextPage() async {
+  Future<List<Pokemon>> fetchNextPage() async {
     final page = await _pokemonRepository.findPage(
       page: currentPage++,
       size: itemsPerPage,

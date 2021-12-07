@@ -16,7 +16,7 @@ import 'package:cleandex_poketecture/domain/move/move.repository.dart';
 import 'package:cleandex_poketecture/domain/move/move_info.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,7 +26,7 @@ void registerDependencies() {
   GetIt.I.registerSingleton<ItemRepository>(ItemRepositoryHttp());
   GetIt.I.registerFactory<EntityMapper<Move>>(() => const MoveHttpMapper());
   GetIt.I.registerFactory<EntityMapper<Item>>(() => const ItemHttpMapper());
-  GetIt.I.registerFactory<EntityMapper<PokemonInfo>>(
+  GetIt.I.registerFactory<EntityMapper<Pokemon>>(
       () => const PokemonInfoHttpMapper());
 
   GetIt.I.registerLazySingleton<EntityMapper<PokemonDetails>>(
