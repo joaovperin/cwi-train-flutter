@@ -10,8 +10,8 @@ class MoveTileWidget extends StatelessWidget {
     required this.onDoubleTap,
   }) : super(key: key);
 
-  final MoveInfo model;
-  final OnTapFn<MoveInfo> onDoubleTap;
+  final Move model;
+  final OnTapFn<Move> onDoubleTap;
 
   @override
   Widget build(BuildContext context) {

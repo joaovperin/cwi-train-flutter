@@ -47,7 +47,7 @@ abstract class GenericListBloc<MODEL extends Entity<MODEL>, DETAILS>
     }
   }
 
-  Future<DETAILS> loadPokemonDetails(MODEL model) async {
+  Future<DETAILS> loadDetails(MODEL model) async {
     return dataSource.findDetails(model);
   }
 

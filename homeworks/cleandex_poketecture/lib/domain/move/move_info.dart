@@ -1,6 +1,8 @@
+import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
-class MoveInfo {
+class Move implements Entity<Move> {
+  @override
   final int id;
   final String name;
   final NameUrlPair type;
@@ -10,7 +12,7 @@ class MoveInfo {
   final int accuracy;
   final int pp;
 
-  const MoveInfo({
+  const Move({
     required this.id,
     required this.name,
     required this.type,

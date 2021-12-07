@@ -26,14 +26,14 @@ class PokemonList extends StatefulWidget with WidgetWithSearchableBlock {
 }
 
 class _PokemonListState extends State<PokemonList> {
-  late PokemonBloc _pokeBloc;
+  late PokemonBloc _bloc;
   final ScrollController _scrollCtrl = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _pokeBloc = widget.getBloc(context);
-    _pokeBloc.add(AppBlocFetchFirstPageEvent<Pokemon>());
+    _bloc = widget.getBloc(context);
+    _bloc.add(AppBlocFetchFirstPageEvent<Pokemon>());
   }
 
   @override
@@ -72,7 +72,7 @@ class _PokemonListState extends State<PokemonList> {
                     return PokemonTileWidget(
                       model: list[index],
                       onDoubleTap: (model) {
-                        _pokeBloc.loadPokemonDetails(model).then((details) {
+                        _bloc.loadDetails(model).then((details) {
                           _showInfoPopup(model, details);
                         });
                       },
@@ -109,7 +109,7 @@ class _PokemonListState extends State<PokemonList> {
     if (scroll is ScrollEndNotification &&
         _scrollCtrl.position.extentAfter == 0 &&
         !state.noMoreResults) {
-      _pokeBloc.add(AppBlocFetchPageEvent<Pokemon>.next(state.list));
+      _bloc.add(AppBlocFetchPageEvent<Pokemon>.next(state.list));
     }
     return false;
   }

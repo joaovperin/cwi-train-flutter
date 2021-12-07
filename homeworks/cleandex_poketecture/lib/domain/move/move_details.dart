@@ -1,8 +1,8 @@
-class Move {
+class MoveDetails {
   final int id;
   final String name;
 
-  const Move({
+  const MoveDetails({
     required this.id,
     required this.name,
   });

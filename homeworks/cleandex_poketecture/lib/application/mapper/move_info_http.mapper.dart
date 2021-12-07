@@ -2,12 +2,12 @@ import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart
 import 'package:cleandex_poketecture/domain/move/move_info.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
-class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
+class MoveInfoHttpMapper extends AbstractHttpMapper<Move> {
   const MoveInfoHttpMapper() : super();
   static final expressionsRegexp = RegExp(r'\$([\w\_]+)');
 
   @override
-  Map<String, dynamic> toMap(MoveInfo entity) {
+  Map<String, dynamic> toMap(Move entity) {
     return {
       'id': entity.id,
       'name': entity.name,
@@ -21,9 +21,9 @@ class MoveInfoHttpMapper extends AbstractHttpMapper<MoveInfo> {
   }
 
   @override
-  MoveInfo fromMap(Map<String, dynamic> map) {
+  Move fromMap(Map<String, dynamic> map) {
     final type = moveTypeFromMap(map['type']);
-    return MoveInfo(
+    return Move(
       id: map['id'],
       name: moveNameFromList(map['names']),
       type: type,

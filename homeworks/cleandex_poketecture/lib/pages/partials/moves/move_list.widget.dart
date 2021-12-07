@@ -1,12 +1,13 @@
+import 'package:cleandex_poketecture/application/infra/bloc/generic_list_bloc_events.dart';
+import 'package:cleandex_poketecture/application/infra/bloc/generic_list_bloc_states.dart';
 import 'package:cleandex_poketecture/application/ui/scroll_and_drag_scroll_behaviour.dart';
 import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
+import 'package:cleandex_poketecture/domain/move/move_details.dart';
 import 'package:cleandex_poketecture/domain/move/move_info.dart';
 import 'package:cleandex_poketecture/pages/details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_bloc.dart';
-import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_events.dart';
-import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_states.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/move_tile.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _MoveListState extends State<MoveList> {
   void initState() {
     super.initState();
     _bloc = widget.getBloc(context);
-    _bloc.add(const MoveFetchFirstPageEvent());
+    _bloc.add(AppBlocFetchFirstPageEvent<Move>());
   }
 
   @override
@@ -44,9 +45,10 @@ class _MoveListState extends State<MoveList> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.container,
-      child: BlocBuilder<MoveBloc, MoveState>(builder: (context, state) {
+      child: BlocBuilder<MoveBloc, AppBlocState<Move>>(
+          builder: (context, state) {
         // If the state has data, show it
-        if (state is MoveListState) {
+        if (state is AppBlocListState<Move>) {
           final list = state.list;
           return NotificationListener<ScrollNotification>(
             onNotification: (scroll) => _onScrollNotification(scroll, state),
@@ -60,7 +62,11 @@ class _MoveListState extends State<MoveList> {
                   if (index < list.length) {
                     return MoveTileWidget(
                       model: list[index],
-                      onDoubleTap: (model) => _showInfoPopup(model),
+                      onDoubleTap: (model) {
+                        _bloc.loadDetails(model).then((details) {
+                          _showInfoPopup(model, details);
+                        });
+                      },
                     );
                   }
                   return AppLoadingWidget.centered();
@@ -70,12 +76,12 @@ class _MoveListState extends State<MoveList> {
           );
         }
 
-        if (state is MoveLoadingState) {
+        if (state is AppBlocLoadingState<Move>) {
           return AppLoadingWidget.centered();
         }
 
         var message = 'Something went wrong';
-        if (state is MoveFailState) {
+        if (state is AppBlocFailState<Move>) {
           message = state.message;
         }
         // By default, state is MoveFailedState (error)
@@ -89,17 +95,17 @@ class _MoveListState extends State<MoveList> {
 
   bool _onScrollNotification(
     ScrollNotification scroll,
-    MoveListState state,
+    AppBlocListState<Move> state,
   ) {
     if (scroll is ScrollEndNotification &&
         _scrollCtrl.position.extentAfter == 0 &&
         !state.noMoreResults) {
-      _bloc.add(MoveFetchPageEvent.next(state.list));
+      _bloc.add(AppBlocFetchPageEvent<Move>.next(state.list));
     }
     return false;
   }
 
-  Future<void> _showInfoPopup(MoveInfo model) async {
+  Future<void> _showInfoPopup(Move model, MoveDetails _) async {
     Navigator.pushNamed(context, DetailsPage.routeName,
         arguments: DetailsPageArgs.move(
           title: model.name,
