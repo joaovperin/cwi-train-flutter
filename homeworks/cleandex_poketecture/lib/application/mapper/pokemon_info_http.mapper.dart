@@ -1,4 +1,5 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
+import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 

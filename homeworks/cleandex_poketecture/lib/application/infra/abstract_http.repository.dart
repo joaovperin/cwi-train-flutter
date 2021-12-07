@@ -5,5 +5,6 @@ abstract class AbstractHttpRepository<T> {
 
   final String entityUrl;
 
-  String get url => '$apiUrl/$entityUrl';
+  String get baseUrl => apiUrl;
+  String get url => '$baseUrl/$entityUrl';
 }

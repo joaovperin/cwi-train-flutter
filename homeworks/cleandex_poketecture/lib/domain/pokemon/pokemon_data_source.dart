@@ -1,5 +1,6 @@
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,6 +27,10 @@ class PokemonDataSource {
       throw PokemonNotFoundException();
     }
     return info;
+  }
+
+  Future<PokemonDetails> findDetails(PokemonInfo modelInfo) {
+    return _pokemonRepository.findDetailsById(modelInfo.id);
   }
 
   Future<List<PokemonInfo>> fetchNextPage() async {

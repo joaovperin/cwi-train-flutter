@@ -1,5 +1,6 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/utils/list_utils.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/element_round_chip.widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,11 +8,13 @@ import 'package:flutter/material.dart';
 
 class PokemonInfoDialog extends StatelessWidget {
   const PokemonInfoDialog(
-    this.model, {
+    this.model,
+    this.details, {
     Key? key,
   }) : super(key: key);
 
   final PokemonInfo model;
+  final PokemonDetails details;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,7 @@ class PokemonInfoDialog extends StatelessWidget {
           runSpacing: 8,
           children: [
             const Divider(),
-            ...splitListInChunks(_getWeaknesses(), 3).map((list) {
+            ...splitListInChunks(details.weaknesses, 3).map((list) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [...list.map((e) => _buildChip(e))],
@@ -85,7 +88,7 @@ class PokemonInfoDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(_WeaknessInfo weakness) {
+  Widget _buildChip(PokeTypeWeakness weakness) {
     return SizedBox(
       width: 80,
       child: Row(
@@ -105,34 +108,4 @@ class PokemonInfoDialog extends StatelessWidget {
       ),
     );
   }
-}
-
-List<_WeaknessInfo> _getWeaknesses() {
-  return const [
-    _WeaknessInfo('bug', '1x'),
-    _WeaknessInfo('dark', '1x'),
-    _WeaknessInfo('dragon', '1x'),
-    _WeaknessInfo('electric', '2x'),
-    _WeaknessInfo('fairy', '1x'),
-    _WeaknessInfo('fighting', '1x'),
-    _WeaknessInfo('fire', '1/2x'),
-    _WeaknessInfo('flying', '1x'),
-    _WeaknessInfo('ghost', '1x'),
-    _WeaknessInfo('grass', '2x'),
-    _WeaknessInfo('ground', '1x'),
-    _WeaknessInfo('ice', '1/2x'),
-    _WeaknessInfo('normal', '1x'),
-    _WeaknessInfo('poison', '1x'),
-    _WeaknessInfo('psychic', '1x'),
-    _WeaknessInfo('rock', '1x'),
-    _WeaknessInfo('steel', '1/2x'),
-    _WeaknessInfo('water', '1/2x'),
-  ];
-}
-
-class _WeaknessInfo {
-  final String name;
-  final String value;
-
-  const _WeaknessInfo(this.name, this.value);
 }

@@ -1,6 +1,9 @@
+import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
+import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 
 class PokemonRepositoryMock implements PokemonRepository {
@@ -51,6 +54,39 @@ class PokemonRepositoryMock implements PokemonRepository {
     return PaginatedSearchResult<Pokemon>(
       count: results.length,
       results: (results).skip(page * size).take(size).toList(),
+    );
+  }
+
+  @override
+  Future<PokemonDetails> findDetailsById(int id) async {
+    final poke = (await findAll()).firstWhere((e) => e.id == id);
+    return PokemonDetails(
+      id: id,
+      name: poke.name,
+      pictureUrl: poke.pictureUrl,
+      types: [
+        const PokeType(slot: 1, type: NameUrlPair(name: 'fire', url: 'blabla'))
+      ],
+      weaknesses: const [
+        PokeTypeWeakness('bug', 1),
+        PokeTypeWeakness('dark', 1),
+        PokeTypeWeakness('dragon', 1),
+        PokeTypeWeakness('electric', 2),
+        PokeTypeWeakness('fairy', 1),
+        PokeTypeWeakness('fighting', 1),
+        PokeTypeWeakness('fire', 0.5),
+        PokeTypeWeakness('flying', 1),
+        PokeTypeWeakness('ghost', 1),
+        PokeTypeWeakness('grass', 2),
+        PokeTypeWeakness('ground', 1),
+        PokeTypeWeakness('ice', 0.5),
+        PokeTypeWeakness('normal', 1),
+        PokeTypeWeakness('poison', 1),
+        PokeTypeWeakness('psychic', 1),
+        PokeTypeWeakness('rock', 1),
+        PokeTypeWeakness('steel', 0.5),
+        PokeTypeWeakness('water', 0.5),
+      ],
     );
   }
 }
