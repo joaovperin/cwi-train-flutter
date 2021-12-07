@@ -1,9 +1,7 @@
-import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
-import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 
 class PokemonRepositoryMock implements PokemonRepository {
@@ -43,8 +41,8 @@ class PokemonRepositoryMock implements PokemonRepository {
   }
 
   @override
-  Future<PokemonInfo?> findInfoById(int id) async {
-    return null;
+  Future<PokemonInfo> findInfoById(int id) async {
+    throw UnimplementedError();
   }
 
   @override
@@ -60,14 +58,8 @@ class PokemonRepositoryMock implements PokemonRepository {
   @override
   Future<PokemonDetails> findDetailsById(int id) async {
     final poke = (await findAll()).firstWhere((e) => e.id == id);
-    return PokemonDetails(
-      id: id,
-      name: poke.name,
-      pictureUrl: poke.pictureUrl,
-      types: [
-        const PokeType(slot: 1, type: NameUrlPair(name: 'fire', url: 'blabla'))
-      ],
-      weaknesses: const [
+    return const PokemonDetails(
+      weaknesses: [
         PokeTypeWeakness('bug', 1),
         PokeTypeWeakness('dark', 1),
         PokeTypeWeakness('dragon', 1),

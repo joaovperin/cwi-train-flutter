@@ -21,12 +21,8 @@ class PokemonDataSource {
     return _promoteSorting(results);
   }
 
-  Future<PokemonInfo> findInfo(Pokemon model) async {
-    final info = await _pokemonRepository.findInfoById(model.id);
-    if (info == null) {
-      throw PokemonNotFoundException();
-    }
-    return info;
+  Future<PokemonInfo> findInfo(Pokemon model) {
+    return _pokemonRepository.findInfoById(model.id);
   }
 
   Future<PokemonDetails> findDetails(PokemonInfo modelInfo) {

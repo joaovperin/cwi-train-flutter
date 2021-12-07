@@ -8,7 +8,7 @@ abstract class PokemonRepository {
 
   Future<List<Pokemon>> findAll({String? search});
 
-  Future<PokemonInfo?> findInfoById(int id);
+  Future<PokemonInfo> findInfoById(int id);
 
   Future<PaginatedSearchResult<Pokemon>> findPage({
     required int page,
