@@ -1,14 +1,14 @@
+import 'package:cleandex_poketecture/application/infra/bloc/generic_list_bloc_events.dart';
+import 'package:cleandex_poketecture/application/infra/bloc/generic_list_bloc_states.dart';
 import 'package:cleandex_poketecture/application/ui/scroll_and_drag_scroll_behaviour.dart';
 import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_weaknesses.dialog.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_tile.widget.dart';
+import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_weaknesses.dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +33,7 @@ class _PokemonListState extends State<PokemonList> {
   void initState() {
     super.initState();
     _pokeBloc = widget.getBloc(context);
-    _pokeBloc.add(const PokemonFetchFirstPageEvent());
+    _pokeBloc.add(AppBlocFetchFirstPageEvent<Pokemon>());
   }
 
   @override
@@ -54,9 +54,10 @@ class _PokemonListState extends State<PokemonList> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.container,
-      child: BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
+      child: BlocBuilder<PokemonBloc, AppBlocState<Pokemon>>(
+          builder: (context, state) {
         // If the state has data, show it
-        if (state is PokemonListState) {
+        if (state is AppBlocListState<Pokemon>) {
           final list = state.list;
           return NotificationListener<ScrollNotification>(
             onNotification: (scroll) => _onScrollNotification(scroll, state),
@@ -84,12 +85,12 @@ class _PokemonListState extends State<PokemonList> {
           );
         }
 
-        if (state is PokemonLoadingState) {
+        if (state is AppBlocLoadingState<Pokemon>) {
           return AppLoadingWidget.centered();
         }
 
         var message = 'Something went wrong';
-        if (state is PokemonFailState) {
+        if (state is AppBlocFailState<Pokemon>) {
           message = state.message;
         }
         // By default, state is PokemonFailedState (error)
@@ -103,12 +104,12 @@ class _PokemonListState extends State<PokemonList> {
 
   bool _onScrollNotification(
     ScrollNotification scroll,
-    PokemonListState state,
+    AppBlocListState<Pokemon> state,
   ) {
     if (scroll is ScrollEndNotification &&
         _scrollCtrl.position.extentAfter == 0 &&
         !state.noMoreResults) {
-      _pokeBloc.add(PokemonFetchPageEvent.next(state.list));
+      _pokeBloc.add(AppBlocFetchPageEvent<Pokemon>.next(state.list));
     }
     return false;
   }

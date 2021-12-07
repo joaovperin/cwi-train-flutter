@@ -1,47 +1,15 @@
+import 'package:cleandex_poketecture/application/infra/bloc/generic_data_source.dart';
+import 'package:cleandex_poketecture/commons/interfaces.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:get_it/get_it.dart';
 
-class PokemonDataSource {
-  static const itemsPerPage = 40;
+class PokemonDataSource extends GenericDataSource<Pokemon, PokemonDetails> {
+  @override
+  ListRepository<Pokemon, PokemonDetails> get repository =>
+      GetIt.I.get<PokemonRepository>();
 
-  final PokemonRepository _pokemonRepository = GetIt.I.get<PokemonRepository>();
-  int currentPage;
-  int rowsCount;
-
-  PokemonDataSource()
-      : currentPage = 0,
-        rowsCount = 0;
-
-  Future<List<Pokemon>> searchByName(String search) async {
-    return _pokemonRepository.findAll(search: search);
-  }
-
-  Future<PokemonDetails> findDetails(Pokemon modelInfo) {
-    return _pokemonRepository.findDetailsById(modelInfo.id);
-  }
-
-  Future<List<Pokemon>> fetchNextPage() async {
-    final page = await _pokemonRepository.findPage(
-      page: currentPage++,
-      size: itemsPerPage,
-    );
-
-    if (page.isLastPage) {
-      throw NoMoreRowsException();
-    }
-
-    rowsCount = page.count;
-    return page.results;
-  }
-
-  void resetCounter() {
-    currentPage = 0;
-    rowsCount = 0;
-  }
+  @override
+  int get itemsPerPage => 40;
 }
-
-class NoMoreRowsException implements Exception {}
-
-class PokemonNotFoundException implements Exception {}
