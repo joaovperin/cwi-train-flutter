@@ -1,6 +1,5 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
@@ -8,16 +7,16 @@ import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
+class PokemonRepositoryHttp extends AbstractHttpRepository<PokemonInfo>
     implements PokemonRepository {
   PokemonRepositoryHttp() : super('pokemon');
 
-  bool searchMatches(Pokemon e, String search) =>
+  bool searchMatches(PokemonInfo e, String search) =>
       e.name.toLowerCase().contains(search);
 
   @override
-  Future<List<Pokemon>> findAll({String? search}) async {
-    final list = <Pokemon>[];
+  Future<List<PokemonInfo>> findAll({String? search}) async {
+    final list = <PokemonInfo>[];
     var pageNumber = 0;
     while (true) {
       final page = await findPage(page: pageNumber++, size: 150);
@@ -42,7 +41,14 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
   }
 
   @override
-  Future<PaginatedSearchResult<Pokemon>> findPage({
+  Future<PokemonInfo> findInfoByName(String name) async {
+    final http = GetIt.I.get<Dio>();
+    final response = await http.get('$url/$name');
+    return _pokemonInfoFromMap(response.data);
+  }
+
+  @override
+  Future<PaginatedSearchResult<PokemonInfo>> findPage({
     required int page,
     required int size,
   }) async {
@@ -50,9 +56,9 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     final response = await http.get('$url?offset=${page * size}&limit=$size');
 
     final json = response.data;
-    return PaginatedSearchResult<Pokemon>(
+    return PaginatedSearchResult<PokemonInfo>(
       count: json['count'],
-      results: [...json['results'].map((map) => _pokemonFromMap(map))],
+      results: await _promoteAndSort(json['results']),
       next: json['next'],
       previous: json['previous'],
     );
@@ -71,8 +77,14 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     return _detailsFromMap(response.data);
   }
 
-  Pokemon _pokemonFromMap(Map<String, dynamic> map) {
-    return GetIt.I.get<EntityMapper<Pokemon>>().fromMap(map);
+  Future<List<PokemonInfo>> _promoteAndSort(List<dynamic> list) async {
+    final result = (await Stream.fromFutures(
+      list.map((p) {
+        return findInfoByName(p['name']);
+      }),
+    ).toList());
+    result.sort((a, b) => a.id.compareTo(b.id));
+    return result;
   }
 
   PokemonDetails _detailsFromMap(Map<String, dynamic> map) {

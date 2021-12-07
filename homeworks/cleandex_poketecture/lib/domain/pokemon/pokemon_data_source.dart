@@ -1,11 +1,10 @@
-import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_info.dart';
 import 'package:get_it/get_it.dart';
 
 class PokemonDataSource {
-  static const itemsPerPage = 60;
+  static const itemsPerPage = 40;
 
   final PokemonRepository _pokemonRepository = GetIt.I.get<PokemonRepository>();
   int currentPage;
@@ -16,13 +15,7 @@ class PokemonDataSource {
         rowsCount = 0;
 
   Future<List<PokemonInfo>> searchByName(String search) async {
-    resetCounter();
-    final results = await _pokemonRepository.findAll(search: search);
-    return _promoteSorting(results);
-  }
-
-  Future<PokemonInfo> findInfo(Pokemon model) {
-    return _pokemonRepository.findInfoById(model.id);
+    return _pokemonRepository.findAll(search: search);
   }
 
   Future<PokemonDetails> findDetails(PokemonInfo modelInfo) {
@@ -40,20 +33,12 @@ class PokemonDataSource {
     }
 
     rowsCount = page.count;
-    return _promoteSorting(page.results);
+    return page.results;
   }
 
   void resetCounter() {
     currentPage = 0;
     rowsCount = 0;
-  }
-
-  Future<List<PokemonInfo>> _promoteSorting(List<Pokemon> list) async {
-    final result = (await Stream.fromFutures(
-      list.map((p) => findInfo(p)),
-    ).toList());
-    result.sort((a, b) => a.id.compareTo(b.id));
-    return result;
   }
 }
 
