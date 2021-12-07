@@ -3,8 +3,8 @@ import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
-class PokemonInfoHttpMapper extends AbstractHttpMapper<Pokemon> {
-  const PokemonInfoHttpMapper() : super();
+class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
+  const PokemonHttpMapper() : super();
 
   @override
   Map<String, dynamic> toMap(Pokemon entity) {
