@@ -15,7 +15,7 @@ import 'package:cleandex_poketecture/domain/item/item.repository.dart';
 import 'package:cleandex_poketecture/domain/item/item_info.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
 import 'package:cleandex_poketecture/domain/move/move_details.dart';
-import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';

@@ -5,7 +5,7 @@ import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/move/move_details.dart';
-import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/pages/details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/move_tile.widget.dart';

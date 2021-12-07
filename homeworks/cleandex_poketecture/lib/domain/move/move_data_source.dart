@@ -2,7 +2,7 @@ import 'package:cleandex_poketecture/application/infra/bloc/generic_data_source.
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/move/move.repository.dart';
 import 'package:cleandex_poketecture/domain/move/move_details.dart';
-import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:get_it/get_it.dart';
 
 class MoveDataSource extends GenericDataSource<Move, MoveDetails> {

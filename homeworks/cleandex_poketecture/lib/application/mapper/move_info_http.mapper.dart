@@ -1,5 +1,5 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
-import 'package:cleandex_poketecture/domain/move/move_info.dart';
+import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
 
 class MoveInfoHttpMapper extends AbstractHttpMapper<Move> {
