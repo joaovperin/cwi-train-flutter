@@ -1,6 +1,7 @@
 import 'package:cleandex_poketecture/application/widgets/app_round_chip.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DetailsPageArgs {
   final Widget image;
@@ -71,6 +72,20 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarIconBrightness: Brightness.light,
+          statusBarColor: AppColors.statusBar,
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -82,11 +97,11 @@ class _DetailsPageState extends State<DetailsPage> {
         child: Column(
           children: [
             Flexible(
-              flex: 10,
+              flex: 12,
               child: DetailsTopWidget(widget.args),
             ),
             Expanded(
-              flex: 31,
+              flex: 33,
               child: DetailsBottomWidget(widget.args),
             ),
           ],
@@ -111,8 +126,9 @@ class DetailsTopWidget extends StatelessWidget {
         Column(
           children: [
             Flexible(flex: 4, child: Container()),
-            Flexible(
+            Expanded(
               child: Container(
+                height: double.infinity,
                 decoration: const BoxDecoration(
                   color: AppColors.cardColor,
                   borderRadius: BorderRadius.only(
@@ -126,7 +142,10 @@ class DetailsTopWidget extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: args.image,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: args.image,
+          ),
           // child: SquareImageBoxWidget(imageUrl),
         ),
       ],
