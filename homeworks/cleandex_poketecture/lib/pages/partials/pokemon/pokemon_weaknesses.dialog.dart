@@ -1,13 +1,13 @@
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/utils/list_utils.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/element_round_chip.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PokemonInfoDialog extends StatelessWidget {
-  const PokemonInfoDialog(
+class PokemonWeaknessesDialog extends StatelessWidget {
+  const PokemonWeaknessesDialog(
     this.model,
     this.details, {
     Key? key,

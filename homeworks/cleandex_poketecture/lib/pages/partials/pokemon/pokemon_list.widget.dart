@@ -7,7 +7,7 @@ import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_events.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_states.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_info_dialog.widget.dart';
+import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_weaknesses.dialog.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_tile.widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +45,7 @@ class _PokemonListState extends State<PokemonList> {
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return PokemonInfoDialog(model, details);
+        return PokemonWeaknessesDialog(model, details);
       },
     );
   }

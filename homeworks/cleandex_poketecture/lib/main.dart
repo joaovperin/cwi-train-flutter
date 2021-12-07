@@ -3,7 +3,7 @@ import 'package:cleandex_poketecture/application/mapper/item_info_http.mapper.da
 import 'package:cleandex_poketecture/application/mapper/move_http.mapper.dart';
 import 'package:cleandex_poketecture/application/mapper/move_info_http.mapper.dart';
 import 'package:cleandex_poketecture/application/mapper/pokemon_details_http.mapper.dart';
-import 'package:cleandex_poketecture/application/mapper/pokemon_info_http.mapper.dart';
+import 'package:cleandex_poketecture/application/mapper/pokemon_http.mapper.dart';
 import 'package:cleandex_poketecture/application/repository/item_http.repository.dart';
 import 'package:cleandex_poketecture/application/repository/move_http.repository.dart';
 import 'package:cleandex_poketecture/application/repository/pokemon_http.repository.dart';
