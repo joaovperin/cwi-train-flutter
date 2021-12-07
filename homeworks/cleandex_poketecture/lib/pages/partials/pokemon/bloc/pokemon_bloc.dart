@@ -26,6 +26,10 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
     Emitter<PokemonState> emit,
   ) async {
     try {
+      if (event is PokemonFetchFirstPageEvent) {
+        emit(const PokemonLoadingState());
+        _dataSource.resetCounter();
+      }
       final results = await _dataSource.fetchNextPage();
       emit(PokemonListState.next(event.currentList + results));
     } on NoMoreRowsException catch (_) {
@@ -37,7 +41,11 @@ class PokemonBloc extends SearchableBloc<PokemonEvent, PokemonState> {
 
   @override
   void onSearch(String searchText) {
-    add(PokemonSearchEvent(searchText));
+    if (searchText.isEmpty) {
+      add(const PokemonFetchFirstPageEvent());
+    } else {
+      add(PokemonSearchEvent(searchText));
+    }
   }
 
   void resetCounter() {

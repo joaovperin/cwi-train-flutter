@@ -1,7 +1,7 @@
 import 'package:cleandex_poketecture/application/widgets/app_square_image_box.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/item/item.dart';
+import 'package:cleandex_poketecture/domain/item/item_info.dart';
 import 'package:flutter/material.dart';
 
 class ItemsTitleWidget extends StatelessWidget {
@@ -11,8 +11,8 @@ class ItemsTitleWidget extends StatelessWidget {
     required this.onDoubleTap,
   }) : super(key: key);
 
-  final Item model;
-  final OnTapFn<Item> onDoubleTap;
+  final ItemInfo model;
+  final OnTapFn<ItemInfo> onDoubleTap;
 
   @override
   Widget build(BuildContext context) {

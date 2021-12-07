@@ -26,6 +26,10 @@ class MoveBloc extends SearchableBloc<MoveEvent, MoveState> {
     Emitter<MoveState> emit,
   ) async {
     try {
+      if (event is MoveFetchFirstPageEvent) {
+        emit(const MoveLoadingState());
+        _dataSource.resetCounter();
+      }
       final results = await _dataSource.fetchNextPage();
       emit(MoveListState.next(event.currentList + results));
     } on NoMoreRowsException catch (_) {
@@ -37,7 +41,11 @@ class MoveBloc extends SearchableBloc<MoveEvent, MoveState> {
 
   @override
   void onSearch(String searchText) {
-    add(MoveSearchEvent(searchText));
+    if (searchText.isEmpty) {
+      add(const MoveFetchFirstPageEvent());
+    } else {
+      add(MoveSearchEvent(searchText));
+    }
   }
 
   void resetCounter() {

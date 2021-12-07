@@ -9,11 +9,13 @@ class PokemonSearchEvent extends PokemonEvent {
   final String search;
 }
 
+class PokemonFetchFirstPageEvent extends PokemonFetchPageEvent {
+  const PokemonFetchFirstPageEvent() : super._(const []);
+}
+
 class PokemonFetchPageEvent extends PokemonEvent {
   final List<PokemonInfo> currentList;
   const PokemonFetchPageEvent._(this.currentList);
-
-  factory PokemonFetchPageEvent.first() => const PokemonFetchPageEvent._([]);
 
   const factory PokemonFetchPageEvent.next(List<PokemonInfo> currentList) =
       PokemonFetchPageEvent._;

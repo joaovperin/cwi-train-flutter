@@ -32,8 +32,7 @@ class _PokemonListState extends State<PokemonList> {
   void initState() {
     super.initState();
     _pokeBloc = widget.getBloc(context);
-    _pokeBloc.resetCounter();
-    _pokeBloc.add(PokemonFetchPageEvent.first());
+    _pokeBloc.add(const PokemonFetchFirstPageEvent());
   }
 
   @override

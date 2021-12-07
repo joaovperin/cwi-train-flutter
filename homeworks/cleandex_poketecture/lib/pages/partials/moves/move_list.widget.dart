@@ -32,8 +32,7 @@ class _MoveListState extends State<MoveList> {
   void initState() {
     super.initState();
     _bloc = widget.getBloc(context);
-    _bloc.resetCounter();
-    _bloc.add(MoveFetchPageEvent.first());
+    _bloc.add(const MoveFetchFirstPageEvent());
   }
 
   @override

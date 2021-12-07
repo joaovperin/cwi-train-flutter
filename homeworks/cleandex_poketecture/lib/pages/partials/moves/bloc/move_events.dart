@@ -9,11 +9,13 @@ class MoveSearchEvent extends MoveEvent {
   final String search;
 }
 
+class MoveFetchFirstPageEvent extends MoveFetchPageEvent {
+  const MoveFetchFirstPageEvent() : super._(const []);
+}
+
 class MoveFetchPageEvent extends MoveEvent {
   final List<MoveInfo> currentList;
   const MoveFetchPageEvent._(this.currentList);
-
-  factory MoveFetchPageEvent.first() => const MoveFetchPageEvent._([]);
 
   const factory MoveFetchPageEvent.next(List<MoveInfo> currentList) =
       MoveFetchPageEvent._;
