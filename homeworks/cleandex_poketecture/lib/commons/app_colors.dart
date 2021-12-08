@@ -10,6 +10,7 @@ class AppColors {
   static const Color container = Colors.white;
   static const Color containerShadow = Color(0x47000000);
   static const Color statusBar = Colors.transparent;
+  static const Color elementChipText = Colors.white;
 
   static const Color listTileBg = Colors.transparent;
   static const Color splash = Color(0xFF9BE4FB);
