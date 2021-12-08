@@ -7,11 +7,11 @@ class Pokemon implements Entity<Pokemon> {
   final int id;
   final int order;
   final String name;
-  final String nameSlug;
   final int height;
   final int weight;
   final int baseExperience;
 
+  final NameUrlPair species;
   final PokeSprites sprites;
   final List<PokeStat> stats;
   final List<PokeType> types;
@@ -28,13 +28,13 @@ class Pokemon implements Entity<Pokemon> {
     required this.id,
     required this.order,
     required this.name,
-    required this.nameSlug,
     required this.height,
     required this.weight,
     required this.stats,
     required this.types,
     required this.moves,
     required this.sprites,
+    required this.species,
     required this.baseExperience,
     required this.abilities,
   });
