@@ -1,4 +1,5 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
+import 'package:cleandex_poketecture/commons/utils/string_utils.dart';
 import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/vo/name_url_pair.dart';
@@ -20,7 +21,7 @@ class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
     return Pokemon(
       id: map['id'],
       order: map['order'],
-      name: formatName(map['name']),
+      name: splitWordsCapitalizing(map['name']),
       height: map['height'],
       weight: map['weight'],
       baseExperience: map['base_experience'],

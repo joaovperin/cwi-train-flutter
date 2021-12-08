@@ -6,13 +6,11 @@ class ElementRectChipWidget extends StatelessWidget {
   const ElementRectChipWidget(this.elementName, {Key? key}) : super(key: key);
 
   final String elementName;
-  final double containerWidth = 160;
   final double containerHeight = 40;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: containerWidth,
       height: containerHeight,
       margin: const EdgeInsets.symmetric(horizontal: 4),
       padding: const EdgeInsets.all(8),
@@ -21,7 +19,7 @@ class ElementRectChipWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
       ),
       child: Container(
-        padding: const EdgeInsets.only(left: 8, right: 16),
+        padding: const EdgeInsets.only(left: 8, right: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -29,12 +27,16 @@ class ElementRectChipWidget extends StatelessWidget {
               'assets/icons/elements/$elementName.svg',
               semanticsLabel: elementName,
               fit: BoxFit.contain,
-              width: containerWidth,
-              height: containerHeight * 0.8,
+              height: containerHeight * 0.75,
+              color: AppColors.elementChipText,
             ),
+            const SizedBox(width: 12),
             Text(
               elementName.toUpperCase(),
-              style: const TextStyle(fontSize: 18, color: AppColors.background),
+              style: const TextStyle(
+                fontSize: 18,
+                color: AppColors.elementChipText,
+              ),
             )
           ],
         ),

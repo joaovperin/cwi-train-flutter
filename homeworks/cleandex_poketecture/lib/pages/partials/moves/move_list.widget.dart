@@ -4,8 +4,8 @@ import 'package:cleandex_poketecture/application/ui/scroll_and_drag_scroll_behav
 import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
-import 'package:cleandex_poketecture/domain/move/move_details.dart';
 import 'package:cleandex_poketecture/domain/move/move.dart';
+import 'package:cleandex_poketecture/domain/move/move_details.dart';
 import 'package:cleandex_poketecture/pages/details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/move_tile.widget.dart';
@@ -45,8 +45,8 @@ class _MoveListState extends State<MoveList> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.container,
-      child: BlocBuilder<MoveBloc, AppBlocState<Move>>(
-          builder: (context, state) {
+      child:
+          BlocBuilder<MoveBloc, AppBlocState<Move>>(builder: (context, state) {
         // If the state has data, show it
         if (state is AppBlocListState<Move>) {
           final list = state.list;
@@ -109,7 +109,7 @@ class _MoveListState extends State<MoveList> {
     Navigator.pushNamed(context, DetailsPage.routeName,
         arguments: DetailsPageArgs.move(
           title: model.name,
-          subtitle: model.type.name,
+          elementName: model.type.name,
           picturePath: model.picturePath,
           description: model.description,
         ));
