@@ -4,7 +4,7 @@ class Item implements Entity<Item> {
   @override
   final int id;
   final String name;
-  final double cost;
+  final num cost;
   final String description;
   final String pictureUrl;
 
