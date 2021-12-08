@@ -74,7 +74,7 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
       '$baseUrl/type/${pokeType.type.name}',
     );
     final speciesInfoResponse = await http.get(
-      '$baseUrl/pokemon-species/${info.nameSlug}',
+      '$baseUrl/pokemon-species/${info.species.name}',
     );
 
     final baseJson = baseResponse.data;
