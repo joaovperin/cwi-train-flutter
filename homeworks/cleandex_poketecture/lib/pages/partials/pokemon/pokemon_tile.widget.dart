@@ -6,13 +6,15 @@ import 'package:cleandex_poketecture/pages/partials/pokemon/element_round_chip.w
 import 'package:flutter/material.dart';
 
 class PokemonTileWidget extends StatelessWidget {
-  const PokemonTileWidget({
+  const PokemonTileWidget(
+    this.model, {
     Key? key,
-    required this.model,
+    required this.onSingleTap,
     required this.onDoubleTap,
   }) : super(key: key);
 
   final Pokemon model;
+  final OnTapFn<Pokemon> onSingleTap;
   final OnTapFn<Pokemon> onDoubleTap;
 
   @override
@@ -21,6 +23,7 @@ class PokemonTileWidget extends StatelessWidget {
       color: AppColors.listTileBg,
       child: InkWell(
         splashColor: AppColors.splash,
+        onTap: () => onSingleTap.call(model),
         onDoubleTap: () => onDoubleTap.call(model),
         child: ListTile(
           title: Row(
