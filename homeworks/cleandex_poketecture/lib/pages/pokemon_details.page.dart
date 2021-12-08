@@ -149,7 +149,7 @@ class _PokeDetailsBottomWidget extends StatelessWidget {
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _buildDetailsFromText(args.model.name),
+              child: _buildDetailsFromText(args.modelDetails.description),
             ),
           ),
           Expanded(

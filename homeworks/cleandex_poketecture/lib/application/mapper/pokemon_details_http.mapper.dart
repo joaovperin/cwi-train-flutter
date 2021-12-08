@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cleandex_poketecture/application/infra/abstract_http.mapper.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 
@@ -9,6 +11,7 @@ class PokemonDetailsHttpMapper extends AbstractHttpMapper<PokemonDetails> {
   Map<String, dynamic> toMap(PokemonDetails entity) {
     return {
       'weaknesses': entity.weaknesses.map((e) => e.toString()).toList(),
+      'description': entity.description,
     };
   }
 
@@ -16,6 +19,7 @@ class PokemonDetailsHttpMapper extends AbstractHttpMapper<PokemonDetails> {
   PokemonDetails fromMap(Map<String, dynamic> map) {
     return PokemonDetails(
       weaknesses: typesWeakenessesFromRootMap(map),
+      description: descriptionFromRootMap(map),
     );
   }
 
@@ -71,5 +75,17 @@ class PokemonDetailsHttpMapper extends AbstractHttpMapper<PokemonDetails> {
     }
 
     return elementsMap.values.toList();
+  }
+
+  String descriptionFromRootMap(Map<String, dynamic> map) {
+    final speciesInfo = map['pokemon_species'];
+    final List<dynamic> flavorTextEntries = speciesInfo['flavor_text_entries'];
+    final allEnglishFlavorEntries =
+        flavorTextEntries.where((e) => e['language']['name'] == 'en').toList();
+
+    final sorted = allEnglishFlavorEntries[Random().nextInt(
+      allEnglishFlavorEntries.length,
+    )];
+    return sorted['flavor_text'];
   }
 }

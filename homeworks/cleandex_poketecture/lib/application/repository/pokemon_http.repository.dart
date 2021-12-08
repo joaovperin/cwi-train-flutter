@@ -1,8 +1,8 @@
 import 'package:cleandex_poketecture/application/infra/abstract_http.repository.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
-import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/vo/paginated_search_result.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -70,11 +70,17 @@ class PokemonRepositoryHttp extends AbstractHttpRepository<Pokemon>
     final info = await findInfoById(id);
 
     final pokeType = info.types.first;
-    final response = await http.get(
+    final baseResponse = await http.get(
       '$baseUrl/type/${pokeType.type.name}',
     );
+    final speciesInfoResponse = await http.get(
+      '$baseUrl/pokemon-species/${info.nameSlug}',
+    );
 
-    return _detailsFromMap(response.data);
+    final baseJson = baseResponse.data;
+    baseJson['pokemon_species'] = speciesInfoResponse.data;
+
+    return _detailsFromMap(baseResponse.data);
   }
 
   Future<List<Pokemon>> _promoteAndSort(List<dynamic> list) async {

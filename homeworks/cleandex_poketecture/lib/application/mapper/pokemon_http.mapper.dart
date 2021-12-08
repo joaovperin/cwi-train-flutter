@@ -12,6 +12,7 @@ class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
     return {
       'id': entity.id,
       'name': entity.name,
+      'name_slug': entity.nameSlug,
       // TODO: implement toMap
     };
   }
@@ -22,6 +23,7 @@ class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
       id: map['id'],
       order: map['order'],
       name: splitWordsCapitalizing(map['name']),
+      nameSlug: map['name'],
       height: map['height'],
       weight: map['weight'],
       baseExperience: map['base_experience'],
