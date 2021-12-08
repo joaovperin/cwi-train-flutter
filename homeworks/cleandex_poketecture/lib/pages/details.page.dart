@@ -1,5 +1,6 @@
 import 'package:cleandex_poketecture/application/widgets/app_round_chip.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
+import 'package:cleandex_poketecture/pages/partials/pokemon/element_rect_chip.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +8,7 @@ class DetailsPageArgs {
   final Widget image;
   final List<Color> colors;
   final String title;
-  final String subtitle;
+  final Widget subtitle;
   final String description;
 
   const DetailsPageArgs({
@@ -21,13 +22,16 @@ class DetailsPageArgs {
   factory DetailsPageArgs.move({
     required String picturePath,
     required String title,
-    required String subtitle,
+    required String elementName,
     required String description,
   }) =>
       DetailsPageArgs(
         colors: AppColors.detailsPagePokeGradient,
         title: title,
-        subtitle: subtitle,
+        subtitle: SizedBox(
+          width: 180,
+          child: ElementRectChipWidget(elementName),
+        ),
         description: description,
         image: AppRoundAssetImage(picturePath, AppColors.dragon),
       );
@@ -41,7 +45,10 @@ class DetailsPageArgs {
       DetailsPageArgs(
         colors: AppColors.detailsPagePokeGradient,
         title: title,
-        subtitle: subtitle,
+        subtitle: Text(
+          subtitle,
+          style: const TextStyle(fontSize: 20, color: AppColors.lightText),
+        ),
         description: description,
         image: AppRoundNetworkImage(pictureUrl),
       );
@@ -91,11 +98,11 @@ class _DetailsPageState extends State<DetailsPage> {
           children: [
             Flexible(
               flex: 12,
-              child: DetailsTopWidget(widget.args),
+              child: _DetailsTopWidget(widget.args),
             ),
             Expanded(
               flex: 33,
-              child: DetailsBottomWidget(widget.args),
+              child: _DetailsBottomWidget(widget.args),
             ),
           ],
         ),
@@ -104,8 +111,8 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 }
 
-class DetailsTopWidget extends StatelessWidget {
-  const DetailsTopWidget(
+class _DetailsTopWidget extends StatelessWidget {
+  const _DetailsTopWidget(
     this.args, {
     Key? key,
   }) : super(key: key);
@@ -146,8 +153,8 @@ class DetailsTopWidget extends StatelessWidget {
   }
 }
 
-class DetailsBottomWidget extends StatelessWidget {
-  const DetailsBottomWidget(
+class _DetailsBottomWidget extends StatelessWidget {
+  const _DetailsBottomWidget(
     this.args, {
     Key? key,
   }) : super(key: key);
@@ -168,13 +175,7 @@ class DetailsBottomWidget extends StatelessWidget {
               style: const TextStyle(fontSize: 36, color: AppColors.text),
             ),
           ),
-          Flexible(
-            flex: 1,
-            child: Text(
-              args.subtitle,
-              style: const TextStyle(fontSize: 20, color: AppColors.lightText),
-            ),
-          ),
+          Flexible(flex: 1, child: args.subtitle),
           Flexible(
             flex: 1,
             child: Padding(
