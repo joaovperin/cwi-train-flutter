@@ -1,7 +1,10 @@
 class PokemonDetails {
+  final String description;
   final List<PokeTypeWeakness> weaknesses;
+
   const PokemonDetails({
     required this.weaknesses,
+    required this.description,
   });
 }
 
