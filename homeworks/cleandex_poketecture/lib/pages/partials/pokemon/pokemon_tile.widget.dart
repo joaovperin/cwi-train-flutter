@@ -37,7 +37,7 @@ class PokemonTileWidget extends StatelessWidget {
             ],
           ),
           subtitle: Text(model.fmtId),
-          leading: SquareImageBoxWidget(model.pictureUrl),
+          leading: SquareImageBoxWidget(model.thumbnailPictureUrl),
         ),
       ),
     );

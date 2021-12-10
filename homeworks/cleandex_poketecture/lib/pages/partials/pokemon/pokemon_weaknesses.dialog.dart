@@ -31,7 +31,7 @@ class PokemonWeaknessesDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(model.pictureUrl, fit: BoxFit.fill),
+            Image.network(model.thumbnailPictureUrl, fit: BoxFit.fill),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,

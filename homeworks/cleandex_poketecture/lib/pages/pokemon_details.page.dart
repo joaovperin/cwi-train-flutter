@@ -106,7 +106,7 @@ class _PokeDetailsTopWidget extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
-            child: AppRoundNetworkImage(args.model.pictureUrl),
+            child: AppRoundNetworkImage(args.model.bigPictureUrl),
           ),
         ),
       ],

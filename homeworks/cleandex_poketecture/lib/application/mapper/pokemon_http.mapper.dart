@@ -33,20 +33,13 @@ class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
         name: map['species']['name'],
         url: map['species']['url'],
       ),
-      sprites: pokeSpritesFromMap(map['sprites']),
+      bigPictureUrl:
+          map['sprites']?['other']?['official-artwork']?['front_default'] ?? '',
+      thumbnailPictureUrl: map['sprites']?['front_default'] ?? '',
       stats: pokeStatsFromMap(map['stats']),
       types: pokeTypesFromMap(map['types']),
       moves: pokeMovesFromMap(map['moves']),
       abilities: pokeAbilitiesFromMap(map['abilities']),
-    );
-  }
-
-  PokeSprites pokeSpritesFromMap(Map<String, dynamic> map) {
-    return PokeSprites(
-      frontDefault: map['front_default'],
-      backDefault: map['back_default'],
-      frontShiny: map['front_shiny'],
-      backShiny: map['back_shiny'],
     );
   }
 
