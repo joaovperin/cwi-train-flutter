@@ -12,13 +12,13 @@ class Pokemon implements Entity<Pokemon> {
   final int baseExperience;
 
   final NameUrlPair species;
-  final PokeSprites sprites;
   final List<PokeStat> stats;
   final List<PokeType> types;
   final List<PokeMove> moves;
   final List<PokeAbility> abilities;
 
-  String get pictureUrl => sprites.frontDefault ?? '';
+  final String thumbnailPictureUrl;
+  final String bigPictureUrl;
 
   String get fmtId {
     return '#${id.toString().padLeft(3, "0")}';
@@ -33,32 +33,12 @@ class Pokemon implements Entity<Pokemon> {
     required this.stats,
     required this.types,
     required this.moves,
-    required this.sprites,
     required this.species,
     required this.baseExperience,
     required this.abilities,
+    required this.thumbnailPictureUrl,
+    required this.bigPictureUrl,
   });
-}
-
-class PokeSprites {
-  final String? frontDefault;
-  final String? backDefault;
-  final String? frontShiny;
-  final String? backShiny;
-
-  const PokeSprites({
-    required this.backDefault,
-    required this.backShiny,
-    required this.frontDefault,
-    required this.frontShiny,
-  });
-
-  factory PokeSprites.empty() => const PokeSprites(
-        backDefault: null,
-        backShiny: null,
-        frontDefault: null,
-        frontShiny: null,
-      );
 }
 
 class PokeStat {
