@@ -62,7 +62,7 @@ class _ItemsListState extends State<ItemsList> {
                       if (index < list.length) {
                         return ItemsTitleWidget(
                           model: list[index],
-                          onDoubleTap: (model) {
+                          onTap: (model) {
                             _bloc.loadDetails(model).then((details) {
                               _showInfoPopup(model, details);
                             });

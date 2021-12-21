@@ -11,6 +11,8 @@ class DetailsPageArgs {
   final Widget subtitle;
   final String description;
 
+  String get fmtDescription => description.trim().replaceAll(':', '\n');
+
   const DetailsPageArgs({
     required this.image,
     required this.colors,
@@ -94,15 +96,30 @@ class _DetailsPageState extends State<DetailsPage> {
             colors: widget.args.colors,
           ),
         ),
-        child: Column(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Flexible(
-              flex: 12,
-              child: _DetailsTopWidget(widget.args),
+            Column(
+              children: [
+                Flexible(flex: 1, child: Container()),
+                Flexible(
+                  flex: 4,
+                  child: _TopRoundMarginCt(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 48.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                      child: _DetailsBottomWidget(widget.args),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 33,
-              child: _DetailsBottomWidget(widget.args),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.1,
+              child: widget.args.image,
             ),
           ],
         ),
@@ -111,44 +128,25 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 }
 
-class _DetailsTopWidget extends StatelessWidget {
-  const _DetailsTopWidget(
-    this.args, {
+class _TopRoundMarginCt extends StatelessWidget {
+  const _TopRoundMarginCt({
     Key? key,
+    required this.child,
   }) : super(key: key);
 
-  final DetailsPageArgs args;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            Flexible(flex: 4, child: Container()),
-            Expanded(
-              child: Container(
-                height: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.cardColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(48),
-                    topRight: Radius.circular(48),
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(48),
+          topRight: Radius.circular(48),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: args.image,
-          ),
-          // child: SquareImageBoxWidget(imageUrl),
-        ),
-      ],
+      ),
+      child: child,
     );
   }
 }
@@ -164,54 +162,34 @@ class _DetailsBottomWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(color: AppColors.cardColor),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Flexible(
-            flex: 1,
-            child: Text(
-              args.title,
-              style: const TextStyle(fontSize: 36, color: AppColors.text),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              child: Text(
+                args.title,
+                style: const TextStyle(fontSize: 36, color: AppColors.text),
+              ),
             ),
-          ),
-          Flexible(flex: 1, child: args.subtitle),
-          Flexible(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _buildDetailsFromText(args.description),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.15,
+              child: Center(child: args.subtitle),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
+            Text(
+              args.fmtDescription,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, color: AppColors.lightText),
+            ),
+            Container(
+              padding: const EdgeInsets.only(top: 32, bottom: 16),
               decoration: const BoxDecoration(color: AppColors.cardColor),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
-}
-
-Widget _buildDetailsFromText(String text) {
-  final _list = <Widget>[];
-  final input = text.replaceAll(':', '\n').split('\n');
-  for (final _line in input) {
-    if (_line.isNotEmpty) {
-      _list.add(FittedBox(
-        child: Text(
-          _line.trim(),
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16, color: AppColors.lightText),
-        ),
-      ));
-    } else {
-      _list.add(const SizedBox(height: 4));
-    }
-  }
-  return Column(
-    children: _list,
-  );
 }
