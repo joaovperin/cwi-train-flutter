@@ -45,7 +45,7 @@ class DetailsPageArgs {
     required String description,
   }) =>
       DetailsPageArgs(
-        colors: AppColors.detailsPageItemsGradient,
+        colors: AppColors.itemDetails.asLightGradient,
         title: title,
         subtitle: Text(
           subtitle,

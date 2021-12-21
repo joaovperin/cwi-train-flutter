@@ -25,6 +25,8 @@ class AppColors {
   static const Color separator = Color(0xFF8DE061);
   static const Color cardColor = Color(0xFFFFFFFF);
 
+  static const Color itemDetails = Color(0xFF75DEDD);
+
   static const List<Color> detailsPageItemsGradient = [
     Color(0xFF559EDF),
     Color(0xFF69B9E3),
