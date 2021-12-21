@@ -24,10 +24,12 @@ class ItemsTitleWidget extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(model.name),
+              Text(
+                model.name,
+                style: const TextStyle(fontSize: 20),
+              ),
             ],
           ),
-          subtitle: Text(model.fmtId),
           leading: SquareImageBoxWidget(model.pictureUrl),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

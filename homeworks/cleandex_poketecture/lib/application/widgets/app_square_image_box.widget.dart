@@ -3,15 +3,20 @@ import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart
 import 'package:flutter/material.dart';
 
 class SquareImageBoxWidget extends StatelessWidget {
-  const SquareImageBoxWidget(this.imageUrl, {Key? key}) : super(key: key);
+  const SquareImageBoxWidget(
+    this.imageUrl, {
+    this.size = 96,
+    Key? key,
+  }) : super(key: key);
 
   final String imageUrl;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 64,
-      height: 64,
+      width: size,
+      height: size,
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         placeholder: (context, url) => AppLoadingWidget.centered(),

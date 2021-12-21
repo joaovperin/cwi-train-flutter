@@ -25,7 +25,10 @@ class MoveDetailsPage extends StatelessWidget {
         colors: AppColors.forElement(elementName).asLightGradient,
         description: args.model.description.trim().replaceAll(':', '\n'),
         image: AppRoundAssetImage(
-            args.model.picturePath, AppColors.forElement(elementName)),
+          args.model.picturePath,
+          AppColors.forElement(elementName),
+        ),
+        imagePadding: 0.1,
         subtitle: Center(
           child: SizedBox(
             width: 180,

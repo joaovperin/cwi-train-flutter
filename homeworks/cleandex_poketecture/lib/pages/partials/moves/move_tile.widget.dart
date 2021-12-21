@@ -24,7 +24,10 @@ class MoveTileWidget extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(model.name),
+              Text(
+                model.name,
+                style: const TextStyle(fontSize: 20),
+              ),
               const Spacer(),
               ElementRoundWidget(model.type.name),
             ],
