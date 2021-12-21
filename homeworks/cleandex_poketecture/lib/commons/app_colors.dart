@@ -27,11 +27,6 @@ class AppColors {
 
   static const Color itemDetails = Color(0xFF75DEDD);
 
-  static const List<Color> detailsPageItemsGradient = [
-    Color(0xFF559EDF),
-    Color(0xFF69B9E3),
-  ];
-
   static const List<Color> appBarGradient = [
     Color(0xFFDEE8FA),
     Color(0xFFD8F6DB),

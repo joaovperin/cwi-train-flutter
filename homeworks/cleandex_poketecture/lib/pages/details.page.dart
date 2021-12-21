@@ -28,14 +28,15 @@ class DetailsPageArgs {
     required String description,
   }) =>
       DetailsPageArgs(
-        colors: AppColors.detailsPageItemsGradient,
+        colors: AppColors.forElement(elementName).asLightGradient,
         title: title,
         subtitle: SizedBox(
           width: 180,
           child: ElementRectChipWidget(elementName),
         ),
         description: description,
-        image: AppRoundAssetImage(picturePath, AppColors.dragon),
+        image:
+            AppRoundAssetImage(picturePath, AppColors.forElement(elementName)),
       );
 
   factory DetailsPageArgs.item({
