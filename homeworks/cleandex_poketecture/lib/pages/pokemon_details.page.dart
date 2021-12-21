@@ -168,33 +168,36 @@ class _PokeStatsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-            decoration: BoxDecoration(
-              color: _typeColor(args.model.types),
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: const Text(
-              'STATS',
-              style: TextStyle(
-                fontSize: 18,
-                color: AppColors.elementChipText,
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 500),
+      child: Column(
+        children: [
+          Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+              decoration: BoxDecoration(
+                color: _typeColor(args.model.types),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: const Text(
+                'STATS',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.elementChipText,
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 32.0),
-          child: Column(
-            children: args.model.stats
-                .map((e) => _PokeStatWidget(e, types: args.model.types))
-                .toList(),
-          ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.only(top: 32.0),
+            child: Column(
+              children: args.model.stats
+                  .map((e) => _PokeStatWidget(e, types: args.model.types))
+                  .toList(),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -212,29 +215,35 @@ class _PokeStatWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.15,
-          child: Text(
-            stat.fmtName,
-            style: TextStyle(
-              fontSize: 16,
-              color: _color,
+        Flexible(
+          flex: 15,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Text(
+              stat.fmtName,
+              style: TextStyle(fontSize: 16, color: _color),
             ),
           ),
         ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.1,
-          child: Text(
-            stat.fmtValue,
-            style: const TextStyle(fontSize: 16, color: AppColors.lightText),
+        Flexible(
+          flex: 10,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Text(
+              stat.fmtValue,
+              style: const TextStyle(fontSize: 16, color: AppColors.lightText),
+            ),
           ),
         ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.5,
-          child: LinearProgressIndicator(
-            value: (stat.baseStat / 100),
-            backgroundColor: AppColors.lightText,
-            valueColor: AlwaysStoppedAnimation<Color>(_color),
+        Flexible(
+          flex: 50,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: LinearProgressIndicator(
+              value: (stat.baseStat / 100),
+              backgroundColor: AppColors.lightText,
+              valueColor: AlwaysStoppedAnimation<Color>(_color),
+            ),
           ),
         ),
       ],
