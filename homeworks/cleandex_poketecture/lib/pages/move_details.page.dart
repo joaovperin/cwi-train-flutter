@@ -32,7 +32,83 @@ class MoveDetailsPage extends StatelessWidget {
             child: ElementRectChipWidget(elementName),
           ),
         ),
+        bottom: _MoveDetailsBottomWidget(args),
       ),
+    );
+  }
+}
+
+class _MoveDetailsBottomWidget extends StatelessWidget {
+  const _MoveDetailsBottomWidget(this.args, {Key? key}) : super(key: key);
+  final MoveDetailsPageArgs args;
+
+  @override
+  Widget build(BuildContext context) {
+    final _color = AppColors.forElement(args.model.type.name);
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 500),
+      height: 100,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _MoveChipTileWidget(
+            'Base Power',
+            value: args.model.power.toString(),
+            color: _color,
+          ),
+          Container(width: 1, color: AppColors.lightSeparator),
+          _MoveChipTileWidget(
+            'Accuracy',
+            value: '${args.model.accuracy.toString()}%',
+            color: _color,
+          ),
+          Container(width: 1, color: AppColors.lightSeparator),
+          _MoveChipTileWidget(
+            'PP',
+            value: args.model.pp.toString(),
+            color: _color,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MoveChipTileWidget extends StatelessWidget {
+  const _MoveChipTileWidget(
+    this.title, {
+    required this.value,
+    required this.color,
+    Key? key,
+  }) : super(key: key);
+
+  final String title;
+  final String value;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 16,
+            color: color,
+          ),
+        ),
+        SizedBox(
+          height: 40,
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 20,
+              color: AppColors.lightText,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
