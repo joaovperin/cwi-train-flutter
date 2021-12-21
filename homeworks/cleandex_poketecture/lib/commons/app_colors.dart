@@ -12,6 +12,8 @@ class AppColors {
   static const Color statusBar = Colors.transparent;
   static const Color elementChipText = Colors.white;
 
+  static const Color tempX = Color(0xFF69B9E3);
+
   static const Color listTileBg = Colors.transparent;
   static const Color splash = Color(0xFF9BE4FB);
 

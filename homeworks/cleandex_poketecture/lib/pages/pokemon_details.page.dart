@@ -56,15 +56,30 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
             colors: AppColors.detailsPagePokeGradient,
           ),
         ),
-        child: Column(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Flexible(
-              flex: 12,
-              child: _PokeDetailsTopWidget(widget.args),
+            Column(
+              children: [
+                Flexible(flex: 1, child: Container()),
+                Flexible(
+                  flex: 4,
+                  child: _TopRoundMarginCt(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 48.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                      child: _PokeDetailsBottomWidget(widget.args),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 33,
-              child: _PokeDetailsBottomWidget(widget.args),
+            Positioned(
+              top: 80.0,
+              child: AppRoundNetworkImage(widget.args.model.bigPictureUrl),
             ),
           ],
         ),
@@ -73,43 +88,25 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
   }
 }
 
-class _PokeDetailsTopWidget extends StatelessWidget {
-  const _PokeDetailsTopWidget(
-    this.args, {
+class _TopRoundMarginCt extends StatelessWidget {
+  const _TopRoundMarginCt({
     Key? key,
+    required this.child,
   }) : super(key: key);
 
-  final PokemonDetailsPageArgs args;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            Flexible(flex: 4, child: Container()),
-            Expanded(
-              child: Container(
-                height: double.infinity,
-                decoration: const BoxDecoration(
-                  color: AppColors.cardColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(48),
-                    topRight: Radius.circular(48),
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(48),
+          topRight: Radius.circular(48),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: AppRoundNetworkImage(args.model.bigPictureUrl),
-          ),
-        ),
-      ],
+      ),
+      child: child,
     );
   }
 }
@@ -125,62 +122,113 @@ class _PokeDetailsBottomWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: MediaQuery.of(context).size.height,
       decoration: const BoxDecoration(color: AppColors.cardColor),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Flexible(
-            flex: 1,
-            child: Text(
-              args.model.name,
-              style: const TextStyle(fontSize: 36, color: AppColors.text),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              child: Text(
+                args.model.name,
+                style: const TextStyle(fontSize: 36, color: AppColors.text),
+              ),
             ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: args.model.types
-                  .map((e) => ElementRectChipWidget(e.type.name))
-                  .toList(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.15,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: args.model.types
+                    .map((e) => ElementRectChipWidget(e.type.name))
+                    .toList(),
+              ),
             ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _buildDetailsFromText(args.modelDetails.description),
+            Text(
+              args.modelDetails.description.trim(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, color: AppColors.lightText),
             ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Container(
+            Container(
+              padding: const EdgeInsets.only(top: 32, bottom: 16),
               decoration: const BoxDecoration(color: AppColors.cardColor),
+              child: _PokeStatsWidget(args),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget _buildDetailsFromText(String text) {
-  final _list = <Widget>[];
-  final input = text.replaceAll(':', '\n').split('\n');
-  for (final _line in input) {
-    if (_line.isNotEmpty) {
-      _list.add(FittedBox(
-        child: Text(
-          _line.trim(),
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16, color: AppColors.lightText),
+class _PokeStatsWidget extends StatelessWidget {
+  const _PokeStatsWidget(this.args, {Key? key}) : super(key: key);
+
+  final PokemonDetailsPageArgs args;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+            decoration: BoxDecoration(
+              color: AppColors.tempX,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: const Text(
+              'STATS',
+              style: TextStyle(
+                fontSize: 18,
+                color: AppColors.elementChipText,
+              ),
+            ),
+          ),
         ),
-      ));
-    } else {
-      _list.add(const SizedBox(height: 4));
-    }
+        Padding(
+          padding: const EdgeInsets.only(top: 32.0),
+          child: Column(
+            children: args.model.stats.map((e) => _PokeStatWidget(e)).toList(),
+          ),
+        )
+      ],
+    );
   }
-  return Column(
-    children: _list,
-  );
+}
+
+class _PokeStatWidget extends StatelessWidget {
+  const _PokeStatWidget(this.stat, {Key? key}) : super(key: key);
+
+  final PokeStat stat;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.15,
+          child: Text(
+            stat.fmtName,
+            style: const TextStyle(fontSize: 16, color: AppColors.tempX),
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.1,
+          child: Text(
+            stat.fmtValue,
+            style: const TextStyle(fontSize: 16, color: AppColors.lightText),
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.5,
+          child: LinearProgressIndicator(
+            value: (stat.baseStat / 100),
+            backgroundColor: AppColors.lightText,
+            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.tempX),
+          ),
+        ),
+      ],
+    );
+  }
 }

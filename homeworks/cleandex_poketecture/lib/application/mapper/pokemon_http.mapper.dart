@@ -44,14 +44,18 @@ class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
   }
 
   List<PokeStat> pokeStatsFromMap(List<dynamic> list) {
-    return List<PokeStat>.from(list.map((map) => PokeStat(
-          baseStat: map['base_stat'],
-          effort: map['effort'],
-          stat: NameUrlPair(
-            name: map['stat']['name'],
-            url: map['stat']['url'],
-          ),
-        )));
+    return List<PokeStat>.from(list.map((map) {
+      final statName = map['stat']['name'];
+      return PokeStat(
+        baseStat: map['base_stat'],
+        effort: map['effort'],
+        alias: _pokeStatAliases[statName] ?? 'XXX',
+        stat: NameUrlPair(
+          name: statName,
+          url: map['stat']['url'],
+        ),
+      );
+    }));
   }
 
   List<PokeType> pokeTypesFromMap(List<dynamic> list) {
@@ -83,3 +87,12 @@ class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
         )));
   }
 }
+
+const _pokeStatAliases = {
+  'hp': 'HP',
+  'attack': 'ATK',
+  'defense': 'DEF',
+  'special-attack': 'SATK',
+  'special-defense': 'SDE',
+  'speed': 'SPD',
+};
