@@ -1,5 +1,6 @@
 import 'package:cleandex_poketecture/application/widgets/app_round_chip.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
+import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/element_rect_chip.widget.dart';
@@ -49,11 +50,11 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.topRight,
-            colors: AppColors.detailsPagePokeGradient,
+            colors: _typeColor(widget.args.model.types).asLightGradient,
           ),
         ),
         child: Stack(
@@ -173,7 +174,7 @@ class _PokeStatsWidget extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
             decoration: BoxDecoration(
-              color: AppColors.tempX,
+              color: _typeColor(args.model.types),
               borderRadius: BorderRadius.circular(24),
             ),
             child: const Text(
@@ -188,7 +189,9 @@ class _PokeStatsWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 32.0),
           child: Column(
-            children: args.model.stats.map((e) => _PokeStatWidget(e)).toList(),
+            children: args.model.stats
+                .map((e) => _PokeStatWidget(e, types: args.model.types))
+                .toList(),
           ),
         )
       ],
@@ -197,12 +200,15 @@ class _PokeStatsWidget extends StatelessWidget {
 }
 
 class _PokeStatWidget extends StatelessWidget {
-  const _PokeStatWidget(this.stat, {Key? key}) : super(key: key);
+  const _PokeStatWidget(this.stat, {required this.types, Key? key})
+      : super(key: key);
 
+  final List<PokeType> types;
   final PokeStat stat;
 
   @override
   Widget build(BuildContext context) {
+    final _color = _typeColor(types);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -210,7 +216,10 @@ class _PokeStatWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.15,
           child: Text(
             stat.fmtName,
-            style: const TextStyle(fontSize: 16, color: AppColors.tempX),
+            style: TextStyle(
+              fontSize: 16,
+              color: _color,
+            ),
           ),
         ),
         SizedBox(
@@ -225,10 +234,14 @@ class _PokeStatWidget extends StatelessWidget {
           child: LinearProgressIndicator(
             value: (stat.baseStat / 100),
             backgroundColor: AppColors.lightText,
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.tempX),
+            valueColor: AlwaysStoppedAnimation<Color>(_color),
           ),
         ),
       ],
     );
   }
+}
+
+Color _typeColor(List<PokeType> types) {
+  return AppColors.forElement(types.first.type.name);
 }

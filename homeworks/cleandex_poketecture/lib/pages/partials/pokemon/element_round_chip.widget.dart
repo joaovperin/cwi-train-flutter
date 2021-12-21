@@ -14,7 +14,7 @@ class ElementRoundWidget extends StatelessWidget {
       message: capitalize(elementName),
       child: AppRoundChipWidget(
         'assets/icons/elements/$elementName.svg',
-        color: AppColors.element[elementName] ?? AppColors.unknown,
+        color: AppColors.forElement(elementName),
         semanticsLabel: elementName,
       ),
     );

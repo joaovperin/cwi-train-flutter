@@ -15,7 +15,7 @@ class ElementRectChipWidget extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 4),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: AppColors.element[elementName] ?? AppColors.unknown,
+        color: AppColors.forElement(elementName),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Container(
