@@ -10,7 +10,6 @@ import 'package:cleandex_poketecture/pages/partials/pokemon/bloc/pokemon_bloc.da
 import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_tile.widget.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/pokemon_weaknesses.dialog.dart';
 import 'package:cleandex_poketecture/pages/pokemon_details.page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

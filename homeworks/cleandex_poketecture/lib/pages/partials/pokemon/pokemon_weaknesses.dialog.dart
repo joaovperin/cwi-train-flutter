@@ -3,7 +3,6 @@ import 'package:cleandex_poketecture/commons/utils/list_utils.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/element_round_chip.widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PokemonWeaknessesDialog extends StatelessWidget {

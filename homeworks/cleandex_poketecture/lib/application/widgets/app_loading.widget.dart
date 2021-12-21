@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AppLoadingWidget extends StatelessWidget {
   const AppLoadingWidget._({required this.centered, Key? key})
