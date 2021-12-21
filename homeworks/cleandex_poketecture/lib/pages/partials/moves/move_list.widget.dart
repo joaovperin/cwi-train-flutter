@@ -6,7 +6,7 @@ import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/move/move.dart';
 import 'package:cleandex_poketecture/domain/move/move_details.dart';
-import 'package:cleandex_poketecture/pages/details.page.dart';
+import 'package:cleandex_poketecture/pages/move_details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/bloc/move_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/moves/move_tile.widget.dart';
 import 'package:flutter/material.dart';
@@ -105,12 +105,7 @@ class _MoveListState extends State<MoveList> {
   }
 
   Future<void> _showInfoPopup(Move model, MoveDetails _) async {
-    Navigator.pushNamed(context, DetailsPage.routeName,
-        arguments: DetailsPageArgs.move(
-          title: model.name,
-          elementName: model.type.name,
-          picturePath: model.picturePath,
-          description: model.description,
-        ));
+    Navigator.pushNamed(context, MoveDetailsPage.routeName,
+        arguments: MoveDetailsPageArgs(model));
   }
 }

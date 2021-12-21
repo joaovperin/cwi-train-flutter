@@ -6,7 +6,7 @@ import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/commons/interfaces.dart';
 import 'package:cleandex_poketecture/domain/item/item.dart';
 import 'package:cleandex_poketecture/domain/item/item_details.dart';
-import 'package:cleandex_poketecture/pages/details.page.dart';
+import 'package:cleandex_poketecture/pages/item_details.page.dart';
 import 'package:cleandex_poketecture/pages/partials/items/bloc/item_bloc.dart';
 import 'package:cleandex_poketecture/pages/partials/items/item_tile.widget.dart';
 import 'package:flutter/material.dart';
@@ -106,12 +106,7 @@ class _ItemsListState extends State<ItemsList> {
   }
 
   Future<void> _showInfoPopup(Item model, ItemDetails _) async {
-    Navigator.pushNamed(context, DetailsPage.routeName,
-        arguments: DetailsPageArgs.item(
-          title: model.name,
-          subtitle: model.fmtCost,
-          pictureUrl: model.pictureUrl,
-          description: model.description,
-        ));
+    Navigator.pushNamed(context, ItemDetailsPage.routeName,
+        arguments: ItemDetailsPageArgs(model));
   }
 }
