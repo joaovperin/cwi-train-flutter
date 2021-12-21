@@ -17,6 +17,13 @@ class ElementRectChipWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.forElement(elementName),
         borderRadius: BorderRadius.circular(24),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.containerShadow,
+            blurRadius: 6,
+            offset: Offset(0, -2),
+          ),
+        ],
       ),
       child: Container(
         padding: const EdgeInsets.only(left: 8, right: 8),

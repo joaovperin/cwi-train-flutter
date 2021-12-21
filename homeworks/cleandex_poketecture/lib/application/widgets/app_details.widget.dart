@@ -9,9 +9,11 @@ class AppDetailsWidgetArgs {
   final Widget subtitle;
   final String description;
   final Widget? bottom;
+  final double imagePadding;
 
   const AppDetailsWidgetArgs({
     required this.image,
+    required this.imagePadding,
     required this.colors,
     required this.title,
     required this.subtitle,
@@ -71,7 +73,7 @@ class AppDetailsWidget extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.1,
+              top: MediaQuery.of(context).size.height * args.imagePadding,
               child: args.image,
             ),
           ],

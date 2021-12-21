@@ -29,14 +29,20 @@ class PokemonTileWidget extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(model.name),
+              Text(
+                model.name,
+                style: const TextStyle(fontSize: 20),
+              ),
               const Spacer(),
               ...model.types
                   .map((e) => ElementRoundWidget(e.type.name))
                   .toList(),
             ],
           ),
-          subtitle: Text(model.fmtId),
+          subtitle: Text(
+            model.fmtId,
+            style: const TextStyle(fontSize: 16),
+          ),
           leading: SquareImageBoxWidget(model.thumbnailPictureUrl),
         ),
       ),

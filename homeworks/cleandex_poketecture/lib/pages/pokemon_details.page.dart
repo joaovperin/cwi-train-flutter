@@ -29,7 +29,11 @@ class PokemonDetailsPage extends StatelessWidget {
           title: args.model.name,
           colors: _typeColor(args.model.types).asLightGradient,
           description: args.modelDetails.description.trim(),
-          image: AppRoundNetworkImage(args.model.bigPictureUrl),
+          image: AppRoundNetworkImage(
+            args.model.bigPictureUrl,
+            containerSize: 180,
+          ),
+          imagePadding: 0.05,
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: args.model.types

@@ -23,6 +23,7 @@ class ItemDetailsPage extends StatelessWidget {
         colors: AppColors.itemDetails.asLightGradient,
         description: args.model.description.trim().replaceAll(':', '\n'),
         image: AppRoundNetworkImage(args.model.pictureUrl),
+        imagePadding: 0.12,
         subtitle: Center(
           child: Text(
             args.model.fmtCost,

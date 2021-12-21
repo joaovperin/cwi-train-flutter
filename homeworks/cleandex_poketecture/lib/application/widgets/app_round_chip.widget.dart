@@ -24,6 +24,13 @@ class AppRoundChipWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: color,
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.containerShadow,
+            blurRadius: 6,
+            offset: Offset(0, -2),
+          ),
+        ],
         shape: BoxShape.circle,
       ),
       child: SvgPicture.asset(
@@ -71,17 +78,21 @@ class AppRoundAssetImage extends StatelessWidget {
 }
 
 class AppRoundNetworkImage extends StatelessWidget {
-  const AppRoundNetworkImage(this.url, {Key? key}) : super(key: key);
+  const AppRoundNetworkImage(
+    this.url, {
+    this.containerSize = 128,
+    Key? key,
+  }) : super(key: key);
 
   final String url;
-  final double containerSize = 128;
+  final double containerSize;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: containerSize,
       height: containerSize,
-      alignment: Alignment.center,
+      alignment: Alignment.bottomCenter,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(url),
