@@ -31,8 +31,14 @@ class ItemsTitleWidget extends StatelessWidget {
           leading: SquareImageBoxWidget(model.pictureUrl),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.keyboard_arrow_right),
+            children: [
+              Text(
+                model.fmtCost,
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: AppColors.text,
+                ),
+              ),
             ],
           ),
         ),

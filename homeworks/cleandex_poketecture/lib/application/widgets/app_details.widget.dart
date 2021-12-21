@@ -1,75 +1,28 @@
-import 'package:cleandex_poketecture/application/widgets/app_round_chip.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
-import 'package:cleandex_poketecture/pages/partials/pokemon/element_rect_chip.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class DetailsPageArgs {
+class AppDetailsWidgetArgs {
   final Widget image;
   final List<Color> colors;
   final String title;
   final Widget subtitle;
   final String description;
+  final Widget? bottom;
 
-  String get fmtDescription => description.trim().replaceAll(':', '\n');
-
-  const DetailsPageArgs({
+  const AppDetailsWidgetArgs({
     required this.image,
     required this.colors,
     required this.title,
     required this.subtitle,
     required this.description,
+    this.bottom,
   });
-
-  factory DetailsPageArgs.move({
-    required String picturePath,
-    required String title,
-    required String elementName,
-    required String description,
-  }) =>
-      DetailsPageArgs(
-        colors: AppColors.detailsPageItemsGradient,
-        title: title,
-        subtitle: SizedBox(
-          width: 180,
-          child: ElementRectChipWidget(elementName),
-        ),
-        description: description,
-        image: AppRoundAssetImage(picturePath, AppColors.dragon),
-      );
-
-  factory DetailsPageArgs.item({
-    required String pictureUrl,
-    required String title,
-    required String subtitle,
-    required String description,
-  }) =>
-      DetailsPageArgs(
-        colors: AppColors.detailsPageItemsGradient,
-        title: title,
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(fontSize: 20, color: AppColors.lightText),
-        ),
-        description: description,
-        image: AppRoundNetworkImage(pictureUrl),
-      );
 }
 
-class DetailsPage extends StatefulWidget {
-  static const routeName = '/details';
-  const DetailsPage({Key? key, required this.args}) : super(key: key);
-  final DetailsPageArgs args;
-
-  @override
-  State<DetailsPage> createState() => _DetailsPageState();
-}
-
-class _DetailsPageState extends State<DetailsPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class AppDetailsWidget extends StatelessWidget {
+  const AppDetailsWidget(this.args, {Key? key}) : super(key: key);
+  final AppDetailsWidgetArgs args;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +46,7 @@ class _DetailsPageState extends State<DetailsPage> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.topRight,
-            colors: widget.args.colors,
+            colors: args.colors,
           ),
         ),
         child: Stack(
@@ -111,7 +64,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         left: 16.0,
                         right: 16.0,
                       ),
-                      child: _DetailsBottomWidget(widget.args),
+                      child: _DetailsBottomWidget(args),
                     ),
                   ),
                 ),
@@ -119,7 +72,7 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.1,
-              child: widget.args.image,
+              child: args.image,
             ),
           ],
         ),
@@ -157,7 +110,7 @@ class _DetailsBottomWidget extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final DetailsPageArgs args;
+  final AppDetailsWidgetArgs args;
 
   @override
   Widget build(BuildContext context) {
@@ -176,16 +129,17 @@ class _DetailsBottomWidget extends StatelessWidget {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.15,
-              child: Center(child: args.subtitle),
+              child: args.subtitle,
             ),
             Text(
-              args.fmtDescription,
+              args.description,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16, color: AppColors.lightText),
             ),
             Container(
               padding: const EdgeInsets.only(top: 32, bottom: 16),
               decoration: const BoxDecoration(color: AppColors.cardColor),
+              child: args.bottom,
             ),
           ],
         ),
