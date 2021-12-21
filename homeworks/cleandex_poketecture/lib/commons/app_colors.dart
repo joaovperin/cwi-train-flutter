@@ -25,14 +25,9 @@ class AppColors {
   static const Color separator = Color(0xFF8DE061);
   static const Color cardColor = Color(0xFFFFFFFF);
 
-  static const List<Color> detailsPagePokeGradient = [
+  static const List<Color> detailsPageItemsGradient = [
     Color(0xFF559EDF),
     Color(0xFF69B9E3),
-  ];
-
-  static const List<Color> detailsPageItemsGradient = [
-    Color(0xFF6FD3D2),
-    Color(0xFF6FD3D2),
   ];
 
   static const List<Color> appBarGradient = [
@@ -68,26 +63,37 @@ class AppColors {
   static const Color unknown = Colors.black;
   // .....
 
-  static const element = {
-    'bug': AppColors.bug,
-    'dark': AppColors.dark,
-    'dragon': AppColors.dragon,
-    'electric': AppColors.electric,
-    'fairy': AppColors.fairy,
-    'fighting': AppColors.fighting,
-    'fire': AppColors.fire,
-    'flying': AppColors.flying,
-    'ghost': AppColors.ghost,
-    'grass': AppColors.grass,
-    'ground': AppColors.ground,
-    'ice': AppColors.ice,
-    'normal': AppColors.normal,
-    'poison': AppColors.poison,
-    'psychic': AppColors.psychic,
-    'rock': AppColors.rock,
-    'steel': AppColors.steel,
-    'water': AppColors.water,
-  };
+  static Color forElement(String typeName) {
+    return _elementColorsMap[typeName] ?? AppColors.unknown;
+  }
 
   static MaterialColor? get primarySwatch => null;
 }
+
+extension GradientMaker on Color {
+  List<Color> get asLightGradient => [
+        this,
+        withOpacity(0.6),
+      ];
+}
+
+const _elementColorsMap = {
+  'bug': AppColors.bug,
+  'dark': AppColors.dark,
+  'dragon': AppColors.dragon,
+  'electric': AppColors.electric,
+  'fairy': AppColors.fairy,
+  'fighting': AppColors.fighting,
+  'fire': AppColors.fire,
+  'flying': AppColors.flying,
+  'ghost': AppColors.ghost,
+  'grass': AppColors.grass,
+  'ground': AppColors.ground,
+  'ice': AppColors.ice,
+  'normal': AppColors.normal,
+  'poison': AppColors.poison,
+  'psychic': AppColors.psychic,
+  'rock': AppColors.rock,
+  'steel': AppColors.steel,
+  'water': AppColors.water,
+};

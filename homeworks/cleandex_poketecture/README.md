@@ -2,6 +2,10 @@
 
 A clean pokédex, written using a clean architecture.
 
+You can see this online at https://cleandex-poketecture.web.app.
+
+Created by João Victor A. Perin (@joaovperin).
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

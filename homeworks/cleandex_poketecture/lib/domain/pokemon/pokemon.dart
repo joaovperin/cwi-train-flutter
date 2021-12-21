@@ -44,12 +44,22 @@ class Pokemon implements Entity<Pokemon> {
 class PokeStat {
   final int effort;
   final int baseStat;
+  final String alias;
   final NameUrlPair stat;
+
+  String get fmtName {
+    return alias.trim().toUpperCase();
+  }
+
+  String get fmtValue {
+    return baseStat.toString().trim().padLeft(3, '0');
+  }
 
   const PokeStat({
     required this.baseStat,
     required this.effort,
     required this.stat,
+    required this.alias,
   });
 }
 

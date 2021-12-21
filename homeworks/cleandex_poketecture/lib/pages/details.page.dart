@@ -26,7 +26,7 @@ class DetailsPageArgs {
     required String description,
   }) =>
       DetailsPageArgs(
-        colors: AppColors.detailsPagePokeGradient,
+        colors: AppColors.detailsPageItemsGradient,
         title: title,
         subtitle: SizedBox(
           width: 180,
@@ -43,7 +43,7 @@ class DetailsPageArgs {
     required String description,
   }) =>
       DetailsPageArgs(
-        colors: AppColors.detailsPagePokeGradient,
+        colors: AppColors.detailsPageItemsGradient,
         title: title,
         subtitle: Text(
           subtitle,
