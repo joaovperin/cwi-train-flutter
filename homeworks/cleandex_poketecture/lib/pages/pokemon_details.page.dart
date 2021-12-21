@@ -79,7 +79,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage> {
               ],
             ),
             Positioned(
-              top: 80.0,
+              top: MediaQuery.of(context).size.height * 0.1,
               child: AppRoundNetworkImage(widget.args.model.bigPictureUrl),
             ),
           ],

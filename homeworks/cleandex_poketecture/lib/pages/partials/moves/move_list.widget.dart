@@ -61,7 +61,7 @@ class _MoveListState extends State<MoveList> {
                   if (index < list.length) {
                     return MoveTileWidget(
                       model: list[index],
-                      onDoubleTap: (model) {
+                      onTap: (model) {
                         _bloc.loadDetails(model).then((details) {
                           _showInfoPopup(model, details);
                         });

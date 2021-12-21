@@ -8,18 +8,18 @@ class ItemsTitleWidget extends StatelessWidget {
   const ItemsTitleWidget({
     Key? key,
     required this.model,
-    required this.onDoubleTap,
+    required this.onTap,
   }) : super(key: key);
 
   final Item model;
-  final OnTapFn<Item> onDoubleTap;
+  final OnTapFn<Item> onTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.listTileBg,
       child: InkWell(
-        onDoubleTap: () => onDoubleTap.call(model),
+        onTap: () => onTap.call(model),
         child: ListTile(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
