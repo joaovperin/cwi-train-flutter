@@ -7,6 +7,7 @@ class Pokemon implements Entity<Pokemon> {
   final int id;
   final int order;
   final String name;
+  final String slug;
   final int height;
   final int weight;
   final int baseExperience;
@@ -28,6 +29,7 @@ class Pokemon implements Entity<Pokemon> {
     required this.id,
     required this.order,
     required this.name,
+    required this.slug,
     required this.height,
     required this.weight,
     required this.stats,

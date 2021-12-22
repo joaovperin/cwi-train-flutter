@@ -106,7 +106,7 @@ class _ItemsListState extends State<ItemsList> {
   }
 
   Future<void> _showInfoPopup(Item model, ItemDetails _) async {
-    Navigator.pushNamed(context, ItemDetailsPage.routeName,
+    Navigator.pushNamed(context, '${ItemDetailsPage.routeName}/${model.slug}',
         arguments: ItemDetailsPageArgs(model));
   }
 }

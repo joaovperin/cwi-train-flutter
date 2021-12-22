@@ -5,6 +5,7 @@ class Move implements Entity<Move> {
   @override
   final int id;
   final String name;
+  final String slug;
   final NameUrlPair type;
   final String picturePath;
   final String description;
@@ -15,6 +16,7 @@ class Move implements Entity<Move> {
   const Move({
     required this.id,
     required this.name,
+    required this.slug,
     required this.type,
     required this.picturePath,
     required this.description,

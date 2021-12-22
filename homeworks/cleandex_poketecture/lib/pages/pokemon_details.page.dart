@@ -1,11 +1,14 @@
 import 'package:cleandex_poketecture/application/widgets/app_details.widget.dart';
+import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/application/widgets/app_round_chip.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/domain/pokemon/poke_type.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon.dart';
+import 'package:cleandex_poketecture/domain/pokemon/pokemon.repository.dart';
 import 'package:cleandex_poketecture/domain/pokemon/pokemon_details.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/element_rect_chip.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class PokemonDetailsPageArgs {
   final Pokemon model;
@@ -18,30 +21,56 @@ class PokemonDetailsPageArgs {
 }
 
 class PokemonDetailsPage extends StatelessWidget {
-  static const routeName = '/poke-details';
-  const PokemonDetailsPage({Key? key, required this.args}) : super(key: key);
-  final PokemonDetailsPageArgs args;
+  static const routeName = '/pokemons';
+  const PokemonDetailsPage({
+    Key? key,
+    required this.slug,
+    required this.routeArgs,
+  }) : super(key: key);
+
+  final PokemonDetailsPageArgs? routeArgs;
+  final String? slug;
+
+  Future<PokemonDetailsPageArgs> _loadArgs(BuildContext context) async {
+    if (routeArgs != null) {
+      return routeArgs!;
+    }
+
+    final repository = GetIt.instance.get<PokemonRepository>();
+    final model = await repository.findInfoByName(slug!);
+    final modelDetails = await repository.findDetailsById(model.id);
+    return PokemonDetailsPageArgs(model: model, modelDetails: modelDetails);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AppDetailsWidget(
-      AppDetailsWidgetArgs(
-          title: args.model.name,
-          colors: _typeColor(args.model.types).asLightGradient,
-          description: args.modelDetails.description.trim(),
-          image: AppRoundNetworkImage(
-            args.model.bigPictureUrl,
-            containerSize: 180,
-          ),
-          imagePadding: 0.05,
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: args.model.types
-                .map((e) => ElementRectChipWidget(e.type.name))
-                .toList(),
-          ),
-          bottom: _PokeStatsWidget(args)),
-    );
+    return FutureBuilder<PokemonDetailsPageArgs>(
+        future: _loadArgs(context),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return AppLoadingWidget.centered();
+          }
+
+          final args = snapshot.data!;
+          return AppDetailsWidget(
+            AppDetailsWidgetArgs(
+                title: args.model.name,
+                colors: _typeColor(args.model.types).asLightGradient,
+                description: args.modelDetails.description.trim(),
+                image: AppRoundNetworkImage(
+                  args.model.bigPictureUrl,
+                  containerSize: 180,
+                ),
+                imagePadding: 0.05,
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: args.model.types
+                      .map((e) => ElementRectChipWidget(e.type.name))
+                      .toList(),
+                ),
+                bottom: _PokeStatsWidget(args)),
+          );
+        });
   }
 }
 

@@ -4,6 +4,7 @@ class Item implements Entity<Item> {
   @override
   final int id;
   final String name;
+  final String slug;
   final num cost;
   final String description;
   final String pictureUrl;
@@ -19,6 +20,7 @@ class Item implements Entity<Item> {
   const Item({
     required this.id,
     required this.name,
+    required this.slug,
     required this.cost,
     required this.description,
     required this.pictureUrl,
