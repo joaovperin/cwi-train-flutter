@@ -1,9 +1,12 @@
 import 'package:cleandex_poketecture/application/widgets/app_details.widget.dart';
+import 'package:cleandex_poketecture/application/widgets/app_loading.widget.dart';
 import 'package:cleandex_poketecture/application/widgets/app_round_chip.widget.dart';
 import 'package:cleandex_poketecture/commons/app_colors.dart';
 import 'package:cleandex_poketecture/domain/move/move.dart';
+import 'package:cleandex_poketecture/domain/move/move.repository.dart';
 import 'package:cleandex_poketecture/pages/partials/pokemon/element_rect_chip.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class MoveDetailsPageArgs {
   final Move model;
@@ -12,32 +15,57 @@ class MoveDetailsPageArgs {
 }
 
 class MoveDetailsPage extends StatelessWidget {
-  static const routeName = '/move-details';
-  const MoveDetailsPage({Key? key, required this.args}) : super(key: key);
-  final MoveDetailsPageArgs args;
+  static const routeName = '/moves';
+  const MoveDetailsPage({
+    Key? key,
+    required this.slug,
+    required this.routeArgs,
+  }) : super(key: key);
+
+  final String? slug;
+  final MoveDetailsPageArgs? routeArgs;
+
+  Future<MoveDetailsPageArgs> _loadArgs(BuildContext context) async {
+    if (routeArgs != null) {
+      return routeArgs!;
+    }
+
+    final repository = GetIt.instance.get<MoveRepository>();
+    final model = await repository.findInfoByName(slug!);
+    return MoveDetailsPageArgs(model);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final elementName = args.model.type.name;
-    return AppDetailsWidget(
-      AppDetailsWidgetArgs(
-        title: args.model.name,
-        colors: AppColors.forElement(elementName).asLightGradient,
-        description: args.model.description.trim().replaceAll(':', '\n'),
-        image: AppRoundAssetImage(
-          args.model.picturePath,
-          AppColors.forElement(elementName),
-        ),
-        imagePadding: 0.1,
-        subtitle: Center(
-          child: SizedBox(
-            width: 180,
-            child: ElementRectChipWidget(elementName),
-          ),
-        ),
-        bottom: _MoveDetailsBottomWidget(args),
-      ),
-    );
+    return FutureBuilder<MoveDetailsPageArgs>(
+        future: _loadArgs(context),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return AppLoadingWidget.centered();
+          }
+
+          final args = snapshot.data!;
+          final elementName = args.model.type.name;
+          return AppDetailsWidget(
+            AppDetailsWidgetArgs(
+              title: args.model.name,
+              colors: AppColors.forElement(elementName).asLightGradient,
+              description: args.model.description.trim().replaceAll(':', '\n'),
+              image: AppRoundAssetImage(
+                args.model.picturePath,
+                AppColors.forElement(elementName),
+              ),
+              imagePadding: 0.1,
+              subtitle: Center(
+                child: SizedBox(
+                  width: 180,
+                  child: ElementRectChipWidget(elementName),
+                ),
+              ),
+              bottom: _MoveDetailsBottomWidget(args),
+            ),
+          );
+        });
   }
 }
 

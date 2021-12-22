@@ -26,6 +26,7 @@ class PokemonHttpMapper extends AbstractHttpMapper<Pokemon> {
       id: map['id'],
       order: map['order'],
       name: splitWordsCapitalizing(map['name']),
+      slug: map['name'],
       height: map['height'],
       weight: map['weight'],
       baseExperience: map['base_experience'],

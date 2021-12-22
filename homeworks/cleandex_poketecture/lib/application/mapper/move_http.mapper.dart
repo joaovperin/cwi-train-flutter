@@ -26,6 +26,7 @@ class MoveHttpMapper extends AbstractHttpMapper<Move> {
     return Move(
       id: map['id'],
       name: moveNameFromList(map['names']),
+      slug: map['name'],
       type: type,
       picturePath: 'assets/icons/elements/${type.name}.svg',
       description: moveDescriptionFromRootMap(map),

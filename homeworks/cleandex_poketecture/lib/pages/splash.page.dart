@@ -3,7 +3,7 @@ import 'package:cleandex_poketecture/pages/main.page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
-  static const routeName = '/loading';
+  static const routeName = '/';
   const SplashPage({Key? key}) : super(key: key);
 
   @override

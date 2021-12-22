@@ -20,6 +20,7 @@ class ItemHttpMapper extends AbstractHttpMapper<Item> {
     return Item(
       id: map['id'],
       name: nameFromList(map['names']),
+      slug: map['name'],
       cost: map['cost'],
       pictureUrl: map['sprites']['default'],
       description: descriptionFromRootMap(map),

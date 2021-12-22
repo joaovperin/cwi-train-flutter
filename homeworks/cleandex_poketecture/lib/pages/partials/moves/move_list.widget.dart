@@ -105,7 +105,7 @@ class _MoveListState extends State<MoveList> {
   }
 
   Future<void> _showInfoPopup(Move model, MoveDetails _) async {
-    Navigator.pushNamed(context, MoveDetailsPage.routeName,
+    Navigator.pushNamed(context, '${MoveDetailsPage.routeName}/${model.slug}',
         arguments: MoveDetailsPageArgs(model));
   }
 }

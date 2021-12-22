@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MainPage extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/home';
   const MainPage({Key? key}) : super(key: key);
 
   @override

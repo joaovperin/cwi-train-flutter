@@ -42,7 +42,8 @@ class _PokemonListState extends State<PokemonList> {
   }
 
   Future<void> _showInfoPopup(Pokemon model, PokemonDetails details) async {
-    Navigator.pushNamed(context, PokemonDetailsPage.routeName,
+    Navigator.pushNamed(
+        context, '${PokemonDetailsPage.routeName}/${model.slug}',
         arguments: PokemonDetailsPageArgs(
           model: model,
           modelDetails: details,
